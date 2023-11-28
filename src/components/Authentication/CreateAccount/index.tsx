@@ -1,0 +1,239 @@
+import { setUserLogin, validatePin } from '@actions/auth';
+import {
+  BottomFadeInAnimation,
+  BottomSheet,
+  FullScreenKiteLoader,
+  MLottie,
+  MPinInput,
+  PrimaryButton,
+} from '@components/Shared';
+// import PinInput from '@components/Shared/Card/PinInput';
+import generateToast from '@components/Shared/GenerateToast';
+import { ToastType } from '@components/Shared/Toast';
+import {
+  AuthenticationScreen,
+  LocalStorageVariables,
+} from '@constants/authentication';
+import { colors, mixins } from '@styles/shared';
+import { Pages } from '@utils/navigation';
+import { useRouter } from 'next/router';
+import { FC, Fragment, ReactText, useEffect, useState } from 'react';
+import * as styles from './styles';
+import { handleErrorMessage } from '@utils/handleResponseToast';
+import { WhitelistRefType } from '@typings/api/auth';
+import { deleteToken, sendMessageToParent } from '@utils/helper';
+import { IframeMessageType } from '@utils/constants';
+import { logEvent, setUserId } from '@utils/amplitude';
+import { useTranslate } from '@utils/useTranslate';
+import HeaderWithButtonLayout from '@components/Shared/HeaderWithButtonLayout';
+import { useAnalytics } from '@utils/useAnalytics';
+import { CLICK, EVENT_PAGE } from '@constants/analytics';
+import { APIStatusType } from '@typings/api/wrapper';
+import { setAccessTokenCookie } from '@utils/cookie';
+
+interface CreateAccountProps {
+  disableSuccessLoginToast?: boolean;
+  handleScreen: (screeName: AuthenticationScreen) => void;
+  setLoginStatus: (status: boolean) => void;
+  mobileNo: string;
+  isPopUp: boolean;
+  handleForgetPin: () => void;
+  authType: WhitelistRefType;
+  refValue: string;
+  onSuccess?: () => void;
+}
+
+const CreateAccount: FC<CreateAccountProps> = ({
+  handleScreen,
+  mobileNo,
+  setLoginStatus,
+  isPopUp,
+  handleForgetPin,
+  refValue,
+  authType,
+  onSuccess,
+  disableSuccessLoginToast,
+}) => {
+  const [incorrectPin, setInCorrectPin] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [pin, setPin] = useState<string>(``);
+  const [attemptRemaining, setAttemptRemaining] = useState<number>(3);
+  const router = useRouter();
+  const { translate } = useTranslate();
+  const amplitude = useAnalytics();
+
+  useEffect(() => {
+    amplitude.trackPage(EVENT_PAGE.ENTER_PIN);
+  }, []);
+
+  const verifyPin = (verificationPin: ReactText) => {
+    const pin = verificationPin as string;
+    setPin(pin);
+  };
+
+  const onLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await validatePin({ pin: pin });
+      if (response.status === APIStatusType.SUCCESS) {
+        if (!!response.data.userUUID) {
+          setUserId(response.data.userUUID);
+        }
+        sendMessageToParent(
+          JSON.stringify({
+            event: IframeMessageType.loginSuccess,
+            payload: {
+              bearerToken: response.data.accessToken,
+            },
+          }),
+        );
+        if (response.data.accessToken) {
+          setUserLogin(true);
+          setAccessTokenCookie(response.data.accessToken);
+          setLoading(false);
+          setInCorrectPin(false);
+          logEvent(`loginSuccess`);
+
+          if (!disableSuccessLoginToast)
+            generateToast({
+              content: translate(`LOGGED_IN_SUCCESSFULLY`),
+              type: ToastType.SUCCESS,
+            });
+          if (isPopUp) {
+            onSuccess && onSuccess();
+            setLoginStatus && setLoginStatus(false);
+          } else {
+            if (
+              response.data.additionalParamRequired === null ||
+              Object.keys(response.data.additionalParamRequired).length === 0
+            ) {
+              router.push(Pages.HOME);
+            }
+          }
+        }
+      } else {
+        setLoading(false);
+        setInCorrectPin(true);
+        setAttemptRemaining((prevState) => prevState - 1);
+      }
+    } catch (error) {
+      setLoading(false);
+      setInCorrectPin(true);
+      setAttemptRemaining((prevState) => prevState - 1);
+      handleErrorMessage(error);
+    }
+  };
+
+  useEffect(() => {
+    if (attemptRemaining === 0) {
+      return handleScreen(AuthenticationScreen.incorrectPin);
+    }
+    return;
+  }, [attemptRemaining === 0]);
+
+  useEffect(() => {
+    if (pin.length < 4 && incorrectPin) {
+      setInCorrectPin(false);
+    }
+  }, [pin]);
+
+  const onKeyPressHandler = (event: KeyboardEvent) => {
+    if (event.key === `Enter` && pin.length === 4) {
+      onLogin();
+    }
+  };
+
+  return (
+    <Fragment>
+      <HeaderWithButtonLayout
+        ctaContent={
+          <BottomFadeInAnimation addedStyle={styles.ctaContainer} delay={0.2}>
+            <PrimaryButton
+              addStyles={styles.button}
+              disabled={pin.length < 4 || loading}
+              onClick={() => {
+                amplitude.trackClick(CLICK.CONTINUE_PIN);
+                onLogin();
+              }}
+            >
+              {!loading && <p>{translate(`CONTINUE`)}</p>}
+              <span>{loading && <MLottie addStyles={styles.loader} />}</span>
+            </PrimaryButton>
+          </BottomFadeInAnimation>
+        }
+        title={translate(`LOG_IN`)}
+      >
+        <Fragment>
+          <div
+            css={[
+              styles.accountContainer,
+              mixins.flexJustifiedBetween,
+              mixins.flexColumn,
+            ]}
+          >
+            <BottomFadeInAnimation>
+              <p css={styles.text}>{translate(`ENTER_PIN_DESCRIPTION`)}</p>
+              <div css={styles.pinWrapper}>
+                <h4 css={styles.formLabel}>{translate(`ENTER_PIN`)}</h4>
+                <div css={styles.formGroup}>
+                  <div css={styles.mobile}>
+                    <MPinInput
+                      length={4}
+                      focus={true}
+                      secret={true}
+                      masked={true}
+                      initialValue=""
+                      onChange={verifyPin}
+                      type="numeric"
+                      inputMode="number"
+                      style={styles.pinsContainer}
+                      inputStyle={
+                        incorrectPin
+                          ? (styles.InvalidPinStyle as React.CSSProperties)
+                          : (styles.pinStyle as React.CSSProperties)
+                      }
+                      inputFocusStyle={{
+                        border: `3px solid ${colors.Primary_Blue}`,
+                        WebkitAppearance: `none`,
+                      }}
+                      onKeyPress={onKeyPressHandler}
+                    />
+                  </div>
+                </div>
+                <div
+                  css={[
+                    styles.textRight,
+                    incorrectPin
+                      ? mixins.flexAlignCenterJustifiedBetween
+                      : mixins.flexJustifiedEnd,
+                  ]}
+                >
+                  {incorrectPin && (
+                    <div css={styles.errorEnable}>
+                      <p>
+                        {translate(`INCORRECT_PIN`)} - {attemptRemaining}
+                        {` `}
+                        {translate(`ATTEMPTS_LEFT`)}
+                      </p>
+                    </div>
+                  )}
+                  <button
+                    css={[styles.forgotLink]}
+                    onClick={() => {
+                      amplitude.trackClick(CLICK.FORGET_PIN);
+                      handleForgetPin();
+                    }}
+                  >
+                    {translate(`FORGOT_PIN`)}?
+                  </button>
+                </div>
+              </div>
+            </BottomFadeInAnimation>
+          </div>
+        </Fragment>
+      </HeaderWithButtonLayout>
+    </Fragment>
+  );
+};
+
+export default CreateAccount;

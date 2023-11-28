@@ -1,0 +1,10 @@
+stages:
+  - devBuild
+
+buildStage:
+  stage: devBuild
+  tags:
+    - dev_metasky_wallet
+  script:
+    - yarn install
+    - pm2 status

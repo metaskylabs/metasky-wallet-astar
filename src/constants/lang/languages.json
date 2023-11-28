@@ -1,0 +1,2384 @@
+{
+  "MY_WALLET": [
+    {
+      "en": "My Wallet",
+      "jp": ""
+    }
+  ],
+  "HISTORY": [
+    {
+      "en": "History",
+      "jp": ""
+    }
+  ],
+  "SCAN": [
+    {
+      "en": "Scan",
+      "jp": ""
+    }
+  ],
+  "TRANSFER": [
+    {
+      "en": "Transfer",
+      "jp": ""
+    }
+  ],
+  "MY_NFTS": [
+    {
+      "en": "My NFTs",
+      "jp": ""
+    }
+  ],
+  "SEE_ALL": [
+    {
+      "en": "See All",
+      "jp": ""
+    }
+  ],
+  "MY_COINS": [
+    {
+      "en": "My Coins",
+      "jp": ""
+    }
+  ],
+  "TRENDING_NOW": [
+    {
+      "en": "Trending Now",
+      "jp": ""
+    }
+  ],
+  "PROFILE": [
+    {
+      "en": "Profile",
+      "jp": ""
+    }
+  ],
+  "CONTACT_SUPPORT": [
+    {
+      "en": "Contact Support",
+      "jp": ""
+    }
+  ],
+  "REWARDS": [
+    {
+      "en": "Rewards",
+      "jp": ""
+    }
+  ],
+  "LOG_OUT": [
+    {
+      "en": "Log Out",
+      "jp": ""
+    }
+  ],
+  "LOG_IN": [
+    {
+      "en": "Log In",
+      "jp": ""
+    }
+  ],
+  "CANCEL": [
+    {
+      "en": "CANCEL",
+      "jp": ""
+    }
+  ],
+  "SAVE": [
+    {
+      "en": "Save",
+      "jp": ""
+    }
+  ],
+  "LOG_OUT_BOTTOM_SHEET_TITLE": [
+    {
+      "en": "Log Out?",
+      "jp": ""
+    }
+  ],
+  "LOG_OUT_BOTTOM_SHEET_SUBTITLE": [
+    {
+      "en": "Are you sure you want to logout of Skywallet?",
+      "jp": ""
+    }
+  ],
+  "EDIT_PROFILE_TITLE": [
+    {
+      "en": "Edit Profile",
+      "jp": ""
+    }
+  ],
+  "CONTACT_INFORMATION_TITLE": [
+    {
+      "en": "Contact Information",
+      "jp": ""
+    }
+  ],
+  "CONTACT_INFORMATION_DESCRIPTION": [
+    {
+      "en": "Complete your profile with entering correct personal information here.",
+      "jp": ""
+    }
+  ],
+  "NAME": [
+    {
+      "en": "Name",
+      "jp": ""
+    }
+  ],
+  "NAME_PLACEHOLDER": [
+    {
+      "en": "Enter your name",
+      "jp": ""
+    }
+  ],
+  "CITY": [
+    {
+      "en": "City",
+      "jp": ""
+    }
+  ],
+  "CITY_PLACEHOLDER": [
+    {
+      "en": "Enter the City You Reside In",
+      "jp": ""
+    }
+  ],
+  "EMAIL": [
+    {
+      "en": "Email Address",
+      "jp": ""
+    }
+  ],
+  "EMAIL_PLACEHOLDER": [
+    {
+      "en": "Enter your email address",
+      "jp": ""
+    }
+  ],
+  "CONTACT_NUMBER": [
+    {
+      "en": "Contact Number",
+      "jp": ""
+    }
+  ],
+  "CONTACT_NUMBER_PLACEHOLDER": [
+    {
+      "en": "Enter your Contact Number",
+      "jp": ""
+    }
+  ],
+  "BABBU_SCREEN_TITLE": [
+    {
+      "en": "Hi, Welcome!",
+      "jp": ""
+    }
+  ],
+  "BABBU_SCREEN_SUBTITLE": [
+    {
+      "en": "Complete your profile to continue using Metasky wallet.",
+      "jp": ""
+    }
+  ],
+  "BABBU_SCREEN_DESCRIPTION": [
+    {
+      "en": "Fill below details to complete your profile:",
+      "jp": ""
+    }
+  ],
+  "COMPLETE_PROFILE": [
+    {
+      "en": "COMPLETE PROFILE",
+      "jp": ""
+    }
+  ],
+  "ACTIVITY_HISTORY": [
+    {
+      "en": "Activity History",
+      "jp": ""
+    }
+  ],
+  "TRANSACTION_STATUS": [
+    {
+      "en": "Transaction Status",
+      "jp": ""
+    }
+  ],
+  "VIEW_REQUEST_ID": [
+    {
+      "en": "View Request Id",
+      "jp": ""
+    }
+  ],
+  "SOMETHING_WENT_WRONG": [
+    {
+      "en": "Something went wrong?",
+      "jp": ""
+    }
+  ],
+  "TRANSACTION_DETAILS": [
+    {
+      "en": "Transaction Details",
+      "jp": ""
+    }
+  ],
+  "TRANSACTION_DATE": [
+    {
+      "en": "Transaction Date",
+      "jp": ""
+    }
+  ],
+  "MAX_FEES": [
+    {
+      "en": "Max Fees",
+      "jp": ""
+    }
+  ],
+  "VIEW_DETAILS": [
+    {
+      "en": "View Details",
+      "jp": ""
+    }
+  ],
+  "HIDE_DETAILS": [
+    {
+      "en": "Hide Details",
+      "jp": ""
+    }
+  ],
+  "TOTAL": [
+    {
+      "en": "Total",
+      "jp": ""
+    }
+  ],
+  "MY_NFTs": [
+    {
+      "en": "My NFTs",
+      "jp": ""
+    }
+  ],
+  "FROM": [
+    {
+      "en": "From",
+      "jp": ""
+    }
+  ],
+  "NFT_DETAILS": [
+    {
+      "en": "NFT Details",
+      "jp": ""
+    }
+  ],
+  "DESCRIPTION": [
+    {
+      "en": "Description",
+      "jp": ""
+    }
+  ],
+  "CREATED_BY": [
+    {
+      "en": "Created By",
+      "jp": ""
+    }
+  ],
+  "LISTED_BY": [
+    {
+      "en": "Listed By",
+      "jp": ""
+    }
+  ],
+  "OWNER": [
+    {
+      "en": "Owner",
+      "jp": ""
+    }
+  ],
+  "BLOCKCHAIN": [
+    {
+      "en": "Blockchain",
+      "jp": ""
+    }
+  ],
+  "TRANSACTION_IS_IN_PROGRESS": [
+    {
+      "en": "Transaction is in progress.",
+      "jp": ""
+    }
+  ],
+  "CLICK_TO_VIEW_TRANSACTION_DETAILS": [
+    {
+      "en": "Click to view transaction details.",
+      "jp": ""
+    }
+  ],
+  "SEND": [
+    {
+      "en": "SEND",
+      "jp": ""
+    }
+  ],
+  "SELL": [
+    {
+      "en": "Sell",
+      "jp": ""
+    }
+  ],
+  "PLEASE_ENTER_A_MINIMUM_AMOUNT_OF": [
+    {
+      "en": "Please enter a minimum amount of",
+      "jp": ""
+    }
+  ],
+  "ENTER_AMOUNT": [
+    {
+      "en": "Enter Amount",
+      "jp": ""
+    }
+  ],
+  "YOU_OWN": [
+    {
+      "en": "You Own",
+      "jp": ""
+    }
+  ],
+  "PROPERTIES": [
+    {
+      "en": "Properties",
+      "jp": ""
+    }
+  ],
+  "NFT_LISTED_FOR_SALE": [
+    {
+      "en": "NFT LISTED FOR SALE.",
+      "jp": ""
+    }
+  ],
+  "VIEW": [
+    {
+      "en": "View",
+      "jp": ""
+    }
+  ],
+  "EXCLUSIVE_BENEFITS": [
+    {
+      "en": "Exclusive Benefits",
+      "jp": ""
+    }
+  ],
+  "DELETE_LISTING": [
+    {
+      "en": "DELETE LISTING",
+      "jp": ""
+    }
+  ],
+  "MODIFY_PRICE": [
+    {
+      "en": "MODIFY PRICE",
+      "jp": ""
+    }
+  ],
+  "PRICE_EXCLUDING_FEES": [
+    {
+      "en": "Price (Excluding fees)",
+      "jp": ""
+    }
+  ],
+  "QUANTITY": [
+    {
+      "en": "Quantity",
+      "jp": ""
+    }
+  ],
+  "BENEFIT": [
+    {
+      "en": "BENEFIT",
+      "jp": ""
+    }
+  ],
+  "BENEFITS": [
+    {
+      "en": "Benefits",
+      "jp": ""
+    }
+  ],
+  "ZERO_BENEFIT": [
+    {
+      "en": "0 BENEFIT",
+      "jp": ""
+    }
+  ],
+  "DELETE_LISTING_BOTTOM_SHEET_TITLE": [
+    {
+      "en": "Delete Listing",
+      "jp": ""
+    }
+  ],
+  "DELETE_LISTING_BOTTOM_SHEET_CONFIRMATION": [
+    {
+      "en": "Are you sure you want to delete the listing for",
+      "jp": ""
+    }
+  ],
+  "ASSET": [
+    {
+      "en": "asset",
+      "jp": ""
+    }
+  ],
+  "DELETE_LISTING_BOTTOM_SHEET_PAYMENT_MESSAGING": [
+    {
+      "en": "You will be required to pay a transaction fees to delete the listing.",
+      "jp": ""
+    }
+  ],
+  "YES_DELETE": [
+    {
+      "en": "YES, DELETE",
+      "jp": ""
+    }
+  ],
+  "ORDER_DETAILS": [
+    {
+      "en": "Order Details",
+      "jp": ""
+    }
+  ],
+  "PAYMENT_DUE": [
+    {
+      "en": "Payment Due",
+      "jp": ""
+    }
+  ],
+  "MAX_TOTAL_FEE": [
+    {
+      "en": "Max Total Fee",
+      "jp": ""
+    }
+  ],
+  "WALLET_BALANCE": [
+    {
+      "en": "Wallet balance(Cryptocurrency)",
+      "jp": ""
+    }
+  ],
+  "YOU_HAVE": [
+    {
+      "en": "You Have",
+      "jp": ""
+    }
+  ],
+  "YOU_NEED": [
+    {
+      "en": "You Need",
+      "jp": ""
+    }
+  ],
+  "RECHARGE_WALLET": [
+    {
+      "en": "Recharge Wallet",
+      "jp": ""
+    }
+  ],
+  "RECHARGE_AMOUNT": [
+    {
+      "en": "Recharge amount",
+      "jp": ""
+    }
+  ],
+  "MIN": [
+    {
+      "en": "Min.",
+      "jp": ""
+    }
+  ],
+  "RECHARGE:": [
+    {
+      "en": "Recharge: ",
+      "jp": ""
+    }
+  ],
+  "RECHARGE": [
+    {
+      "en": "Recharge",
+      "jp": ""
+    }
+  ],
+  "RECHARGE_FOR": [
+    {
+      "en": "Recharge for",
+      "jp": ""
+    }
+  ],
+  "RECEIVE": [
+    {
+      "en": "RECEIVE",
+      "jp": ""
+    }
+  ],
+  "RECEIVE_DESCRIPTION": [
+    {
+      "en": "Your wallet address is different across various networks. Select your desired network from the dropdown below.",
+      "jp": ""
+    }
+  ],
+  "WALLET": [
+    {
+      "en": "Wallet",
+      "jp": ""
+    }
+  ],
+  "CURRENT_NETWORK": [
+    {
+      "en": "Current Network",
+      "jp": ""
+    }
+  ],
+  "WALLET_ADDRESS": [
+    {
+      "en": "Wallet Address",
+      "jp": ""
+    }
+  ],
+  "SELECT_ASSET": [
+    {
+      "en": "Select Asset",
+      "jp": ""
+    }
+  ],
+  "COUNT": [
+    {
+      "en": "Count",
+      "jp": ""
+    }
+  ],
+  "TO": [
+    {
+      "en": "To",
+      "jp": ""
+    }
+  ],
+  "NOTE": [
+    {
+      "en": "Note",
+      "jp": ""
+    }
+  ],
+  "ADD_A_NOTE": [
+    {
+      "en": "Add a Note",
+      "jp": ""
+    }
+  ],
+  "SEND_NFT": [
+    {
+      "en": "Send NFT",
+      "jp": ""
+    }
+  ],
+  "SEND_COIN": [
+    {
+      "en": "Send Coin",
+      "jp": ""
+    }
+  ],
+  "TRANSFER_DETAILS": [
+    {
+      "en": "Transfer Details",
+      "jp": ""
+    }
+  ],
+  "QTY": [
+    {
+      "en": "QTY",
+      "jp": ""
+    }
+  ],
+  "MARKET": [
+    {
+      "en": "Market",
+      "jp": ""
+    }
+  ],
+  "VIEW_MORE_DETAILS": [
+    {
+      "en": "View More Details",
+      "jp": ""
+    }
+  ],
+  "LOAD_MORE": [
+    {
+      "en": "Load more",
+      "jp": ""
+    }
+  ],
+  "LOAD_PREV": [
+    {
+      "en": "Load previous",
+      "jp": ""
+    }
+  ],
+  "BUY_NOW": [
+    {
+      "en": "BUY NOW",
+      "jp": ""
+    }
+  ],
+  "SHARE_COLLECTION": [
+    {
+      "en": "SHARE COLLECTION",
+      "jp": ""
+    }
+  ],
+  "LINK_COPIED": [
+    {
+      "en": "Link copied!",
+      "jp": ""
+    }
+  ],
+  "PAGE_LOADING": [
+    {
+      "en": "Page is Loading. Please wait",
+      "jp": ""
+    }
+  ],
+  "WALLET_DETAILS": [
+    {
+      "en": "Wallet Details",
+      "jp": ""
+    }
+  ],
+  "WALLET_DETAILS_DESCRIPTION": [
+    {
+      "en": "Here are your Metasky accounts across different networks.",
+      "jp": ""
+    }
+  ],
+  "VIEW_QR_CODE": [
+    {
+      "en": "View QR Code",
+      "jp": ""
+    }
+  ],
+  "CONNECT_WALLET": [
+    {
+      "en": "CONNECT WALLET",
+      "jp": ""
+    }
+  ],
+  "SEARCH_BY_NFT_NAME": [
+    {
+      "en": "Search by NFT name",
+      "jp": ""
+    }
+  ],
+  "ACTIVE": [
+    {
+      "en": "ACTIVE",
+      "jp": ""
+    }
+  ],
+  "ACCEPTED": [
+    {
+      "en": "ACCEPTED",
+      "jp": ""
+    }
+  ],
+  "REJECTED": [
+    {
+      "en": "REJECTED",
+      "jp": ""
+    }
+  ],
+  "CHANGE_PIN": [
+    {
+      "en": "Change PIN",
+      "jp": ""
+    }
+  ],
+  "ENTER_PIN": [
+    {
+      "en": "Enter PIN",
+      "jp": ""
+    }
+  ],
+  "INCORRECT_PIN": [
+    {
+      "en": "Incorrect PIN",
+      "jp": ""
+    }
+  ],
+  "FORGOT_PIN": [
+    {
+      "en": "Forgot PIN",
+      "jp": ""
+    }
+  ],
+  "CONTINUE": [
+    {
+      "en": "CONTINUE",
+      "jp": ""
+    }
+  ],
+  "SET_PIN": [
+    {
+      "en": "Set New PIN",
+      "jp": ""
+    }
+  ],
+  "RE_ENTER_PIN": [
+    {
+      "en": "Confirm New PIN",
+      "jp": ""
+    }
+  ],
+  "PIN_UPDATED": [
+    {
+      "en": "PIN Updated",
+      "jp": ""
+    }
+  ],
+  "PIN_UPDATED_DESCRIPTION": [
+    {
+      "en": "You have successfully set your new PIN. Continue exploring MetaSky.",
+      "jp": ""
+    }
+  ],
+  "MY_REWARDS": [
+    {
+      "en": "My Rewards",
+      "jp": ""
+    }
+  ],
+  "REFER_NOW": [
+    {
+      "en": "REFER NOW",
+      "jp": ""
+    }
+  ],
+  "TOTAL_REWARDS_EARNED": [
+    {
+      "en": "Total Rewards Earned",
+      "jp": ""
+    }
+  ],
+  "USERS_HELPED_YOU_EARN": [
+    {
+      "en": "Users Helped You Earn",
+      "jp": ""
+    }
+  ],
+  "DAYS": [
+    {
+      "en": "Days",
+      "jp": ""
+    }
+  ],
+  "HRS": [
+    {
+      "en": "Hrs",
+      "jp": ""
+    }
+  ],
+  "MINS": [
+    {
+      "en": "Mins",
+      "jp": ""
+    }
+  ],
+  "SECS": [
+    {
+      "en": "Secs",
+      "jp": ""
+    }
+  ],
+  "TOP_BID": [
+    {
+      "en": "Top Bid",
+      "jp": ""
+    }
+  ],
+  "BID_DETAILS": [
+    {
+      "en": "Bid Details",
+      "jp": ""
+    }
+  ],
+  "SHARE": [
+    {
+      "en": "SHARE",
+      "jp": ""
+    }
+  ],
+  "RAISE_YOUR_BID": [
+    {
+      "en": "Raise your bid",
+      "jp": ""
+    }
+  ],
+  "RAISE_YOUR_BID_DESCRIPTION": [
+    {
+      "en": "You can raise your bid for this NFT. Your bid should be higher than the current top bid amount.",
+      "jp": ""
+    }
+  ],
+  "ENTER_BID_AMOUNT": [
+    {
+      "en": "Enter Bid Amount",
+      "jp": ""
+    }
+  ],
+  "BID_AMOUNT": [
+    {
+      "en": "Bid Amount",
+      "jp": ""
+    }
+  ],
+  "TOP_BID_AMOUNT": [
+    {
+      "en": "Top Bid Amount",
+      "jp": ""
+    }
+  ],
+  "SWIPE_TO_RAISE_BID": [
+    {
+      "en": "Swipe to Raise Bid",
+      "jp": ""
+    }
+  ],
+  "MINIMUM_BID_TOAST_MESSAGE": [
+    {
+      "en": "Minimum bid amount should be",
+      "jp": ""
+    }
+  ],
+  "PAGE_NOT_FOUND": [
+    {
+      "en": "Page not found.",
+      "jp": ""
+    }
+  ],
+  "PAGE_NOT_FOUND_Description": [
+    {
+      "en": "The page you were looking for does not exist. Go back to the",
+      "jp": ""
+    }
+  ],
+  "HOMEPAGE": [
+    {
+      "en": "homepage",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_USING_EMAIL_ID": [
+    {
+      "en": "Continue using Email ID",
+      "jp": ""
+    }
+  ],
+  "ENTER_EMAIL_ID": [
+    {
+      "en": "Enter Email ID",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_USING_OTHER_OPTIONS": [
+    {
+      "en": "Continue using other options",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_WITH_EMAIL": [
+    {
+      "en": "Continue with Email",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_WITH_MOBILE_NUMBER": [
+    {
+      "en": "Continue with Mobile Number",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_WITH_EXTERNAL_WALLET": [
+    {
+      "en": "Continue with Wallet",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_USING_MOBILE_NUMBER": [
+    {
+      "en": "Continue using Mobile Number",
+      "jp": ""
+    }
+  ],
+  "ABLE_TO_RECHARGE_WALLET_SOON": [
+    {
+      "en": "You will be able to recharge your wallet soon.",
+      "jp": ""
+    }
+  ],
+  "SORRY_NOT_ELIGIBLE_TO_MINT": [
+    {
+      "en": "Sorry! You are not eligible to mint this NFT",
+      "jp": ""
+    }
+  ],
+  "SORRY_NO_MORE_NFTS_TO_MINT": [
+    {
+      "en": "Sorry! There are no more NFTs left to mint",
+      "jp": ""
+    }
+  ],
+  "SORRY_INSUFFICIENT_BALANCE_TRY_OTHERS": [
+    {
+      "en": "Sorry! You don't have sufficient funds to mint this NFT, please try using Card/UPI/Net Banking",
+      "jp": ""
+    }
+  ],
+  "SORRY_USER_REJECTED_TRANSACTION": [
+    {
+      "en": "Sorry! Looks like you rejected the transaction on your wallet",
+      "jp": ""
+    }
+  ],
+  "WAITING_FOR_TRANSACTION_ON_BLOCKCHAIN": [
+    {
+      "en": "Waiting for your transaction to appear on the blockchain.",
+      "jp": ""
+    }
+  ],
+  "CONFIRM_TRANSACTION_ON_YOUR_WALLET": [
+    {
+      "en": "Please confirm the transaction on your wallet!",
+      "jp": ""
+    }
+  ],
+  "ENTER_MOBILE_NUMBER": [
+    {
+      "en": "Enter Mobile Number",
+      "jp": ""
+    }
+  ],
+  "VERIFY_CODE": [
+    {
+      "en": "Verify Code",
+      "jp": ""
+    }
+  ],
+  "ENTER_VERIFICATION_CODE_SENT_TO": [
+    {
+      "en": "Enter verification code sent to",
+      "jp": ""
+    }
+  ],
+  "VALIDATE_CODE": [
+    {
+      "en": "VALIDATE CODE",
+      "jp": ""
+    }
+  ],
+  "RESEND_CODE": [
+    {
+      "en": "Resend code",
+      "jp": ""
+    }
+  ],
+  "YOU_ARE_NOT_LOGGED_IN": [
+    {
+      "en": "You are not Logged In",
+      "jp": ""
+    }
+  ],
+  "CREATE_PIN": [
+    {
+      "en": "Create PIN",
+      "jp": ""
+    }
+  ],
+  "RECEIVING": [
+    {
+      "en": "RECEIVING",
+      "jp": ""
+    }
+  ],
+  "ON_SALE": [
+    {
+      "en": "ON SALE",
+      "jp": ""
+    }
+  ],
+  "CLAIM_FOR_FREE": [
+    {
+      "en": "CLAIM FOR FREE",
+      "jp": ""
+    }
+  ],
+  "SEARCH_BENEFITS_BY_NAME": [
+    {
+      "en": "Search for benefits by name",
+      "jp": ""
+    }
+  ],
+  "ACCESS_NOW": [
+    {
+      "en": "ACCESS NOW",
+      "jp": ""
+    }
+  ],
+  "SET_PRICE": [
+    {
+      "en": "Set Price",
+      "jp": ""
+    }
+  ],
+  "UPDATE_PRICE_DESCRIPTION": [
+    {
+      "en": "Update the price below. You will be required to pay a transaction fees in order to update the price.",
+      "jp": ""
+    }
+  ],
+  "PRICE": [
+    {
+      "en": "Price",
+      "jp": ""
+    }
+  ],
+  "MIN_LISTING_PRICE": [
+    {
+      "en": "Min. Listing Price",
+      "jp": ""
+    }
+  ],
+  "BUYER_PAYS": [
+    {
+      "en": "Buyer pays",
+      "jp": ""
+    }
+  ],
+  "PLATFORM_FEES": [
+    {
+      "en": "Platform Fees",
+      "jp": ""
+    }
+  ],
+  "AMOUNT_YOU_WILL_RECEIVE": [
+    {
+      "en": "Amount you will receive",
+      "jp": ""
+    }
+  ],
+  "CONFIRM_LISTING": [
+    {
+      "en": "CONFIRM LISTING",
+      "jp": ""
+    }
+  ],
+  "PLEASE_ENTER_A_VALID_AMOUNT": [
+    {
+      "en": "Please enter a valid amount",
+      "jp": ""
+    }
+  ],
+  "ROYALTY_FEES": [
+    {
+      "en": "Royalty Fees",
+      "jp": ""
+    }
+  ],
+  "CONFIRM_ORDER": [
+    {
+      "en": "Confirm Order",
+      "jp": ""
+    }
+  ],
+  "SELLING_FOR": [
+    {
+      "en": "Selling for",
+      "jp": ""
+    }
+  ],
+  "SWIPE_TO_LIST_NFT": [
+    {
+      "en": "Swipe to List NFT",
+      "jp": ""
+    }
+  ],
+  "ENTER_VALID_EMAIL_ID": [
+    {
+      "en": "Enter a valid email ID",
+      "jp": ""
+    }
+  ],
+  "NAME_CAN_CONTAIN_ONLY_ALPHABETS": [
+    {
+      "en": "Name can contain only alphabets.",
+      "jp": ""
+    }
+  ],
+  "ENTER_A_VALID_CITY": [
+    {
+      "en": "Enter a valid city.",
+      "jp": ""
+    }
+  ],
+  "ENTER_A_VALID_MOBILE_NUMBER": [
+    {
+      "en": "Enter a Valid Mobile Number",
+      "jp": ""
+    }
+  ],
+  "ENTER_A_VALID_MOBILE_TYPE": [
+    {
+      "en": "Enter a Valid Mobile type",
+      "jp": ""
+    }
+  ],
+  "COUNTRY_CODE_IS_REQUIRED": [
+    {
+      "en": "country code is required",
+      "jp": ""
+    }
+  ],
+  "ENTER_A_VALID_MOBILE": [
+    {
+      "en": "Enter a Valid Mobile Number",
+      "jp": ""
+    }
+  ],
+  "NETWORK_SWITCH_NEEDED": [
+    {
+      "en": "Network Switch Needed",
+      "jp": ""
+    }
+  ],
+  "NETWORK_SWITCH_DESCRIPTION": [
+    {
+      "en": "In order to continue, your wallet needs to be connected to the.",
+      "jp": ""
+    }
+  ],
+  "NETWORK": [
+    {
+      "en": "Network",
+      "jp": ""
+    }
+  ],
+  "SWITCH_NETWORK": [
+    {
+      "en": "Switch Network",
+      "jp": ""
+    }
+  ],
+  "CONNECT_WITH_DESCRIPTION": [
+    {
+      "en": "You have connected following account to use on this site",
+      "jp": ""
+    }
+  ],
+  "DISCONNECT": [
+    {
+      "en": "DISCONNECT",
+      "jp": ""
+    }
+  ],
+  "INCORRECT_CODE": [
+    {
+      "en": "Incorrect code",
+      "jp": ""
+    }
+  ],
+  "ATTEMPTS_LEFT": [
+    {
+      "en": "Attempts Left.",
+      "jp": ""
+    }
+  ],
+  "PIN_ERROR": [
+    {
+      "en": "PIN doesn’t match",
+      "jp": ""
+    }
+  ],
+  "EMPTY_PIN_ERROR": [
+    {
+      "en": "Please enter your new pin",
+      "jp": ""
+    }
+  ],
+  "PLEASE_ENTER_VALID_PIN": [
+    {
+      "en": "Please enter valid pin",
+      "jp": ""
+    }
+  ],
+  "INSUFFICIENT_ASSETS": [
+    {
+      "en": "Insufficient Assets",
+      "jp": ""
+    }
+  ],
+  "PLEASE_ENTER_RECEIVERS_WALLET_ADDRESS": [
+    {
+      "en": "Please enter receiver's wallet address",
+      "jp": ""
+    }
+  ],
+  "PLEASE_ENTER_A_VALID_QUANTITY": [
+    {
+      "en": "Please enter a valid quantity",
+      "jp": ""
+    }
+  ],
+  "DECIMALS_ERROR": [
+    {
+      "en": "Please enter max 5 decimals",
+      "jp": ""
+    }
+  ],
+  "MINIMUM_VALUE_ALLOWED": [
+    {
+      "en": "Minimum value allowed is",
+      "jp": ""
+    }
+  ],
+  "INVALID_WALLET_ADDRESS": [
+    {
+      "en": "Invalid Wallet Address",
+      "jp": ""
+    }
+  ],
+  "EVENT_DETAILS": [
+    {
+      "en": "Event Details",
+      "jp": ""
+    }
+  ],
+  "TIME": [
+    {
+      "en": "Time",
+      "jp": ""
+    }
+  ],
+  "VENUE": [
+    {
+      "en": "Venue",
+      "jp": ""
+    }
+  ],
+  "TERMS_CONDITIONS": [
+    {
+      "en": "Terms & Conditions",
+      "jp": ""
+    }
+  ],
+  "COLLECTION": [
+    {
+      "en": "Collection",
+      "jp": ""
+    }
+  ],
+  "YOUR_ORDER_IS_IN_PROGRESS": [
+    {
+      "en": "Your Order is in Progress",
+      "jp": ""
+    }
+  ],
+  "YOUR_ORDER_IS_IN_PROGRESS_DESCRIPTION": [
+    {
+      "en": "Please close this tab and track your current transaction on Metasky wallet.",
+      "jp": ""
+    }
+  ],
+  "SCAN_THE_BELOW_QR_CODE_TO_PAY_TEST": [
+    {
+      "en": "Scan the below QR code to pay test",
+      "jp": ""
+    }
+  ],
+  "GALLERY": [
+    {
+      "en": "Gallery",
+      "jp": ""
+    }
+  ],
+  "GALLERY_DESCRIPTION": [
+    {
+      "en": "Choose among existing images from your phone gallery",
+      "jp": ""
+    }
+  ],
+  "CAMERA": [
+    {
+      "en": "Camera",
+      "jp": ""
+    }
+  ],
+  "CAMERA_DESCRIPTION": [
+    {
+      "en": "Click instant photos using your device camera.",
+      "jp": ""
+    }
+  ],
+  "REFER_EARN": [
+    {
+      "en": "Refer & Earn",
+      "jp": ""
+    }
+  ],
+  "REFER_YOUR_FRIENDS": [
+    {
+      "en": "Refer your friends",
+      "jp": ""
+    }
+  ],
+  "AND_EARN_WHEN_THEY_JOIN_METASKY": [
+    {
+      "en": "And earn when they join Metasky!",
+      "jp": ""
+    }
+  ],
+  "HOW_IT_WORKS": [
+    {
+      "en": "How it Works",
+      "jp": ""
+    }
+  ],
+  "INVITE_A_FRIEND": [
+    {
+      "en": "Invite a friend",
+      "jp": ""
+    }
+  ],
+  "THEY_SIGN_UP": [
+    {
+      "en": "They Sign up",
+      "jp": ""
+    }
+  ],
+  "THEY_CREATE_A_METASKY_ACCOUNT": [
+    {
+      "en": "They create a Metasky account.",
+      "jp": ""
+    }
+  ],
+  "YOU_GET_A_REWARD": [
+    {
+      "en": "You get a reward 🎉",
+      "jp": ""
+    }
+  ],
+  "EARN_REWARDS_ONCE_THEY_SIGNUP": [
+    {
+      "en": "jp",
+      "jp": ""
+    }
+  ],
+  "SEND_INVITE_VIA": [
+    {
+      "en": "Send invite via",
+      "jp": ""
+    }
+  ],
+  "COPY_INVITE_LINK": [
+    {
+      "en": "Copy invite link",
+      "jp": ""
+    }
+  ],
+  "CODE_VERIFICATION": [
+    {
+      "en": "Code Verification",
+      "jp": ""
+    }
+  ],
+  "CODE_VERIFICATION_DESCRIPTION": [
+    {
+      "en": "A 6-digit one time verification code has been sent to",
+      "jp": ""
+    }
+  ],
+  "ENTER_CODE": [
+    {
+      "en": "Enter code",
+      "jp": ""
+    }
+  ],
+  "SET_NEW_PIN": [
+    {
+      "en": "Set New PIN",
+      "jp": ""
+    }
+  ],
+  "CONFIRM_NEW_PIN": [
+    {
+      "en": "Confirm New PIN",
+      "jp": ""
+    }
+  ],
+  "LOGGED_IN_SUCCESSFULLY": [
+    {
+      "en": "Logged in Successfully",
+      "jp": ""
+    }
+  ],
+  "SOMETHING_WENT_WRONG_TOAST": [
+    {
+      "en": "Something went wrong, please try again later",
+      "jp": ""
+    }
+  ],
+  "OR": [
+    {
+      "en": "Or",
+      "jp": ""
+    }
+  ],
+  "EMAIL_ID": [
+    {
+      "en": "email ID",
+      "jp": ""
+    }
+  ],
+  "PHONE": [
+    {
+      "en": "Phone",
+      "jp": ""
+    }
+  ],
+  "PHONE_WITH_EXAMPLE": [
+    {
+      "en": "Phone Number with PIN (+919111111111)",
+      "jp": ""
+    }
+  ],
+  "ENTER_PIN_DESCRIPTION": [
+    {
+      "en": "Log in to MetaSky to enjoy the features of SkyClub and MetaSky Wallet.",
+      "jp": ""
+    }
+  ],
+  "CREATE_PIN_DESCRIPTION": [
+    {
+      "en": "This PIN will be your secure and convenient way to access your MetaSky wallet.",
+      "jp": ""
+    }
+  ],
+  "DATE": [
+    {
+      "en": "Date",
+      "jp": ""
+    }
+  ],
+  "STATUS": [
+    {
+      "en": "STATUS",
+      "jp": ""
+    }
+  ],
+  "REJECT": [
+    {
+      "en": "REJECT",
+      "jp": ""
+    }
+  ],
+  "ACCEPT": [
+    {
+      "en": "ACCEPT",
+      "jp": ""
+    }
+  ],
+  "FOR": [
+    {
+      "en": "for",
+      "jp": ""
+    }
+  ],
+  "UPDATE_PRICE": [
+    {
+      "en": "Update Price",
+      "jp": ""
+    }
+  ],
+  "INFINITY_ACCESS_CARD": [
+    {
+      "en": "Infinity Access Card.",
+      "jp": ""
+    }
+  ],
+  "REJECT_STATE_SUCCESS": [
+    {
+      "en": "YES, REJECT",
+      "jp": ""
+    }
+  ],
+  "HI_GUEST": [
+    {
+      "en": "Hi Guest!",
+      "jp": ""
+    }
+  ],
+  "YOU_ARE_NOT_SIGNED_IN": [
+    {
+      "en": "You are not signed in.",
+      "jp": ""
+    }
+  ],
+  "CONNECT_WALLET_S": [
+    {
+      "en": "Connect Wallet",
+      "jp": ""
+    }
+  ],
+  "CONNECTED": [
+    {
+      "en": "Connected",
+      "jp": ""
+    }
+  ],
+  "WALLET_ADDRESS_COPIED": [
+    {
+      "en": "Wallet Address Copied!",
+      "jp": ""
+    }
+  ],
+  "DIDNT_FIND_WHAT_YOU_WERE_LOOKING_FOR": [
+    {
+      "en": "Didn't find what you were looking for?",
+      "jp": ""
+    }
+  ],
+  "INCOGNITO_ERROR_MESSAGE": [
+    {
+      "en": "Sorry, Metasky is not available for incognito mode.",
+      "jp": ""
+    }
+  ],
+  "INCOGNITO_ERROR_DESCRIPTION": [
+    {
+      "en": "To continue using Metasky, switch to regular browser for the best experience.",
+      "jp": ""
+    }
+  ],
+  "FOR_ANY_QUERIES": [
+    {
+      "en": "For any queries",
+      "jp": ""
+    }
+  ],
+  "TRANSACTION_ID": [
+    {
+      "en": "Transaction ID",
+      "jp": ""
+    }
+  ],
+  "NFT": [
+    {
+      "en": "NFT",
+      "jp": ""
+    }
+  ],
+  "COIN": [
+    {
+      "en": "COIN",
+      "jp": ""
+    }
+  ],
+  "QUANTITY_OF_ASSETS": [
+    {
+      "en": "Quantity of Assets",
+      "jp": ""
+    }
+  ],
+  "TRANSFER_COUNT_TOOLTIP": [
+    {
+      "en": "Enter the total asset that you want to send. You cannot transfer more assets than you own.",
+      "jp": ""
+    }
+  ],
+  "TRANSFER_TO_TOOLTIP": [
+    {
+      "en": "Enter or scan the wallet address of the person you want to transfer the asset to.",
+      "jp": ""
+    }
+  ],
+  "BALANCE_DEPOSITED_TO_WALLET": [
+    {
+      "en": "Balance deposited to wallet",
+      "jp": ""
+    }
+  ],
+  "MIN_RECHARGE": [
+    {
+      "en": "Min. Recharge: ₹ 100",
+      "jp": ""
+    }
+  ],
+  "LOADING": [
+    {
+      "en": "Loading",
+      "jp": ""
+    }
+  ],
+  "QR_CODE_ERROR": [
+    {
+      "en": "QR code couldn't be generated",
+      "jp": ""
+    }
+  ],
+  "PLEASE_PROCEED_TO_RECHARGE_YOUR_WALLET": [
+    {
+      "en": "Please proceed to recharge your wallet",
+      "jp": ""
+    }
+  ],
+  "PROCEED_TO_PAYMENT": [
+    {
+      "en": "Proceed to payment",
+      "jp": ""
+    }
+  ],
+  "TRANSFER_FAILED": [
+    {
+      "en": "Transfer Failed",
+      "jp": ""
+    }
+  ],
+  "TRANSFER_ERROR": [
+    {
+      "en": "The transfer of your NFT could not be completed. Please try again later.",
+      "jp": ""
+    }
+  ],
+  "NOTES_ERROR": [
+    {
+      "en": "Notes should not exceed 100 characters",
+      "jp": ""
+    }
+  ],
+  "LESS_RECHARGE_AMOUNT_ERROR": [
+    {
+      "en": "It seems like your recharge amount is less than transfer fees",
+      "jp": ""
+    }
+  ],
+  "NFT_IS_GOING_ON_SALE": [
+    {
+      "en": "This NFT is going on sale.",
+      "jp": ""
+    }
+  ],
+  "WE_FOUND_LISTING_ON_OPENSEA": [
+    {
+      "en": "NFT listed for sale on OpenSea.",
+      "jp": ""
+    }
+  ],
+  "VIEW_TRANSACTION": [
+    {
+      "en": "You can view the transaction status",
+      "jp": ""
+    }
+  ],
+  "HERE": [
+    {
+      "en": "here",
+      "jp": ""
+    }
+  ],
+  "RARITY_RANKING": [
+    {
+      "en": "Rarity Ranking",
+      "jp": ""
+    }
+  ],
+  "EXPIRED": [
+    {
+      "en": "Expired",
+      "jp": ""
+    }
+  ],
+  "EXPIRES": [
+    {
+      "en": "Expires",
+      "jp": ""
+    }
+  ],
+  "RARITY_RANK": [
+    {
+      "en": "Rarity Rank",
+      "jp": ""
+    }
+  ],
+  "FAILED_TO_LOAD": [
+    {
+      "en": "Failed to load NFT",
+      "jp": ""
+    }
+  ],
+  "NO_NFT_AVAILABLE": [
+    {
+      "en": "No NFTs Available!",
+      "jp": ""
+    }
+  ],
+  "FILTER_NOT_FOUND": [
+    {
+      "en": "There are no NFTs that match the filters selected within this collection.",
+      "jp": ""
+    }
+  ],
+  "TRACK_YOUR_ORDER": [
+    {
+      "en": "TRACK YOUR ORDER",
+      "jp": ""
+    }
+  ],
+  "MORE_CHARGES": [
+    {
+      "en": "More Charges",
+      "jp": ""
+    }
+  ],
+  "HASH_CODE": [
+    {
+      "en": "Hash Code",
+      "jp": ""
+    }
+  ],
+  "CURRENT_PRICE": [
+    {
+      "en": "Current Price",
+      "jp": ""
+    }
+  ],
+  "PURCHASE": [
+    {
+      "en": "Purchase",
+      "jp": ""
+    }
+  ],
+  "NFT_CAN_BE_PURCHASED_ONCE": [
+    {
+      "en": "You can purchase this nft once only.",
+      "jp": ""
+    }
+  ],
+  "NO_COLLECTIONS_FOUND": [
+    {
+      "en": "No Collections found.",
+      "jp": ""
+    }
+  ],
+  "THERE_ARE_NO_COLLECTIONS_THAT_MATCHED": [
+    {
+      "en": "There are no collections that matched your search.",
+      "jp": ""
+    }
+  ],
+  "FREE": [
+    {
+      "en": "FREE",
+      "jp": ""
+    }
+  ],
+  "SORT": [
+    {
+      "en": "SORT",
+      "jp": ""
+    }
+  ],
+  "DATE_RECEIVED": [
+    {
+      "en": "Date Received",
+      "jp": ""
+    }
+  ],
+  "YOUR_ACTION_IS_IN_PROGRESS": [
+    {
+      "en": "Your action is in Progress",
+      "jp": ""
+    }
+  ],
+  "NO_NFTS_TITLE": [
+    {
+      "en": "You don't own any NFTs yet",
+      "jp": ""
+    }
+  ],
+  "CURRENT_RATE": [
+    {
+      "en": "Current rate:  1",
+      "jp": ""
+    }
+  ],
+  "AMOUNT_IN": [
+    {
+      "en": "Amount in",
+      "jp": ""
+    }
+  ],
+  "CURRENCY": [
+    {
+      "en": "currency",
+      "jp": ""
+    }
+  ],
+  "CARD_OR_UPI_OR_NET_BANKING": [
+    {
+      "en": "Card / UPI / Net Banking",
+      "jp": ""
+    }
+  ],
+  "CRYPTOCURRENCY": [
+    {
+      "en": "Cryptocurrency",
+      "jp": ""
+    }
+  ],
+  "PLACE_BID": [
+    {
+      "en": "Place a bid",
+      "jp": ""
+    }
+  ],
+  "SOON": [
+    {
+      "en": "soon",
+      "jp": ""
+    }
+  ],
+  "BASE_PRICE": [
+    {
+      "en": "Base Price",
+      "jp": ""
+    }
+  ],
+  "CLOSE": [
+    {
+      "en": "close",
+      "jp": ""
+    }
+  ],
+  "WHITELISTING_FAILED": [
+    {
+      "en": "Whitelisting failed, please try again later",
+      "jp": ""
+    }
+  ],
+  "ALREADY_WHITELISTED": [
+    {
+      "en": "The connected wallet has already been whitelisted.",
+      "jp": ""
+    }
+  ],
+  "WHITELISTING_SUCCESSFUL": [
+    {
+      "en": "You’ve been successfully whitelisted and your wallet has been created.",
+      "jp": ""
+    }
+  ],
+  "UPDATE_LISTING": [
+    {
+      "en": "Update Listing",
+      "jp": ""
+    }
+  ],
+  "Delete_Listing": [
+    {
+      "en": "Delete Listing",
+      "jp": ""
+    }
+  ],
+  "LISTING_FAILED": [
+    {
+      "en": "Listing Failed",
+      "jp": ""
+    }
+  ],
+  "LISTING_FAILED_SUBTITLE": [
+    {
+      "en": "The listing of your NFT could not be completed. Please try again later.",
+      "jp": ""
+    }
+  ],
+  "HIDE": [
+    {
+      "en": "Hide",
+      "jp": ""
+    }
+  ],
+  "VIEW_ON_EXPLORER": [
+    {
+      "en": "View on Explorer",
+      "jp": ""
+    }
+  ],
+  "NETWORK_ERROR_DESCRIPTION": [
+    {
+      "en": "Check your connection and try again",
+      "jp": ""
+    }
+  ],
+  "NETWORK_ERROR": [
+    {
+      "en": "Network Error",
+      "jp": ""
+    }
+  ],
+  "PLEASE_ENTER_A_MINIMUM_RECHARGE_AMOUNT": [
+    {
+      "en": "Please enter a minimum recharge amount of",
+      "jp": ""
+    }
+  ],
+  "ENTER_CONTEST": [
+    {
+      "en": "ENTER CONTEST",
+      "jp": ""
+    }
+  ],
+  "404_TITLE": [
+    {
+      "en": "404. Page not found.",
+      "jp": ""
+    }
+  ],
+  "404_SUBTITLE": [
+    {
+      "en": "The page you were looking for does not exist. Go back to the",
+      "jp": ""
+    }
+  ],
+  "CONFIRMING_PAYMENT": [
+    {
+      "en": "Confirming Payment",
+      "jp": ""
+    }
+  ],
+  "AWAITING_PAYMENT_MSSG": [
+    {
+      "en": " We are awaiting payment confirmation from our partner. Meanwhile, you can check the status of your purchase. Closing this tab...",
+      "jp": ""
+    }
+  ],
+  "CONGRATULATIONS": [
+    {
+      "en": "Congratulations!",
+      "jp": ""
+    }
+  ],
+  "OPEN_WALLET": [
+    {
+      "en": "Open Wallet",
+      "jp": ""
+    }
+  ],
+  "REQUIRED_TO_BE_FILLED": [
+    {
+      "en": "Required to be filled",
+      "jp": ""
+    }
+  ],
+  "INVALID_PAN": [
+    {
+      "en": "Please enter valid PAN number",
+      "jp": ""
+    }
+  ],
+  "KYC_VERIFICATION": [
+    {
+      "en": "KYC Verification",
+      "jp": ""
+    }
+  ],
+  "KYC_DISCLAIMER": [
+    {
+      "en": " Purchase of a NFT valued more than ₹ 1 lakh requires you to complete the KYC process.",
+      "jp": ""
+    }
+  ],
+  "ENTER_NAME_AS_PER_PAN": [
+    {
+      "en": "Enter your name (as on PAN card)",
+      "jp": ""
+    }
+  ],
+  "PAN_NUMBER": [
+    {
+      "en": "PAN number",
+      "jp": ""
+    }
+  ],
+  "ENTER_YOUR_PAN": [
+    {
+      "en": "Enter your PAN number",
+      "jp": ""
+    }
+  ],
+  "DOB": [
+    {
+      "en": "Date of Birth",
+      "jp": ""
+    }
+  ],
+  "VERIFY": [
+    {
+      "en": "Verify",
+      "jp": ""
+    }
+  ],
+  "NOTIFY_BUYER_ABOUT_PRICE": [
+    {
+      "en": "Notify buyer about the updated price.",
+      "jp": ""
+    }
+  ],
+  "SWIPE_TO_ACCEPT": [
+    {
+      "en": "Swipe to Accept",
+      "jp": ""
+    }
+  ],
+  "CANCEL_TRANSACTION?": [
+    {
+      "en": "Cancel Transaction?",
+      "jp": ""
+    }
+  ],
+  "TRANSACTION_CLOSE_SCREEN": [
+    {
+      "en": "Closing this screen will cancel the transaction. Are you sure you want to proceed?",
+      "jp": ""
+    }
+  ],
+  "NO": [
+    {
+      "en": "NO",
+      "jp": ""
+    }
+  ],
+  "YES": [
+    {
+      "en": "YES",
+      "jp": ""
+    }
+  ],
+  "TRANSACTION_FAILED": [
+    {
+      "en": "Transaction Failed",
+      "jp": ""
+    }
+  ],
+  "TRY_AGAIN": [
+    {
+      "en": "TRY AGAIN",
+      "jp": ""
+    }
+  ],
+  "SOMETHING_WENT_WRONG_TRY_AGAIN": [
+    {
+      "en": "Something went wrong. please try again to be proceed.",
+      "jp": ""
+    }
+  ],
+  "COPIED": [
+    {
+      "en": "Copied!",
+      "jp": ""
+    }
+  ],
+  "CLICK_BELOW_FOR_PAYMENT": [
+    {
+      "en": "Please click below to make your payment.",
+      "jp": ""
+    }
+  ],
+  "ENTER_MINIMUM_AMOUNT_OF": [
+    {
+      "en": "Please enter a minimum recharge amount of &#8377;",
+      "jp": ""
+    }
+  ],
+  "ENTER_MAXIMUM_AMOUNT_OF": [
+    {
+      "en": "Please enter a maximum recharge amount of &#8377;;",
+      "jp": ""
+    }
+  ],
+  "INSUFFICIENT_BALANCE": [
+    {
+      "en": "You have insufficient balance..",
+      "jp": ""
+    }
+  ],
+  "RECHARGING_FOR": [
+    {
+      "en": "You are recharging for",
+      "jp": ""
+    }
+  ],
+  "YOU_PAY": [
+    {
+      "en": "You Pay",
+      "jp": ""
+    }
+  ],
+  "PAYMENT_GATEWAY_FEES": [
+    {
+      "en": "Payment Gateway Fees",
+      "jp": ""
+    }
+  ],
+  "AMOUNT_ADDED_TO_WALLET": [
+    {
+      "en": "Amount Added to Wallet",
+      "jp": ""
+    }
+  ],
+  "RECHARGE_DONE": [
+    {
+      "en": "Recharge has been successfully done.",
+      "jp": ""
+    }
+  ],
+  "CLICK_HERE": [
+    {
+      "en": "Click here",
+      "jp": ""
+    }
+  ],
+  "TO_SWITCH_NETWORK_TO": [
+    {
+      "en": "to switch network to",
+      "jp": ""
+    }
+  ],
+  "YOU_NEED_TO_BE_ON": [
+    {
+      "en": "You need to be on",
+      "jp": ""
+    }
+  ],
+  "NETWORK_TO_CONTINUE": [
+    {
+      "en": "network to continue.",
+      "jp": ""
+    }
+  ],
+  "PREFERRED_LANGUAGE_MSG": [
+    {
+      "en": "You can update your preferred language and currency. Your selected preference will reflect across Skywallet.",
+      "jp": ""
+    }
+  ],
+  "COUNTRY": [
+    {
+      "en": "Country",
+      "jp": ""
+    }
+  ],
+  "LANGUAGE_CHANGED": [
+    {
+      "en": "Language and Currency changed",
+      "jp": ""
+    }
+  ],
+  "SCANNER_TEXT": [
+    {
+      "en": "Scan the code and send NFT/Token",
+      "jp": ""
+    }
+  ],
+  "LANGUAGE_AND_CURRENCY": [
+    {
+      "en": "Language & Currency",
+      "jp": ""
+    }
+  ],
+  "ENTER_ADDRESS_MANUALLY": [
+    {
+      "en": "Enter Address Manually",
+      "jp": ""
+    }
+  ],
+  "ADDRESS_PLACEHOLDER": [
+    {
+      "en": "Address",
+      "jp": ""
+    }
+  ],
+  "ENJOYING_METASKY": [
+    {
+      "en": "Enjoying Metasky?",
+      "jp": ""
+    }
+  ],
+  "RECEIVED": [
+    {
+      "en": "Received : ",
+      "jp": ""
+    }
+  ],
+  "REFER_AND_EARN": [
+    {
+      "en": "Refer your friends now to earn rewards!",
+      "jp": ""
+    }
+  ],
+  "ADD_MORE_WALLETS": [
+    {
+      "en": "Add More Wallets",
+      "jp": ""
+    }
+  ],
+  "LOGOUT_CONFIRMATION_TITLE": [
+    {
+      "en": "This action will log you out.",
+      "jp": ""
+    }
+  ],
+  "LOGOUT_CONFIRMATION_DESCRIPTION": [
+    {
+      "en": "To connect this wallet, you will have to logout of your current wallet.Are you sure you want to proceed?",
+      "jp": ""
+    }
+  ],
+  "CLUBS": [
+    {
+      "en": "Clubs",
+      "jp": ""
+    }
+  ],
+  "NO_CLUBS": [
+    {
+      "en": "No Clubs Available",
+      "jp": ""
+    }
+  ],
+  "NOT_A_MEMBER_OF_CLUBS": [
+    {
+      "en": "You Are Currently Not A Member Of Any Clubs.",
+      "jp": ""
+    }
+  ],
+  "UPDATES": [
+    {
+      "en": "Updates",
+      "jp": ""
+    }
+  ],
+  "NO_UPDATES": [
+    {
+      "en": "No Updates Yet!",
+      "jp": ""
+    }
+  ],
+  "CHECK_BACK_LATER_UPDATE": [
+    {
+      "en": "Check back later for new updates regarding your Skywallet.",
+      "jp": ""
+    }
+  ],
+  "GO_TO_HOME": [
+    {
+      "en": "Go to Home",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_LOGIN": [
+    {
+      "en": "Continue using Other Options",
+      "jp": ""
+    }
+  ],
+  "TOO_MANY_ATTEMPTS": [
+    {
+      "en": "There have been too many incorrect attempts. Try again later.",
+      "jp": ""
+    }
+  ],
+  "Oops!": [
+    {
+      "en": "Oops!",
+      "jp": ""
+    }
+  ],
+  "EMPTY_NAME_ERROR": [
+    {
+      "en": "Please enter your name.",
+      "jp": ""
+    }
+  ],
+  "CLAIM_COLLECTION_NFT": [
+    {
+      "en": "Claim an NFT",
+      "jp": ""
+    }
+  ],
+  "SOCIAL_LINKS": [
+    {
+      "en": "Social Links",
+      "jp": ""
+    }
+  ],
+  "SYMBOL": [
+    {
+      "en": "Symbol",
+      "jp": ""
+    }
+  ],
+  "CATEGORY": [
+    {
+      "en": "Category",
+      "jp": ""
+    }
+  ],
+  "TAGS": [
+    {
+      "en": "Tags",
+      "jp": ""
+    }
+  ],
+  "ADDRESS": [
+    {
+      "en": "Address",
+      "jp": ""
+    }
+  ],
+  "REGION": [
+    {
+      "en": "Region",
+      "jp": ""
+    }
+  ],
+  "ENTER_VALID_NAME": [
+    {
+      "en": "Enter valid name",
+      "jp": ""
+    }
+  ],
+  "ENTER_VALID_PHONE": [
+    {
+      "en": "Enter valid phone number",
+      "jp": ""
+    }
+  ],
+  "ENTER_VALID_ADDRESS": [
+    {
+      "en": "Enter valid address",
+      "jp": ""
+    }
+  ],
+  "ENTER_VALID_COUNTRY": [
+    {
+      "en": "Enter valid country name",
+      "jp": ""
+    }
+  ],
+  "POSTAL_CODE": [
+    {
+      "en": "Postal Code / Zip Code",
+      "jp": ""
+    }
+  ]
+}
