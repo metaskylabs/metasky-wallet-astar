@@ -237,7 +237,7 @@ function NftDetails() {
   }, [nftDetails]);
 
   const getCTAComponent = () => {
-    return isLoading || isFetchingCTA ? (
+    return isLoading || false ? (
       <div css={[mixins.flexAlignJustifiedCenter, utils.padding(16)]}>
         <MLottie addStyles={utils.width(40)} />
       </div>
@@ -357,6 +357,7 @@ function NftDetails() {
           }}
         />
       </div>
+      // `Buugf ${isLoading}`
     ) : (
       <></>
     );
@@ -428,6 +429,7 @@ function NftDetails() {
                   <ShimmerCard height={30} borderRadius={10} isEffect={true} />
                 ) : (
                   nftDetails?.name
+                  // 'asdfasdf'
                 )}
               </span>
               {tokenInformation.length > 0 && (

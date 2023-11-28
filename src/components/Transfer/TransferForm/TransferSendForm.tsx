@@ -115,9 +115,7 @@ export default function TransferSendForm(props: {
             <span css={[disclaimerTextStyles.disclaimerText]}>
               {`This token is on `}
               <span css={[disclaimerTextStyles.disclaimerNetwork]}>
-                {/* {props?.selectedNft?.network_name}
-                 */}
-                 XRP
+                {props?.selectedNft?.network_name}
               </span>
               {` network. Please make sure you are receiving or sending on an address on
             the same network as the token, otherwise the token may get lost. `}
