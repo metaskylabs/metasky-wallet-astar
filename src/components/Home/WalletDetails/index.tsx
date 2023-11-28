@@ -126,6 +126,13 @@ const WalletDetails: FC<WalletDetailsProps> = ({
     if (walletAddress?.ethAddress) {
       const polygonDetails = getConfigDetails(walletConfigEntities.POLYGON);
       const ethDetails = getConfigDetails(walletConfigEntities.ETHEREUM);
+      const astarDetails = getConfigDetails(walletConfigEntities.ASTAR);
+      if (astarDetails) {
+        chains.push({
+          ...astarDetails,
+          address: walletAddress?.ethAddress,
+        });
+      }
       if (polygonDetails) {
         chains.push({
           ...polygonDetails,

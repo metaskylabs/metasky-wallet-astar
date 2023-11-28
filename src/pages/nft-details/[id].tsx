@@ -331,7 +331,7 @@ function NftDetails() {
   };
 
   useEffect(() => {
-    fetchOfferList();
+    // fetchOfferList();
 
     if (nftDetails) {
       const listDetails: ShadowInsideCardProps['listData'] = [];
@@ -449,7 +449,7 @@ function NftDetails() {
   }, [nftDetails?.ctasToExplore, nftDetails?.status]);
 
   const getCTAComponent = () => {
-    return isLoading || isFetchingCTA ? (
+    return isLoading || false ? (
       <div css={[mixins.flexAlignJustifiedCenter, utils.padding(16)]}>
         <MLottie addStyles={utils.width(40)} />
       </div>

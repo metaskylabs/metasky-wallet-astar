@@ -8,6 +8,7 @@ export enum walletConfigEntities {
   ETHEREUM = `ethereum`,
   COINBASE = `coinbase`,
   RAINBOW = `rainbow`,
+  ASTAR =`astar`
 }
 
 export const walletConfigs: {
@@ -34,6 +35,11 @@ export const walletConfigs: {
     name: `Ethereum`,
     icon: AssetsImg.ic_ethereum.src,
     chain: 1,
+  },
+  astar: {
+    name: `Astar`,
+    icon: AssetsImg.ic_astar.src,
+    chain: 592,
   },
   // rainbow: {
   //   name: `Rainbow`,

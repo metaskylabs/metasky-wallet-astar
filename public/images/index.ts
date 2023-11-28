@@ -111,6 +111,7 @@ import ic_announcement from './icons/announcement.svg';
 import ic_greyArrowDown from './icons/greyArrowDown.svg';
 import ic_greyArrowUp from './icons/greyArrowUp.svg';
 import ic_polygon from './icons/polygon.svg';
+import ic_astar from './icons/astar_logo.svg';
 import ic_fantom from './icons/fantom.svg';
 import ic_avalanche from './icons/avalanche.svg';
 import ic_ethereum from './icons/ethereum.svg';
@@ -302,6 +303,7 @@ const AssetsImg: any = {
   yen_svg,
   dollar_svg,
   ic_polygon,
+  ic_astar,
   ic_arrowDownDark,
   ic_timelessInfo,
   ic_rightArrowWhite,
