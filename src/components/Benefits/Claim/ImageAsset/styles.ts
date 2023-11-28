@@ -4,6 +4,9 @@ import { colors, typography, utils } from '@styles/shared';
 export const container = css({
   boxShadow: colors.Shadow_Card_Outer_Smooth,
   borderRadius: 4,
+  height: `100%`,
+  display: `grid`,
+  gridTemplateRows: `min-content 1fr`,
 });
 
 export const imgContainer = css({
@@ -21,5 +24,6 @@ export const img = css({
 export const name = css({
   ...typography.T_16_Semibold,
   textAlign: `center`,
-  padding: `${utils.remConverter(16)} 0 ${utils.remConverter(12)}`,
+  padding: `${utils.remConverter(14)} 0`,
+  overflow: `hidden`,
 });

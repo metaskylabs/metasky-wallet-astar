@@ -3,11 +3,20 @@ import Cookies from 'universal-cookie';
 const COOKIE_PATH = `/`;
 const hostValues =
   typeof window === `undefined` ? null : window.location.hostname.split(`.`);
+const environment: string | undefined | null =
+  hostValues === null
+    ? null
+    : hostValues[0] === `localhost`
+    ? `stage`
+    : hostValues[0].split(`-`)[1] ?? `prod`;
 const COOKIE_DOMAIN =
-  hostValues === null ? null : hostValues.slice(-5).join(`.`);
-const ACCESS_COOKIE_NAME = `accessTokenStage`;
-const REFRESH_COOKIE_NAME = `refreshTokenStage`;
-const COOKIE_OWNER = `cookieOwnerStage`;
+  hostValues === null ? null : hostValues.slice(-2).join(`.`);
+const ACCESS_COOKIE_NAME =
+  environment === `stage` ? `accessTokenStage` : `accessToken`;
+const REFRESH_COOKIE_NAME =
+  environment === `stage` ? `refreshTokenStage` : `refreshToken`;
+const COOKIE_OWNER =
+  environment === `stage` ? `cookieOwnerStage` : `cookieOwner`;
 
 const cookies = new Cookies();
 

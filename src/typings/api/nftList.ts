@@ -26,6 +26,8 @@ export interface NftList {
   price: string;
   skywallet_accepted_price: string;
   skywallet_accepted_currency: string;
+  metamask_accepted_price: string;
+  metamask_accepted_currency: string;
   currency: string;
   seller: string;
   total_quantity: number;
@@ -55,6 +57,10 @@ export interface NftList {
   /** Pending NFT Keys */
   status?: 'PENDING';
   order_uuid?: string;
+  offerings?: {
+    offered: boolean;
+    title: string;
+  }[];
   directRedirect?: {
     cta?: string;
   };

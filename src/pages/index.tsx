@@ -56,6 +56,7 @@ const Home: FC = () => {
   const [transferLoading, setTransferLoading] = useState<boolean>(false);
   const [transferOpen, setTransferOpen] = useState(false);
   const [isOpen, setIsopen] = useState(false);
+  const [walletConnectOpen, setWalletConnectOpen] = useState(false);
   const session = useUserSession();
   const [refreshKey, setRefreshKey] = useState<string>(`0`);
   const [coinList, setCoinList] = useState<BalanceTokensResponse[] | undefined>(
@@ -101,6 +102,20 @@ const Home: FC = () => {
   }, [router.isReady]);
 
   useEffect(() => {
+    getCampaignConfiguration({
+      clientId:
+        (router.query.client_id as string) ||
+        getToken(LocalStorageVariables.METACLIENTID) ||
+        `default`,
+    })
+      .then((res) => {
+        if (!res?.data?.login_methods?.includes(LoginMethods.METAMASK))
+          setIsNonCustodialDisabled(true);
+      })
+      .catch(NOOB);
+  }, []);
+
+  useEffect(() => {
     async function fetchWalletBalance() {
       try {
         setCoinLoading(true);
@@ -117,8 +132,26 @@ const Home: FC = () => {
     }
   }, [session.isLoggedIn, session.token]);
 
+  useEffect(() => {
+    getCampaignConfiguration({
+      clientId:
+        (router.query.client_id as string) ||
+        getToken(LocalStorageVariables.METACLIENTID) ||
+        `default`,
+    })
+      .then((res) => {
+        if (!res?.data?.login_methods?.includes(LoginMethods.METAMASK))
+          setIsNonCustodialDisabled(true);
+      })
+      .catch(NOOB);
+  }, []);
+
   const onRefreshFund = async () => {
     setRefreshKey((key) => key + 1);
+  };
+
+  const handleConnectSheet = async () => {
+    setWalletConnectOpen(true);
   };
 
   // useEffect(() => {
@@ -170,6 +203,8 @@ const Home: FC = () => {
             >
               <HeaderTab
                 refreshAssets={onRefreshFund}
+                walletConnectOpen={walletConnectOpen}
+                setWalletConnectOpen={setWalletConnectOpen}
                 setIsopen={() =>
                   setCurrentBottomSheet({
                     isOpen: true,
@@ -198,9 +233,13 @@ const Home: FC = () => {
                     // [MutliWallet] - Todo: Discuss new behaviour with backend team
                     trackClick(click.homepageTransfer);
                     if (!session.isLoggedIn) router.push(Pages.LOGIN);
-                    if (session.wallets?.includes(WalletType.SKYWALLET)) {
-                      // setComingSoon(true);
+                    if (
+                      session.wallets?.includes(WalletType.METAMASK) ||
+                      session.wallets?.includes(WalletType.SKYWALLET)
+                    ) {
                       setTransferOpen(true);
+                    } else if (session.wallets?.includes(WalletType.NEAR)) {
+                      setComingSoon(true);
                     } else {
                       router.push(Pages.LOGIN);
                     }

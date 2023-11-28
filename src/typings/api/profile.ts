@@ -10,7 +10,8 @@ export interface UserProfileResponse {
   address?: string; //only of transaction api
   city?: string;
   allWalletAddresses: {
-    address: string;
+    nearAddress: string;
+    ethAddress: string;
     type: WalletCustodyType;
     wallet_uuid: string;
   }[];
@@ -27,6 +28,7 @@ export interface EditProfileResponse {
   email: string;
   walletUUID: string;
   contactNumber: string;
+  referral_link: string;
 }
 export interface BalanceSummary {
   total_nft_count: number;

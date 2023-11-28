@@ -21,6 +21,7 @@ const colors = {
   Scan_Display_Text_Background: `#f7eeee82`,
   Ribbon_Blue: `#1455F0`,
   Light_Blue: `#DAEDFF`,
+  MetaMask_Orange: `#F5C6A3`,
   Wallet_Stack_White_Border: `1px rgba(255, 255, 255, 0)`,
 
   modal_Body_Boxshadow: `0px 4px 30px #BFBFBF`,

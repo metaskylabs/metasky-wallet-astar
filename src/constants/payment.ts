@@ -1,5 +1,13 @@
+export enum PaymentMethod {
+  METAMASK = `METAMASK`,
+  CARD = `CARD`,
+  UPI = `UPI`,
+  SKYWALLET = `SkyWallet`,
+}
+
 export enum PaymentOption {
   WALLET = `WALLET_BALANCE`,
+  METAMASK = `METAMASK`,
   FIAT = `FIAT`,
 }
 

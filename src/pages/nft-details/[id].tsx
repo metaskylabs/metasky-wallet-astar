@@ -38,7 +38,9 @@ import { Pages } from '@utils/navigation';
 import { motion } from 'framer-motion';
 import ShimmerCard from '@components/Shimmer/ShimmerCard';
 import { getToken, limitDecimal } from '@utils/helper';
-import { BenefitType } from '@constants/wallet';
+import { BenefitType, NFTPlatform, WalletType } from '@constants/wallet';
+import { hatchAndaNFT } from '@actions/payment';
+import AnimationEggHatch from '@components/AnimationEggHatch';
 import { CLICK, click, EVENT_PAGE, screen } from '@constants/analytics';
 import NFTListingFlow, { FlowName } from '@components/NFTListingFlow';
 import NFTTransferFlow from '@components/NFTTransferFlow';
@@ -46,9 +48,18 @@ import { css } from '@emotion/react';
 import Link from 'next/link';
 import generateToast from '@components/Shared/GenerateToast';
 import { ToastType } from '@components/Shared/Toast';
+import OfferLists from '@components/MakeOffer/OfferList';
 import { useSelector } from 'react-redux';
 import { StatusState, StoreState } from '@reducers';
+import { State as MakeOfferState } from '@reducers/makeOffer';
+import {
+  getNFTOfferList,
+  makeOffer,
+  resetNFTOfferList,
+} from '@actions/makeOffer';
 import { onlyNumber } from '@utils/regexes';
+import CreateOffer from '@components/MakeOffer/CreateOffer';
+import { NFTOfferList } from '@typings/api/makeOffer';
 import { FetchingState } from '@constants/redux';
 import BenefitCardEnhanced from '@components/Benefits/BenefitCardEnhanced';
 import { LocalStorageVariables } from '@constants/authentication';
@@ -57,17 +68,24 @@ import useLinkHandler from '@utils/hooks/useLinkHandler';
 import BlueCampaignBanner from '@components/Shared/Bannner/BlueCampaignBanner';
 import { Client } from '@constants/clients';
 import { useTranslate } from '@utils/useTranslate';
+import WalletConnectInstruction from '@components/WalletConnect/WalletConnectInstruction';
+import WalletConnectScanner from '@components/WalletConnect/WalletConnectScanner';
+import WalletConnectSellInstruction from '@components/WalletConnect/WalletConnectSellInstruction';
+import { legacySignClient } from '@components/WalletConnect/utils/LegacyWalletConnectUtil';
 import { useSnapshot } from 'valtio';
+import ModalStore from '@components/WalletConnect/store/ModalStore';
 import BottomNav from '@components/Shared/BottomNav';
 import { NavTabs } from '@components/Shared/BottomNav/constants';
 import { ShadowInsideCardProps } from '@components/Shared/Card/ShadowInside';
 import { BottomPopupSize } from '@components/Shared/BottomPopup';
 import ShimmerLargeImage from '@components/Shimmer/ShimmerLargeImage';
+import ViewOffer from '@components/MakeOffer/ViewOffer';
 import NOOB from '@constants/noob';
 import { useAnalytics } from '@utils/useAnalytics';
 import AccountCountTable from '@components/AccountCountTable';
 import { useUserSession } from '@utils/hooks/useUserSession';
 import { WalletCustodyType } from '@typings/api/auth';
+import SukuWhatsappSheet from '@components/Campaign/SukuWhatsappSheet';
 import Authentication from '@components/Authentication';
 
 enum FLOW_NAME {
@@ -79,16 +97,56 @@ enum FLOW_NAME {
 
 function NftDetails() {
   const router = useRouter();
+  const exclusiveBenefitsRef = useRef<HTMLDivElement>(null);
   const [nftDetails, setNftDetails] = useState<TokensListResponse>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [activeOffer, setActiveOffer] = useState<{
+    status: boolean;
+    data: NFTOfferList[];
+  }>({ status: false, data: [] });
   const session = useUserSession();
   const amplitude = useAnalytics();
   const { translate } = useTranslate();
+  const [propertiesOpen, setPropertiesOpen] = useState(true);
+  const [showEggRevealAnimation, setShowEggRevealAnimation] =
+    useState<boolean>(false);
+  const [viewOfferHandler, setViewOfferHandler] = useState<{
+    isOpen: boolean;
+    offerId?: string;
+  }>({ isOpen: false });
   const [isFetchingCTA, setFetchingCTA] = useState<boolean>(true);
+  const { nftOffer } = useSelector<StoreState, MakeOfferState>(
+    (state) => state.makeOffer,
+  );
+  const { nftOfferListStatus } = useSelector<StoreState, StatusState>(
+    (state) => state.status,
+  );
+  const [offerAmount, setOfferAmount] = useState(`0`);
+  const [isFailure, setIsFailure] = useState<boolean>(false);
+  const [createOffer, setCreateOffer] = useState<boolean>(false);
+  const { linkHandler } = useLinkHandler();
+  const [isKiteLoaderOpen, setIsKiteLoaderOpen] = useState<boolean>(false);
+  const [showWalletConnectInstruction, setShowWalletConnectInstruction] =
+    useState(false);
+  const [showConnectWalletQR, setShowConnectWalletQR] = useState(false);
+  const [showSellInstruction, setShowSellInstruction] = useState(false);
   const [tokenInformation, setTokenInformation] = useState<
     ShadowInsideCardProps['listData']
   >([]);
+  const {
+    open: isConnectWalletFlowScreenOpened,
+    view: connectWalletFlowScreen,
+  } = useSnapshot(ModalStore.state);
 
+  const [showHatchAndaCTA, setShowHatchAndCTA] = useState<{
+    revealButtonStatus: string;
+    revealButtonText: string;
+    showRevealButton: boolean;
+  }>({
+    revealButtonStatus: ``,
+    revealButtonText: ``,
+    showRevealButton: false,
+  });
   const [benefitError, setBenefitError] = useState<{
     open: boolean;
     title: string;
@@ -97,6 +155,8 @@ function NftDetails() {
   }>({ open: false, title: ``, description: ``, img: `` });
 
   const [flowName, setFlowName] = useState<FLOW_NAME>(FLOW_NAME.DEFAULT);
+  const [showSukuCampaignWhatsappSheet, setShowSukuCampaignWhatsappSheet] =
+    useState(false);
 
   const { query } = router;
   const { trackPage, trackClick } = useAnalytics();
@@ -106,6 +166,16 @@ function NftDetails() {
       setIsLoading(true);
       const response = await getTokenDetails(url);
       setNftDetails(response.data);
+      if (
+        response.data.revealStatus &&
+        response.data.revealStatus.showRevealButton !== undefined
+      ) {
+        setShowHatchAndCTA({
+          showRevealButton: response.data.revealStatus.showRevealButton,
+          revealButtonStatus: response.data.revealStatus.revealButtonStatus,
+          revealButtonText: response.data.revealStatus.revealButtonText,
+        });
+      }
       setIsLoading(false);
     } catch (error) {
       handleErrorMessage(error);
@@ -134,6 +204,12 @@ function NftDetails() {
     }
   }, [nftDetails]);
 
+  useEffect(() => {
+    if (isConnectWalletFlowScreenOpened && showSellInstruction) {
+      setShowSellInstruction(false);
+    }
+  }, [isConnectWalletFlowScreenOpened]);
+
   const renderProperties = (benefitData: any) => {
     const options: any = [];
 
@@ -153,17 +229,110 @@ function NftDetails() {
     return options;
   };
 
+  const onPropertiesToggle = () => {
+    setPropertiesOpen(!propertiesOpen);
+  };
+
+  const onExclusiveBenefitsScroll = (
+    benefits: WalletBenefitsResponse[] | undefined,
+  ) => {
+    if (exclusiveBenefitsRef !== null && benefits && benefits.length > 0) {
+      exclusiveBenefitsRef?.current?.scrollIntoView({ behavior: `smooth` });
+    }
+  };
+
   /**
    *
    * REVEAL NFT API
    *
    */
 
+  const hatchAnda = async () => {
+    if (!nftDetails) return;
+    try {
+      const response = await hatchAndaNFT({
+        nft_uuid: nftDetails.id,
+      });
+      if (response.data.success) {
+        // Show animation or toast and refresh
+        setShowEggRevealAnimation(true);
+        getNftDetails(`wallet/tokens/${TokensType.NFTS}/${nftDetails.id}`);
+        setTimeout(() => {
+          setShowEggRevealAnimation(false);
+        }, 6000);
+      }
+    } catch (error) {
+      handleErrorMessage(error);
+      setShowEggRevealAnimation(false);
+    }
+  };
+
   const goToCollection = (collection_id: string) => {
     router.push(`${Pages.COLLECTION_DETAILS}/${collection_id}`);
   };
 
+  const fetchOfferList = async () => {
+    try {
+      if (nftDetails) {
+        const payload = {
+          nftId: nftDetails.id,
+          sort: nftOffer.sort,
+        };
+        await getNFTOfferList(payload);
+      }
+    } catch (error) {
+      handleErrorMessage(error);
+    }
+  };
+
+  const handleInputChange = (inputValue: string) => {
+    if (inputValue === `` || inputValue === `-`) setOfferAmount(``);
+    if (
+      onlyNumber.test(inputValue.toString()) &&
+      parseInt(inputValue).toString().length <= 10
+    ) {
+      setOfferAmount(limitDecimal(parseFloat(inputValue).toString(), 2));
+    }
+  };
+
+  const onCreateOffer = async () => {
+    try {
+      if (Number(offerAmount) < 100) {
+        generateToast({
+          type: ToastType.ERROR,
+          content: translate(`MINIMUM_OFFER_AMOUNT`),
+        });
+        setIsFailure(true);
+      } else {
+        const payload = {
+          nft_uuid: nftDetails && nftDetails.id,
+          currency: `INR`,
+          amount: Number(offerAmount),
+        };
+        const response = await makeOffer(payload);
+        if (response) {
+          setIsFailure(true);
+          setCreateOffer(false);
+          fetchOfferList();
+          setViewOfferHandler({
+            isOpen: true,
+            offerId: response.data.auction_uuid,
+          });
+          generateToast({
+            type: ToastType.SUCCESS,
+            content: translate(`OFFER_MADE`),
+          });
+        }
+      }
+    } catch (error) {
+      handleErrorMessage(error);
+      setIsFailure(true);
+    }
+  };
+
   useEffect(() => {
+    fetchOfferList();
+
     if (nftDetails) {
       const listDetails: ShadowInsideCardProps['listData'] = [];
       if (nftDetails.totalQuantity && nftDetails.totalQuantity > 1) {
@@ -191,7 +360,40 @@ function NftDetails() {
       }
       setTokenInformation(listDetails);
     }
+    return () => {
+      resetNFTOfferList();
+    };
   }, [nftDetails]);
+
+  useEffect(() => {
+    const activeOffer = nftOffer.data.filter(
+      (offer) => offer.status === Constants.OfferFilter.ACTIVE,
+    );
+    if (activeOffer.length && !nftDetails?.isOwner) {
+      setActiveOffer({ status: true, data: activeOffer });
+    }
+    if (
+      nftOfferListStatus !== FetchingState.PENDING &&
+      nftOffer.data.length >= 0 &&
+      !isLoading
+    ) {
+      setFetchingCTA(false);
+    }
+  }, [nftDetails, nftOffer.data, query.id, nftOfferListStatus]);
+
+  const handleMakeAnOffer = () => {
+    if (nftDetails?.native_currency?.symbol === Constants.TokenCurrency.NEAR) {
+      setCreateOffer(true);
+    } else {
+      //TODO: need to change to language file
+      generateToast({
+        type: ToastType.INFO,
+        content: `${translate(`MAKE_OFFER_TOAST`)} ${
+          nftDetails?.blockchain?.name
+        } ${translate(`NFTS`)}.`,
+      });
+    }
+  };
 
   /*
     we try to take the link of the first audio asset from the first benefit of this NFT
@@ -236,8 +438,18 @@ function NftDetails() {
     return () => clearInterval(timeIntervalId);
   }, [nftDetails]);
 
+  useEffect(() => {
+    if (
+      nftDetails?.ctasToExplore?.[0]?.bottomSheetPopUp &&
+      nftDetails?.status !== `PENDING` &&
+      !localStorage.getItem(LocalStorageVariables.SUKU_WHATSAPP)
+    ) {
+      setShowSukuCampaignWhatsappSheet(true);
+    }
+  }, [nftDetails?.ctasToExplore, nftDetails?.status]);
+
   const getCTAComponent = () => {
-    return isLoading || false ? (
+    return isLoading || isFetchingCTA ? (
       <div css={[mixins.flexAlignJustifiedCenter, utils.padding(16)]}>
         <MLottie addStyles={utils.width(40)} />
       </div>
@@ -276,24 +488,39 @@ function NftDetails() {
       >
         {nftDetails?.sale_details?.status === `SUCCESS` ? (
           <Fragment>
-            <span>{translate(`NFT_LISTED_FOR_SALE`)}</span>
-            {nftDetails?.sale_details?.listing_uuid && (
-              <Link
-                href={`/purchase-nft/${nftDetails?.sale_details?.listing_uuid}`}
-              >
-                <span
-                  css={styles.viewNftLinkOnSale}
-                  onClick={() =>
-                    trackClick(CLICK.VIEW_IN_NFT_DETAIL, {
-                      nft_uuid: nftDetails.id,
-                      nft_name: nftDetails.name,
-                    })
-                  }
+            <span>
+              {translate(
+                nftDetails?.listing_platform ===
+                  NFTPlatform.WALLETCONNECT_OPENSEA
+                  ? `WE_FOUND_LISTING_ON_OPENSEA`
+                  : `NFT_LISTED_FOR_SALE`,
+              )}
+            </span>
+            {nftDetails?.sale_details?.listing_uuid &&
+              (nftDetails?.listing_platform ===
+                NFTPlatform.WALLETCONNECT_OPENSEA && nftDetails?.listing_url ? (
+                <Link href={nftDetails?.listing_url}>
+                  <span css={styles.viewNftLinkOnSale}>
+                    {translate(`VIEW`)}
+                  </span>
+                </Link>
+              ) : (
+                <Link
+                  href={`/purchase-nft/${nftDetails?.sale_details?.listing_uuid}`}
                 >
-                  {translate(`VIEW`)}
-                </span>
-              </Link>
-            )}
+                  <span
+                    css={styles.viewNftLinkOnSale}
+                    onClick={() =>
+                      trackClick(CLICK.VIEW_IN_NFT_DETAIL, {
+                        nft_uuid: nftDetails.id,
+                        nft_name: nftDetails.name,
+                      })
+                    }
+                  >
+                    {translate(`VIEW`)}
+                  </span>
+                </Link>
+              ))}
           </Fragment>
         ) : (
           <span>
@@ -328,6 +555,21 @@ function NftDetails() {
               nft_uuid: nftDetails.id,
               nft_name: nftDetails.name,
             });
+            if (
+              nftDetails.listing_platform === NFTPlatform.WALLETCONNECT_OPENSEA
+            ) {
+              if (!session.wallets?.includes(WalletType.SKYWALLET)) {
+                generateToast({
+                  type: ToastType.INFO,
+                  content: translate(`USE_OPENSEA_TO_SELL`),
+                });
+              } else {
+                if (legacySignClient?.session.connected) {
+                  setShowSellInstruction(true);
+                } else setShowWalletConnectInstruction(true);
+              }
+              return;
+            }
             setFlowName(FLOW_NAME.SELL);
           }}
           onSend={() => {
@@ -341,8 +583,16 @@ function NftDetails() {
             const custodialWallet = nftDetails?.wallet_details?.find(
               (wallet) => wallet.type === WalletCustodyType.CUSTODIAL,
             );
-
-            if ((custodialWallet?.quantity || 0) < 1) {
+            const nonCustodialWalletWithBalance =
+              nftDetails?.wallet_details?.find(
+                (wallet) =>
+                  wallet.type === WalletCustodyType.NONCUSTODIAL &&
+                  wallet?.quantity > 0,
+              );
+            if (
+              (custodialWallet?.quantity || 0) < 1 &&
+              nonCustodialWalletWithBalance
+            ) {
               generateToast({
                 type: ToastType.INFO,
                 content: `You do not have this NFT in SkyWallet account`,
@@ -357,7 +607,47 @@ function NftDetails() {
           }}
         />
       </div>
-      // `Buugf ${isLoading}`
+    ) : activeOffer.status ? (
+      <motion.div
+        css={styles.ctaContainer}
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.6,
+          default: { duration: 0.5 },
+          ease: `easeIn`,
+        }}
+      >
+        <PrimaryButton
+          addStyles={styles.viewOfferButton}
+          onClick={() =>
+            setViewOfferHandler({
+              isOpen: true,
+              offerId: activeOffer.data[0].auction_uuid,
+            })
+          }
+        >
+          {translate(`VIEW_OFFER`)}
+        </PrimaryButton>
+      </motion.div>
+    ) : !nftDetails?.isDemoNFT ? (
+      <motion.div
+        css={styles.ctaContainer}
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.6,
+          default: { duration: 0.5 },
+          ease: `easeIn`,
+        }}
+      >
+        <PrimaryButton
+          addStyles={styles.makeOfferButton}
+          onClick={handleMakeAnOffer}
+        >
+          {translate(`MAKE_OFFER`)}
+        </PrimaryButton>
+      </motion.div>
     ) : (
       <></>
     );
@@ -429,7 +719,6 @@ function NftDetails() {
                   <ShimmerCard height={30} borderRadius={10} isEffect={true} />
                 ) : (
                   nftDetails?.name
-                  // 'asdfasdf'
                 )}
               </span>
               {tokenInformation.length > 0 && (
@@ -454,7 +743,7 @@ function NftDetails() {
                   />
                 </div>
               ) : null}
-              {(nftDetails?.wallet_details?.filter(
+              {/* {(nftDetails?.wallet_details?.filter(
                 (wallet) => wallet.quantity > 0,
               )?.length || 0) > 0 && (
                 <section css={styles.offerContainer}>
@@ -466,6 +755,17 @@ function NftDetails() {
                           account: wallet.ethAddress,
                           count: wallet.quantity,
                         })) || []
+                    }
+                  />
+                </section>
+              )} */}
+              {nftOffer.data.length > 0 && (
+                <section css={styles.offerContainer}>
+                  <OfferLists
+                    list={nftOffer.data}
+                    nftUUID={nftDetails ? nftDetails?.id : ``}
+                    setViewOfferHandler={(offerData) =>
+                      setViewOfferHandler(offerData)
                     }
                   />
                 </section>
@@ -508,6 +808,7 @@ function NftDetails() {
               )}
               {!isLoading && nftDetails?.benefits.length != 0 && (
                 <motion.div
+                  ref={exclusiveBenefitsRef}
                   css={styles.cardBenefits}
                   initial={{ opacity: 0, y: 70 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -722,7 +1023,27 @@ function NftDetails() {
                 </div>
               </div> */}
           </div>
-
+          {createOffer && (
+            <BottomPopup size={BottomPopupSize.BIG} isOpen={true}>
+              <CreateOffer
+                minAmount={100}
+                onClose={() => setCreateOffer(false)}
+                offerAmount={offerAmount}
+                setOfferAmount={(e: any) => handleInputChange(e.target.value)}
+                onCreate={onCreateOffer}
+                isFailed={isFailure}
+                setIsFailure={setIsFailure}
+                conversionRate={nftDetails?.native_currency?.conversion_factor}
+                conversionSymbol={nftDetails?.native_currency?.symbol}
+              />
+            </BottomPopup>
+          )}
+          <BottomSheet
+            isOpen={showEggRevealAnimation}
+            addStyles={styles.bottomSheetStyle}
+          >
+            <AnimationEggHatch />
+          </BottomSheet>
           {flowName === FLOW_NAME.SELL && (
             <NFTListingFlow
               onBack={() => {
@@ -759,6 +1080,84 @@ function NftDetails() {
               description={benefitError.description}
             />
           </BottomPopup>
+          <BottomPopup
+            isOpen={showSellInstruction}
+            size={BottomPopupSize.BIG}
+            title={`Wallet Connect`}
+            onClose={() => setShowSellInstruction(false)}
+          >
+            <WalletConnectSellInstruction
+              onContinue={() => setShowSellInstruction(false)}
+            />
+          </BottomPopup>
+          <BottomPopup
+            isOpen={showWalletConnectInstruction}
+            size={BottomPopupSize.BIG}
+          >
+            <WalletConnectInstruction
+              onContinue={() => {
+                setShowWalletConnectInstruction(false);
+                setShowConnectWalletQR(true);
+              }}
+              onClose={() => setShowWalletConnectInstruction(false)}
+            />
+          </BottomPopup>
+          <BottomPopup size={BottomPopupSize.BIG} isOpen={showConnectWalletQR}>
+            <WalletConnectScanner
+              onScanComplete={() => setShowConnectWalletQR(false)}
+              onClose={() => setShowConnectWalletQR(false)}
+            />
+          </BottomPopup>
+          {viewOfferHandler.isOpen && viewOfferHandler.offerId && (
+            <BottomPopup
+              size={BottomPopupSize.BIG}
+              isOpen={viewOfferHandler.isOpen}
+            >
+              <ViewOffer
+                onClose={() => setViewOfferHandler({ isOpen: false })}
+                offerId={viewOfferHandler.offerId}
+                setPaymentStatus={NOOB}
+                fetchOfferList={fetchOfferList}
+              />
+            </BottomPopup>
+          )}
+          {showSukuCampaignWhatsappSheet && (
+            <BottomPopup
+              size={BottomPopupSize.MEDIUM}
+              isOpen={showSukuCampaignWhatsappSheet}
+              onClose={() => {
+                setShowSukuCampaignWhatsappSheet(false);
+                localStorage.setItem(
+                  LocalStorageVariables.SUKU_WHATSAPP,
+                  `true`,
+                );
+              }}
+            >
+              <SukuWhatsappSheet
+                onClick={() => {
+                  linkHandler(
+                    ``,
+                    nftDetails?.ctasToExplore?.[0]?.ctaLink || ``,
+                  );
+                  setShowSukuCampaignWhatsappSheet(false);
+                  localStorage.setItem(
+                    LocalStorageVariables.SUKU_WHATSAPP,
+                    `true`,
+                  );
+                }}
+                buttonText={nftDetails?.ctasToExplore?.[0]?.ctaButtonText || ``}
+                imageUrl={
+                  nftDetails?.ctasToExplore?.[0]?.bottomSheetImg ||
+                  `https://www.viralbake.com/wp-content/uploads/2022/10/unnamed-1.jpg`
+                }
+              />
+            </BottomPopup>
+          )}
+          <FullScreenKiteLoader isOpen={isKiteLoaderOpen}>
+            <div css={styles.loaderContentInfo}>
+              Page is Loading. Please wait...
+            </div>
+          </FullScreenKiteLoader>
         </Fragment>
       </BottomNav>
     );

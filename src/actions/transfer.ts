@@ -2,13 +2,17 @@ import { MetaskyAPIWrap } from '@typings/api/wrapper';
 import { ApiV1 } from '@actions/Axios';
 import {
   BuyCoinPayload,
-  BuyCoinResponse,
+  BuyNearPayload,
+  BuyNearResponse,
   MakeTransferPayload,
   MakeTransferRespone,
+  PreviewBuyCoinPayload,
+  PreviewBuyCoinPayloadResponse,
   PreviewTransferPayload,
   PreviewTransferResponse,
   WalletBalanceResponse,
 } from '@typings/api/transfer';
+import { BuyOnMetaResponse } from '@typings/api/payment';
 
 export const makeTransfer = async (
   payload: MakeTransferPayload,
@@ -33,9 +37,23 @@ export const getWalletBalance = async (): Promise<
   return response.data;
 };
 
+export const buyNear = async (
+  payload: BuyNearPayload,
+): Promise<MetaskyAPIWrap<BuyNearResponse>> => {
+  const response = await ApiV1.post(`/marketplace/buy-near`, payload);
+  return response.data;
+};
+
 export const buyCoin = async (
   payload: BuyCoinPayload,
-): Promise<MetaskyAPIWrap<BuyCoinResponse>> => {
+): Promise<MetaskyAPIWrap<BuyNearResponse | BuyOnMetaResponse>> => {
   const response = await ApiV1.post(`/marketplace/buy-coin`, payload);
+  return response.data;
+};
+
+export const previewBuyCoin = async (
+  payload: PreviewBuyCoinPayload,
+): Promise<MetaskyAPIWrap<PreviewBuyCoinPayloadResponse>> => {
+  const response = await ApiV1.post(`/marketplace/preview-buy-coin`, payload);
   return response.data;
 };

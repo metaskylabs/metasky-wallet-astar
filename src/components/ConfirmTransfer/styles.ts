@@ -62,7 +62,7 @@ export const inrText = css({
   textAlign: `right`,
 });
 
-export const chainText = css({
+export const nearText = css({
   ...typography.T_12_Regular,
   color: colors.Secondary_Black_Text,
   textAlign: `right`,
@@ -201,6 +201,8 @@ export const balanceHeader = css({
 export const balanceRow = css({
   gap: `1.5px`,
 });
+
+export const nearBalance = css({});
 
 export const balanceCol = css({
   background: Colors.Secondary_White,

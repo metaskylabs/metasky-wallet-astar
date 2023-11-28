@@ -1,5 +1,28 @@
+import { Dispatch } from '@utils/redux/dispatch';
+import createActions from '@utils/redux/createActions';
 import { ApiV1 } from './Axios';
+import { ActionType } from '@reducers/collections';
 import { CollectionSummary } from '@typings/api/collection';
+
+export const getCollectionList = async (filter?: string) => {
+  return createActions(
+    `collectionListStatus`,
+    async (dispatch: Dispatch) => {
+      let url = `/wallet/new/collections`;
+      if (filter) {
+        url += `?filters=${filter}`;
+      }
+      const response = await ApiV1.get(url);
+      dispatch({
+        type: ActionType.SET_COLLECTION_LIST,
+        payload: response.data.data.collections,
+      });
+    },
+    (_err) => {
+      throw _err;
+    },
+  );
+};
 
 export const fetchCollectionDetails = async (
   tokenUUID: string,
@@ -72,4 +95,14 @@ export const claimContractNFT = async (
   } catch (error: any) {
     return { nftUUID: ``, error: `Sorry! ${error.response.data.errorMessage}` };
   }
+};
+
+export const fetchCollectionTemplateDetails = async (templateID: string) => {
+  const response: any = await ApiV1.get(
+    `/club/contract/template_grouped_listings/${templateID}`,
+  );
+
+  const { data }: { data: any } = response.data;
+
+  return data;
 };

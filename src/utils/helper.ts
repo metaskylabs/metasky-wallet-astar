@@ -2,12 +2,14 @@ import { getUserProfile } from '@actions/profile';
 import { handleErrorMessage } from '@utils/handleResponseToast';
 import React, { useEffect, useRef } from 'react';
 import { LocalStorageVariables } from '@constants/authentication';
+import { IframeHost } from '@utils/constants';
 import generateToast from '@components/Shared/GenerateToast';
 import { ToastType } from '@components/Shared/Toast';
 import { rarityRange } from '@components/Shared/Card/Nfts';
 import { colors } from '@styles/shared';
 import moment from 'moment';
 import NOOB from '@constants/noob';
+import { Blockchain, ExternalWallet } from './wallet';
 
 export const storePathValues = () => {
   if (typeof window !== `undefined`) {
@@ -113,12 +115,42 @@ export const deleteToken = (tokenType: LocalStorageVariables): boolean => {
   }
 };
 
+export const addUserSessionWallet = (
+  address: string,
+  chain: Blockchain,
+  wallet?: ExternalWallet,
+) => {
+  if (typeof window === `undefined`) return;
+  let currentWallets = JSON.parse(
+    localStorage.getItem(LocalStorageVariables.WALLETS) || `[]`,
+  );
+  currentWallets = currentWallets.filter(
+    (wallet: any) => wallet.address !== address,
+  );
+  currentWallets.push({ wallet, address, chain });
+  localStorage.setItem(
+    LocalStorageVariables.WALLETS,
+    JSON.stringify(currentWallets),
+  );
+};
+
 export const sendMessageToParent = (message: string, target = `*`) => {
   if (window.parent) {
     window.parent.postMessage(message, target);
   }
   if (window.opener) {
     window.opener.postMessage(message, target);
+  }
+};
+
+export const getParentFromClientId = (client_id?: string) => {
+  switch (client_id) {
+    case `nayaab`:
+      return IframeHost.nayaab;
+    case `earthbuddy`:
+      return IframeHost.earthbuddy;
+    default:
+      return IframeHost.nayaab;
   }
 };
 

@@ -99,34 +99,36 @@ export const NFTFilter = (props: INFTFilter) => {
         </Dropdown.Menu>
       </Dropdown>
       {/* Collection filter */}
-      <Dropdown>
-        <Dropdown.Toggle
-          css={
-            filterByCollection.size > 0
-              ? styledFocusedFilterButton
-              : styledFilterButton
-          }
-          variant="outlined"
-        >
-          Collection
-        </Dropdown.Toggle>
-        <Dropdown.Menu css={styledMenuItem}>
-          {uniqueCollections.map((NFT) => (
-            <Dropdown.Item
-              key={NFT.id}
-              onClick={() => handleCollectionUpdated(NFT.id)}
-            >
-              <Form.Check
-                type={`checkbox`}
-                checked={filterByCollection.has(NFT.id)}
-                readOnly
-                id={NFT.id}
-                label={NFT.name}
-              />
-            </Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
+      {uniqueCollections.length > 0 && (
+        <Dropdown>
+          <Dropdown.Toggle
+            css={
+              filterByCollection.size > 0
+                ? styledFocusedFilterButton
+                : styledFilterButton
+            }
+            variant="outlined"
+          >
+            Collection
+          </Dropdown.Toggle>
+          <Dropdown.Menu css={styledMenuItem}>
+            {uniqueCollections.map((NFT) => (
+              <Dropdown.Item
+                key={NFT.id}
+                onClick={() => handleCollectionUpdated(NFT.id)}
+              >
+                <Form.Check
+                  type={`checkbox`}
+                  checked={filterByCollection.has(NFT.id)}
+                  readOnly
+                  id={NFT.id}
+                  label={NFT.name}
+                />
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
       {/* on sale button */}
       <button
         onClick={handleOnSaleButtonClick}

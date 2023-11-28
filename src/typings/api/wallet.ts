@@ -1,6 +1,6 @@
 import { UserProfileResponse } from './profile';
 import { transactionType } from '@constants/transaction';
-import { TransactionStatus } from '@utils/constants';
+import { TransactionOrderType, TransactionStatus } from '@utils/constants';
 import { MediaType } from '@components/Shared/Card/Media';
 import { LinkPayload } from './shared';
 import { WalletCustodyType } from './auth';
@@ -11,6 +11,9 @@ export interface AccessBenefit {
   type: BenefitTypes;
   ctaTarget?: string;
   seceretText?: string;
+  discord_text?: string;
+  role?: { roleId: string; roleName: string };
+  club_uuid?: string;
   media?: BenefitClaimMedia[];
 }
 
@@ -20,10 +23,18 @@ export interface BenefitClaimMedia {
   mimeType: BenefitClaimMimeType;
 }
 
+export type DiscordBenefitType = {
+  clubID: string;
+  text: string;
+  skyclubLink: string;
+  discordRoleName: string | null;
+  linkToDiscordServer: string | null;
+};
+
 export enum BenefitTypes {
   MEDIA_BENEFIT = `Media`,
   SECRET_TEXT_BENEFIT = `Secret_Text`,
-  DISCORD_ROLE_BENEFIT = `Discrod_Role`,
+  DISCORD_ROLE_BENEFIT = `Discord_Role`,
   CUSTOM_BENEFIT = `Custom`,
   BENEFIT_STREAM = `BENEFIT_STREAM`,
 }
@@ -39,6 +50,16 @@ export enum BenefitClaimMimeType {
   AUDIO_WAV = `audio/wav`,
   ZIP = `application/zip`,
   PDF = `application/pdf`,
+  CSV = `text/csv`,
+}
+
+export interface BenefitNftItem {
+  nft_uuid: string;
+  onchain_token_id: string;
+  image: string;
+  description: string;
+  name: string;
+  media_type: string;
 }
 
 export interface WalletBenefitsResponse {
@@ -57,6 +78,8 @@ export interface WalletBenefitsResponse {
   endTime?: string;
   ctaButton?: string;
   unClickable?: boolean;
+  related_nfts?: BenefitNftItem[];
+  expired?: boolean;
 }
 
 export interface BalanceTokensResponse {
@@ -125,6 +148,7 @@ export interface TokensListResponse {
   listing_url?: string;
   wallet_details?: {
     ethAddress: string;
+    nearAddress: string;
     quantity: number;
     type: WalletCustodyType;
   }[];
@@ -136,7 +160,7 @@ export interface TokensListResponse {
   };
 }
 
-interface TokenMainInfo {
+export interface TokenMainInfo {
   id: string;
   image: string;
   quantity: number;
@@ -191,6 +215,8 @@ export interface TransactionDetails {
   fiat_payment_status: OrderStatus;
   //TODO : ashish
   native_currency: { symbol: string; conversion_factor: number };
+  order_type?: TransactionOrderType;
+  auction_uuid?: string;
   fees: {
     name: string;
     display: number;
@@ -303,6 +329,8 @@ export interface GetListingsRespone {
   description: string;
   name: string;
   listing_uuid: string;
+  enableQuantitySelector?: boolean; // indicates whether to show the quantity selector
+  maxLimitOnQuantitySelector?: number; // indicates max limit on qty selector
   maxPurchaseQuantity?: number;
   requires_physical_address?: boolean;
   revealStatus: {
@@ -339,6 +367,8 @@ export interface GetListingsRespone {
     skywallet_accepted_currency: string;
     price: string;
     currency: string;
+    metamask_accepted_price: string;
+    metamask_accepted_currency: string;
     seller: string;
     total_quantity: string;
     available_quantity: string | number;
@@ -353,6 +383,7 @@ export interface GetListingsRespone {
     symbol: string;
   };
   is_listing_locked?: boolean;
+  allowOffer?: boolean;
   recommendedAddOnListings?: SuggestedListing[];
   event_details?: { [key: string]: string };
   userInputs?: TicketUserInput[];
@@ -392,20 +423,140 @@ export interface GetLoginMethodsPayload {
   clientId: string;
 }
 
+export interface GetCampaignLanderResponse {
+  optional_fields?: any;
+  show_screen?: boolean;
+  required_fields?: any;
+  campaign_id: string;
+  banner_url: string;
+  name: string;
+  description: string;
+  cta?: {
+    ctaText?: string;
+    ctaButton?: string;
+    ctaLink?: string;
+  };
+  bannerTitle?: string;
+  offeringTitle?: string;
+  offerings?: {
+    name: string;
+    image?: string;
+    description?: string;
+    url?: string;
+  }[];
+  stepsTitle?: string;
+  steps: { name: string; description?: string; url?: string }[];
+  featuring?: {
+    type?: string;
+    title?: string;
+    cta?: {
+      type?: string;
+      ctaLink?: string;
+      ctaButton?: string;
+      ctaTarget?: string;
+    };
+    data?: {
+      benefitData?: {
+        id?: string;
+        image?: string;
+        name?: string;
+        description?: string;
+        receivedDate?: string;
+        startTime?: null;
+        endTime?: string;
+        ctaButton?: string;
+      };
+      topBid?: {
+        currency?: string;
+        amount?: string;
+      };
+    };
+  }[];
+  nfts?: {
+    id: string;
+    nft_uuid: string;
+    onchain_token_id: string;
+    supply: number;
+    meta_data: {
+      name: string;
+      image: string;
+      creator: string;
+      media_type: string;
+      description: string;
+      totalQuantity: number;
+    };
+    quantity: number;
+  }[];
+  announcement?: {
+    cta?: {
+      ctaLink: string;
+      ctaText?: string;
+    };
+    name?: string;
+    heading?: string;
+  };
+}
+
 export interface GetCampignConfigurationResponse {
   id: number;
   name: string;
   campaign_id: string;
   campaign_banner_url: string;
+  default_chain: Chains;
   login_methods: LoginMethods[];
   additional_data: any;
   created_at: string;
   updated_at: string;
 }
 
+export interface BurnConfigRequestResponse {
+  title: string;
+  description: string;
+  token_uuid: string;
+  chain: string;
+  chain_id: string;
+  image: string;
+  name: string;
+  user_asset_details: {
+    user_token_balance: number;
+    user_token_burnt_count: number;
+    wallet_uuid: string;
+  }[];
+  pebble_burn_factor: number;
+  onchain_address?: string;
+  media_type: string;
+  type: string;
+  cta_name: string;
+  symbol: string;
+  mint_listing_uuid: string;
+}
+
+export interface MintSignatureResponse {
+  signature: string;
+  payload: {
+    message: any;
+  };
+}
+
+export interface MintEligibilityResponse {
+  [wallet_uuid: string]: {
+    assetQBurnt: number;
+    assetQMinted: number;
+    conversionFactor: number;
+    assetQMintMore: number;
+  };
+}
+
+export enum Chains {
+  ETHEREUM = `ETHEREUM`,
+  NEAR = `NEAR`,
+}
+
 export enum LoginMethods {
   PHONE = `phone`,
   EMAIL = `email`,
+  NEAR = `near`,
+  METAMASK = `metamask`,
 }
 
 export enum AnnouncementCtaType {
@@ -417,6 +568,23 @@ export enum AnnouncementCtaType {
 export interface fetchAssetFile {
   assetLink: string;
   assetName: string;
+}
+
+export interface RaindropNftDetails {
+  name: string;
+  media: string;
+  media_type: string;
+  description: string;
+}
+
+export interface claimRaindropProps {
+  bantaId: string;
+  pin: string;
+}
+
+export interface DiscordGatingPayload {
+  discordServerId: string;
+  discordUserId: string;
 }
 
 export interface revealStatus {
@@ -444,11 +612,17 @@ export interface saleDetails {
   skywallet_accepted_currency: string;
   price: string;
   currency: string;
+  metamask_accepted_price: string;
+  metamask_accepted_currency: string;
   seller: string;
   total_quantity: string;
   available_quantity: string;
   campaign_id: string;
   exclusive: boolean;
+}
+
+export interface PaymentStatusResponse {
+  status: OrderStatus;
 }
 
 export interface WalletAnnouncements {

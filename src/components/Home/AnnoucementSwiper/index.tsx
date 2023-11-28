@@ -17,7 +17,12 @@ import { FetchingState } from '@constants/redux';
 import { BottomFadeInAnimation, BottomSheet } from '@components/Shared';
 import IOSPwaPrompt from '../IOSPwaPrompt';
 import { isIOS, isSafari } from 'react-device-detect';
+import BuyCrypto from '@components/BuyCrypto';
+import { WalletType } from '@constants/wallet';
+import generateToast from '@components/Shared/GenerateToast';
+import { ToastType } from '@components/Shared/Toast';
 import { useTranslate } from '@utils/useTranslate';
+import { trackClick, trackEvent } from '@utils/analytics';
 import { useAnalytics } from '@utils/useAnalytics';
 import { useUserSession } from '@utils/hooks/useUserSession';
 
@@ -38,6 +43,7 @@ const AnnoucementSwiper: FC<AnnoucementSwiperProps> = ({ setTransferOpen }) => {
     (state) => state.status,
   );
   const [isIosDevice, setIsIosDevice] = useState<boolean>(false);
+  const [isRechargeFlow, setRechargeFlow] = useState<boolean>(false);
 
   const [supportsPWA, setSupportsPWA] = useState(false);
   const [promptInstall, setPromptInstall] = useState(null);
@@ -115,6 +121,28 @@ const AnnoucementSwiper: FC<AnnoucementSwiperProps> = ({ setTransferOpen }) => {
       data.ctaLink === AnnouncementCTA.TRANSFEROPEN
     ) {
       setTransferOpen(true);
+    } else if (
+      data.ctaType === AnnouncementCtaType.FUNCTION &&
+      data.ctaLink === AnnouncementCTA.RECHARGE_OPEN
+    ) {
+      if (session.isLoggedIn) {
+        setRechargeFlow(true);
+      }
+      // [MultiWallet] - Todo
+      // if (
+      //   session.isLoggedIn &&
+      //   session.wallets?.includes(WalletType.SKYWALLET)
+      // ) {
+      //   setRechargeFlow(true);
+      // } else if (
+      //   session.isLoggedIn &&
+      //   session.wallets?.includes(WalletType.METAMASK)
+      // ) {
+      //   generateToast({
+      //     type: ToastType.INFO,
+      //     content: translate(`ABLE_TO_RECHARGE_WALLET_SOON`),
+      //   });
+      // }
     } else {
       announcmnetClickHandler(data.ctaLink);
     }
@@ -188,7 +216,7 @@ const AnnoucementSwiper: FC<AnnoucementSwiperProps> = ({ setTransferOpen }) => {
           ctaType={``}
           ctaLink={``}
           title={`Metasky`}
-          description={`Welcome to World’s Simplest XRP Wallet`}
+          description={`Welcome to World’s Simplest Crypto Wallet`}
           image={`https://skywallet-public-resources.s3.ap-southeast-1.amazonaws.com/announcements/metasky_white+logo.png`}
           backgroundColor={`linear-gradient(6.22deg, #9058DD 19.4%, #6F6DE2 94.82%);`}
         />
@@ -198,6 +226,7 @@ const AnnoucementSwiper: FC<AnnoucementSwiperProps> = ({ setTransferOpen }) => {
           <IOSPwaPrompt />
         </BottomSheet>
       )}
+      {isRechargeFlow && <BuyCrypto onClose={() => setRechargeFlow(false)} />}
     </BottomFadeInAnimation>
   );
 };

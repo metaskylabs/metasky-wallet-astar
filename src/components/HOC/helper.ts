@@ -40,6 +40,12 @@ const sendingMessageToParent = (user: userProfileState) => {
         },
       }),
     );
+    sendMessageToParent(
+      JSON.stringify({
+        metaToken: getAccessToken(),
+        walletAddress: getPriorityAccount(user)?.nearAddress,
+      }),
+    );
   }
 };
 

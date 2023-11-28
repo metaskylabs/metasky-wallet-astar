@@ -80,6 +80,11 @@ import ic_verification from './icons/verification.svg';
 import ic_filterGallery from './icons/filterGallery.svg';
 import ic_addProfile from './icons/addProfile.svg';
 import ic_mail from './icons/mail.svg';
+import ic_metamaskLogo from './icons/metamaskLogo.svg';
+import ic_walletconnect from './icons/walletconnect.svg';
+import ic_trust from './icons/trust.svg';
+import ic_coinbase from './icons/coinbase.svg';
+import ic_metamaskAvatar from './icons/metamaskAvatar.svg';
 import ic_url from './icons/url.svg';
 import ic_authIncorrect from './common/authIncorrect.png';
 import ic_authEmailOtp from './icons/authEmailOtp.svg';
@@ -105,6 +110,10 @@ import ic_document from './icons/document.svg';
 import ic_announcement from './icons/announcement.svg';
 import ic_greyArrowDown from './icons/greyArrowDown.svg';
 import ic_greyArrowUp from './icons/greyArrowUp.svg';
+import ic_polygon from './icons/polygon.svg';
+import ic_fantom from './icons/fantom.svg';
+import ic_avalanche from './icons/avalanche.svg';
+import ic_ethereum from './icons/ethereum.svg';
 import ic_sheetLogout from './common/logoutSheet.png';
 import ic_crossIconRed from './icons/redCrossIcon.svg';
 import ic_shareBlue from './icons/shareBlue.svg';
@@ -122,6 +131,7 @@ import ic_plus from './icons/plus.svg';
 import ic_timelessInfo from './icons/timelessInfo.svg';
 import ic_rightArrowWhite from './icons/rightArrowWhite.svg';
 import ic_arrowDownDark from './icons/arrowDownDark.svg';
+import ic_nearLogo from './icons/nearLogo.svg';
 import ic_emailBanner from './icons/emailBanner.svg';
 import ic_humanFigure from './icons/humanFigure.png';
 import ic_megaPhone from './icons/megaPhone.svg';
@@ -174,6 +184,7 @@ import ic_yellowInfo from './icons/infoYellow.svg';
 import ic_announcementPrice from './icons/announcementPrice.svg';
 import i_not_owned from './common/not-owned.svg';
 import ic_loginWithPhoneLogo from './icons/mobile.svg';
+import ic_near_whitelist from './icons/Near.svg';
 import i_earthBuddyLogo from './common/earthBuddyLogo.png';
 import i_slot_machine from './common/slot_machine.svg';
 import l_slot_loading from './lotties/loading_slot_lottie.json';
@@ -234,6 +245,13 @@ import ic_play from './icons/play.svg';
 import ic_next from './icons/next.svg';
 import ic_prev from './icons/rewind.svg';
 import ic_pause from './icons/pause.svg';
+import ic_file from './icons/iconFile.svg';
+import i_nosolo_tribe_2023 from './common/nosolo-tribe-2023.png';
+import i_nosolo_tribe_mortal_tier from './common/mortal-tier.png';
+import i_nosolo_tribe_demon_tier from './common/demon-tier.png';
+import i_nosolo_tribe_backstage_pass from './common/backstage-pass.png';
+import i_nosolo_tribe_cosplay from './common/cosplay-workshop.png';
+import i_nosolo_tribe_god_tier from './common/god-tier.png';
 
 const AssetsImg: any = {
   l_loder_logo,
@@ -283,10 +301,18 @@ const AssetsImg: any = {
   rupee_svg,
   yen_svg,
   dollar_svg,
+  ic_polygon,
   ic_arrowDownDark,
   ic_timelessInfo,
   ic_rightArrowWhite,
+  ic_fantom,
+  ic_avalanche,
+  ic_ethereum,
   ic_nftbox,
+  ic_metamaskLogo,
+  ic_trust,
+  ic_coinbase,
+  ic_metamaskAvatar,
   ic_url,
   ic_authIncorrect,
   ic_authEmailOtp,
@@ -366,6 +392,7 @@ const AssetsImg: any = {
   ic_addProfile,
   ic_circular_lines,
   ic_info_blue,
+  ic_walletconnect,
   ic_linkIcon,
   ic_benefitsblue,
   ic_iconInfo,
@@ -405,6 +432,8 @@ const AssetsImg: any = {
   ic_searchGrey,
   ic_emailBanner,
   ic_loginWithPhoneLogo,
+  ic_near_whitelist,
+  ic_nearLogo,
   ic_humanFigure,
   ic_megaPhone,
   i_slot_machine,
@@ -471,6 +500,13 @@ const AssetsImg: any = {
   ic_prev,
   ic_pause,
   i_support,
+  ic_file,
+  i_nosolo_tribe_2023,
+  i_nosolo_tribe_mortal_tier,
+  i_nosolo_tribe_demon_tier,
+  i_nosolo_tribe_backstage_pass,
+  i_nosolo_tribe_cosplay,
+  i_nosolo_tribe_god_tier,
 };
 
 export default AssetsImg;

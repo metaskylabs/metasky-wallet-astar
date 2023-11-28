@@ -1,4 +1,7 @@
+import { parseUri } from '@walletconnect/utils';
 import { useEffect, useState } from 'react';
+import { createLegacySignClient } from '@components/WalletConnect/utils/LegacyWalletConnectUtil';
+import { signClient } from '@components/WalletConnect/utils/WalletConnectUtil';
 import ScanWithInput from '@components/ScanWithInput';
 import { ToastType } from '@components/Shared/Toast';
 import generateToast from '@components/Shared/GenerateToast';
@@ -18,7 +21,7 @@ type Props = {
   onScan?: () => void;
 };
 
-export default function Scanner({ onClose, onScan }: Props) {
+export default function WalletConnectScanner({ onClose, onScan }: Props) {
   const session = useUserSession();
   const [qrscan, setQrscan] = useState<string>(``);
   const [showWalletAddress, setShowWalletAddress] = useState(false);
@@ -31,6 +34,37 @@ export default function Scanner({ onClose, onScan }: Props) {
   useEffect(() => {
     if (qrscan && onScan) {
       onScan();
+    }
+    if (qrscan?.startsWith(`wc:`)) {
+      if (session.wallets?.includes(WalletType.SKYWALLET)) {
+        (async (url: string) => {
+          try {
+            const text = url;
+            if (text) {
+              const { version } = parseUri(text);
+              if (version === 1) {
+                createLegacySignClient({ uri: url });
+              } else {
+                await signClient.core.pairing.pair({ uri: url });
+              }
+              generateToast({
+                type: ToastType.INFO,
+                content: translate(`WALLET_CONNECTION_INITIATED`),
+              });
+            }
+          } catch (err: unknown) {
+            console.error(err);
+          }
+        })(qrscan);
+        onClose();
+        return;
+      } else {
+        generateToast({
+          type: ToastType.INFO,
+          content: `Wallet connect not supported for external wallet`,
+        });
+        return;
+      }
     }
     if (noSpecialCharacter.test(qrscan) && qrscan?.length >= 42) {
       onCopy(qrscan, SUCCESS_TOAST);
@@ -71,8 +105,8 @@ export default function Scanner({ onClose, onScan }: Props) {
         <ScanWithInput
           title={translate(`SCAN`)}
           buttonName={translate(`CONTINUE`)}
-          inputLabel={translate(`ENTER_ADDRESS_MANUALLY`)}
-          inputPlaceholder={translate(`ADDRESS_PLACEHOLDER`)}
+          inputLabel={translate(`ENTER_WALLET_CONNECT_URI_MANUALLY`)}
+          inputPlaceholder={translate(`WALLET_CONNECT_URI`)}
           onScanComplete={(data) => setQrscan(data)}
           disableInput={!session.wallets?.includes(WalletType.SKYWALLET)}
         />

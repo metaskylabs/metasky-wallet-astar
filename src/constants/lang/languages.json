@@ -53,6 +53,12 @@
       "jp": ""
     }
   ],
+  "MY_OFFERS": [
+    {
+      "en": "My Offers",
+      "jp": ""
+    }
+  ],
   "CONTACT_SUPPORT": [
     {
       "en": "Contact Support",
@@ -257,9 +263,27 @@
       "jp": ""
     }
   ],
+  "NO_NFTs_FOUND": [
+    {
+      "en": "No NFTs found",
+      "jp": ""
+    }
+  ],
+  "OFFERS": [
+    {
+      "en": "Offers",
+      "jp": ""
+    }
+  ],
   "FROM": [
     {
       "en": "From",
+      "jp": ""
+    }
+  ],
+  "OFFERED_PRICE": [
+    {
+      "en": "Offered Price",
       "jp": ""
     }
   ],
@@ -479,6 +503,18 @@
       "jp": ""
     }
   ],
+  "TRANSFER_FROM_ONMETA": [
+    {
+      "en": "Now, you can also recharge your wallet via OnMeta, and come back to transfer this asset again.",
+      "jp": ""
+    }
+  ],
+  "PURCHASE_FROM_ONMETA": [
+    {
+      "en": "Now, you can also recharge your wallet via OnMeta, and come back to purchase this asset again.",
+      "jp": ""
+    }
+  ],
   "RECHARGE_AMOUNT": [
     {
       "en": "Recharge amount",
@@ -617,6 +653,12 @@
       "jp": ""
     }
   ],
+  "MAKE_AN_OFFER": [
+    {
+      "en": "Make an Offer",
+      "jp": ""
+    }
+  ],
   "BUY_NOW": [
     {
       "en": "BUY NOW",
@@ -641,6 +683,24 @@
       "jp": ""
     }
   ],
+  "MAKE_AN_OFFER_DESCRIPTION": [
+    {
+      "en": "Enter a proposed offer amount below. You will be notified once the seller accepts.",
+      "jp": ""
+    }
+  ],
+  "ENTER_OFFER_AMOUNT": [
+    {
+      "en": "Enter Offer Amount",
+      "jp": ""
+    }
+  ],
+  "AMOUNT_IN_NEAR_CURRENCY": [
+    {
+      "en": "Amount in NEAR currency",
+      "jp": ""
+    }
+  ],
   "WALLET_DETAILS": [
     {
       "en": "Wallet Details",
@@ -662,6 +722,18 @@
   "CONNECT_WALLET": [
     {
       "en": "CONNECT WALLET",
+      "jp": ""
+    }
+  ],
+  "OFFER_RECEIVED": [
+    {
+      "en": "Offer Received",
+      "jp": ""
+    }
+  ],
+  "OFFERS_MADE": [
+    {
+      "en": "Offers Made",
       "jp": ""
     }
   ],
@@ -809,6 +881,18 @@
       "jp": ""
     }
   ],
+  "AUCTION_ENDS": [
+    {
+      "en": "Auction ends",
+      "jp": ""
+    }
+  ],
+  "AUCTION_BIDS": [
+    {
+      "en": "Auction Bids",
+      "jp": ""
+    }
+  ],
   "RAISE_YOUR_BID": [
     {
       "en": "Raise your bid",
@@ -902,6 +986,18 @@
   "CONTINUE_WITH_EXTERNAL_WALLET": [
     {
       "en": "Continue with Wallet",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_WITH_METAMASK": [
+    {
+      "en": "Continue with MetaMask",
+      "jp": ""
+    }
+  ],
+  "CONTINUE_WITH_NEAR": [
+    {
+      "en": "Continue with NEAR",
       "jp": ""
     }
   ],
@@ -1337,6 +1433,12 @@
       "jp": ""
     }
   ],
+  "REFERRAL_LINK_COPIED": [
+    {
+      "en": "Link copied! Share it with your friends to start earning. ",
+      "jp": ""
+    }
+  ],
   "HOW_IT_WORKS": [
     {
       "en": "How it Works",
@@ -1346,6 +1448,12 @@
   "INVITE_A_FRIEND": [
     {
       "en": "Invite a friend",
+      "jp": ""
+    }
+  ],
+  "SEND_THEM_YOUR_REFERRAL": [
+    {
+      "en": "Send them your referral.",
       "jp": ""
     }
   ],
@@ -1469,12 +1577,37 @@
       "jp": ""
     }
   ],
+  "VIEW_OFFER": [
+    {
+      "en": "View Offer",
+      "jp": ""
+    }
+  ],
+  "OFFER_DETAILS": [
+    {
+      "en": "Offer Details",
+      "jp": ""
+    }
+  ],
+  "REJECT_OFFER": [
+    {
+      "en": "Reject Offer",
+      "jp": ""
+    }
+  ],
   "STATUS": [
     {
       "en": "STATUS",
       "jp": ""
     }
   ],
+  "OFFER_AMOUNT": [
+    {
+      "en": "Offer Amount",
+      "jp": ""
+    }
+  ],
+
   "REJECT": [
     {
       "en": "REJECT",
@@ -1484,6 +1617,18 @@
   "ACCEPT": [
     {
       "en": "ACCEPT",
+      "jp": ""
+    }
+  ],
+  "DELETE_OFFER": [
+    {
+      "en": "Delete Offer",
+      "jp": ""
+    }
+  ],
+  "DELETE_OFFER_ACTION_INFO": [
+    {
+      "en": "This action will delete your offer of",
       "jp": ""
     }
   ],
@@ -1508,6 +1653,12 @@
   "REJECT_STATE_SUCCESS": [
     {
       "en": "YES, REJECT",
+      "jp": ""
+    }
+  ],
+  "REJECT_OFFER_SUBTITLE": [
+    {
+      "en": "Are you sure you want to reject this offer?",
       "jp": ""
     }
   ],
@@ -1661,6 +1812,18 @@
       "jp": ""
     }
   ],
+  "MINIMUM_OFFER_AMOUNT": [
+    {
+      "en": "Minimum offer amount is ₹100",
+      "jp": ""
+    }
+  ],
+  "OFFER_MADE": [
+    {
+      "en": "Your offer has been made",
+      "jp": ""
+    }
+  ],
   "NFT_IS_GOING_ON_SALE": [
     {
       "en": "This NFT is going on sale.",
@@ -1682,6 +1845,30 @@
   "HERE": [
     {
       "en": "here",
+      "jp": ""
+    }
+  ],
+  "MAKE_OFFER": [
+    {
+      "en": "MAKE OFFER",
+      "jp": ""
+    }
+  ],
+  "ENTER_OFFER": [
+    {
+      "en": "Enter a proposed offer amount below. You will be notified once the seller accepts.",
+      "jp": ""
+    }
+  ],
+  "THIS_NEAR_CURRENCY": [
+    {
+      "en": "This item is denominated in NEAR currency.",
+      "jp": ""
+    }
+  ],
+  "SWIPE_SEND_OFFER": [
+    {
+      "en": "Swipe to Send Offer",
       "jp": ""
     }
   ],
@@ -1793,6 +1980,24 @@
       "jp": ""
     }
   ],
+  "OFFER_WAS_REJECTED_ON": [
+    {
+      "en": "Offer was rejected on",
+      "jp": ""
+    }
+  ],
+  "OFFER_WAS_ACCEPTED_ON": [
+    {
+      "en": "Offer was accepted on",
+      "jp": ""
+    }
+  ],
+  "OFFER_WAS_DELETED_ON": [
+    {
+      "en": "Offer was deleted on",
+      "jp": ""
+    }
+  ],
   "YOUR_ACTION_IS_IN_PROGRESS": [
     {
       "en": "Your action is in Progress",
@@ -1811,6 +2016,12 @@
       "jp": ""
     }
   ],
+  "CURRENT_RATE_DESCRIPTION": [
+    {
+      "en": "This rate will fluctuate based on the value of NEAR currency in the market.",
+      "jp": ""
+    }
+  ],
   "AMOUNT_IN": [
     {
       "en": "Amount in",
@@ -1820,6 +2031,12 @@
   "CURRENCY": [
     {
       "en": "currency",
+      "jp": ""
+    }
+  ],
+  "MINMUM_OFFER_AMOUNT_IS": [
+    {
+      "en": "Minimum offer amount is ",
       "jp": ""
     }
   ],
@@ -1838,6 +2055,42 @@
   "PLACE_BID": [
     {
       "en": "Place a bid",
+      "jp": ""
+    }
+  ],
+  "OUTBID_BANNER_TITLE": [
+    {
+      "en": "Your offer has been outbid.",
+      "jp": ""
+    }
+  ],
+  "OUTBID_BANNER_CTA": [
+    {
+      "en": "Click here to raise your bid.",
+      "jp": ""
+    }
+  ],
+  "PLACE_BID_DESCRIPTION": [
+    {
+      "en": "You can place a bid for this NFT. Your bid should be higher than the current top bid amount.",
+      "jp": ""
+    }
+  ],
+  "SWIPE_TO_PLACE_BID": [
+    {
+      "en": "Swipe to Place Bid",
+      "jp": ""
+    }
+  ],
+  "VIEW_BID": [
+    {
+      "en": "View Bid",
+      "jp": ""
+    }
+  ],
+  "AUCTION_CLOSE_MESSAGE": [
+    {
+      "en": "This auction is now closed. If you are the top bidder, we will reach out to you.",
       "jp": ""
     }
   ],
@@ -1874,6 +2127,12 @@
   "WHITELISTING_SUCCESSFUL": [
     {
       "en": "You’ve been successfully whitelisted and your wallet has been created.",
+      "jp": ""
+    }
+  ],
+  "MAKE_OFFER_TOAST": [
+    {
+      "en": "You will soon be able to make offers for",
       "jp": ""
     }
   ],
@@ -1946,6 +2205,36 @@
   "404_SUBTITLE": [
     {
       "en": "The page you were looking for does not exist. Go back to the",
+      "jp": ""
+    }
+  ],
+  "META_MASK_ACCOUNT_NOT_FOUND": [
+    {
+      "en": "We couldn’t find wallet on your device. Download a wallet and Retry.",
+      "jp": ""
+    }
+  ],
+  "META_MASK_NOT_FOUND": [
+    {
+      "en": "Wallet not found. Please install, login and refresh this page before trying again.",
+      "jp": ""
+    }
+  ],
+  "LOGIN_WITH_NEAR_IS_COMING_SOON": [
+    {
+      "en": "Login with Near is coming soon!",
+      "jp": ""
+    }
+  ],
+  "CONNECT_WITH_METAMASK": [
+    {
+      "en": "Connect with Wallet",
+      "jp": ""
+    }
+  ],
+  "CONNECT_WITH_METAMASK_DESCRIPTION": [
+    {
+      "en": "You have connected following account to use on this site",
       "jp": ""
     }
   ],
@@ -2039,6 +2328,12 @@
       "jp": ""
     }
   ],
+  "ACCEPT_OFFER": [
+    {
+      "en": "Your are updating NFT price to:",
+      "jp": ""
+    }
+  ],
   "CANCEL_TRANSACTION?": [
     {
       "en": "Cancel Transaction?",
@@ -2111,9 +2406,21 @@
       "jp": ""
     }
   ],
+  "RECHARGE_REQUIRED": [
+    {
+      "en": "You need to recharge your wallet to proceed with the offer.",
+      "jp": ""
+    }
+  ],
   "RECHARGING_FOR": [
     {
       "en": "You are recharging for",
+      "jp": ""
+    }
+  ],
+  "TOOLTIP_NEAR_FLUCTUATE": [
+    {
+      "en": "Rate: 1 NEAR = ₹100. The rate will fluctuate based on the value of NEAR in the market.",
       "jp": ""
     }
   ],
@@ -2195,15 +2502,21 @@
       "jp": ""
     }
   ],
-  "ENTER_ADDRESS_MANUALLY": [
+  "ENTER_WALLET_CONNECT_URI_MANUALLY": [
     {
-      "en": "Enter Address Manually",
+      "en": "Enter WalletConnect URI Manually",
       "jp": ""
     }
   ],
-  "ADDRESS_PLACEHOLDER": [
+  "WALLET_CONNECT_URI": [
     {
-      "en": "Address",
+      "en": "WalletConnect URI",
+      "jp": ""
+    }
+  ],
+  "WALLET_CONNECTION_INITIATED": [
+    {
+      "en": "Wallet connection initiated",
       "jp": ""
     }
   ],
@@ -2222,6 +2535,12 @@
   "REFER_AND_EARN": [
     {
       "en": "Refer your friends now to earn rewards!",
+      "jp": ""
+    }
+  ],
+  "USE_OPENSEA_TO_SELL": [
+    {
+      "en": "Please use OpenSea to sell this NFT directly via MetaMask.",
       "jp": ""
     }
   ],

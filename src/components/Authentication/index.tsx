@@ -1,3 +1,4 @@
+import LoginWithMetamask from '@components/Authentication/LoginWithMetamask';
 import OtpVerification from '@components/Authentication/otpVerification';
 import Login from '@components/Authentication/LogIn';
 import CreatePin from '@components/Authentication/CreatePin';
@@ -8,12 +9,14 @@ import { isIOS, isSafari } from 'react-device-detect';
 import { logEvent, setUserId } from '@utils/amplitude';
 
 import {
+  checkWhitelist,
   forgotPinSendOtp,
   loginUserByEmailSendOtp,
   loginUserByPhoneSendOtp,
   resetPin,
   setPin,
   setUserLogin,
+  whiteListUsers,
 } from '@actions/auth';
 import IncorrectPin from './IncorrectPin';
 import EmailOtpVerification from './EmailOtpVerification';
@@ -30,6 +33,7 @@ import {
   RecoveryStatus,
   SetPinResponse,
   WhitelistRefType,
+  WhitelistRequest,
 } from '@typings/api/auth';
 import {
   createOrUpdateToken,
@@ -37,14 +41,17 @@ import {
   sendMessageToParent,
 } from '@utils/helper';
 import * as styles from '@components/Authentication/CreatePin/styles';
+import WhitelistSuccess from '@components/WhitelistSuccess';
 import { BottomSheet, FullScreenPopUp } from '@components/Shared';
 import { IframeMessageType } from '@utils/constants';
+import NearLoading from '@components/Authentication/NearLoading';
 import AuthMain from '@components/Authentication/AuthMain';
 import { LoginMethods } from '@typings/api/wallet';
 import SecondCustodialOptionPage from '@components/Authentication/SecondCustodialOptionPage';
 import AdditionalDetails from '@components/AdditionalDetails';
 import { getCountryList } from '@actions/user';
 import { useTranslate } from '@utils/useTranslate';
+import { useAccount } from 'wagmi';
 import { isEmpty, isUndefined } from 'lodash';
 import { emailRegex } from '@utils/regexes';
 import { APIStatusType } from '@typings/api/wrapper';
@@ -55,6 +62,7 @@ interface AuthenticationProps {
   isPopUp: boolean;
   onSuccess?: () => void;
   disableSuccessLoginToast?: boolean;
+  disableMetamaskRedirect?: boolean;
 }
 
 const getCookie = (name: string) => {
@@ -73,10 +81,19 @@ const Authentication: FC<AuthenticationProps> = ({
   isPopUp,
   onSuccess,
   disableSuccessLoginToast,
+  disableMetamaskRedirect,
 }) => {
   const router = useRouter();
   const { translate } = useTranslate();
-  const { email: queryEmail, phone: queryPhone } = router.query;
+  const {
+    whitelist,
+    account_id,
+    public_key,
+    client_id,
+    gated,
+    email: queryEmail,
+    phone: queryPhone,
+  } = router.query;
 
   const [currentScreen, setCurrentScreen] = useState<AuthenticationScreen>(
     AuthenticationScreen.authMain,
@@ -93,8 +110,38 @@ const Authentication: FC<AuthenticationProps> = ({
   const [authType, setAuthType] = useState<WhitelistRefType | undefined>(
     undefined,
   );
+  const [isWhitelisted, setIsWhitelisted] = useState<boolean>(false);
+  const [showClientName, setShowClientName] = useState<boolean>(false);
+  // const [showUserDetailsPopup, setShowUserDetailsPopup] = useState(false);
+  // const [requiredUserDetails, setRequiredUserDetails] = useState({});
   const [secondCustodialLoginOption, setSecondCustodialLoginOption] =
     useState<LoginMethods>(LoginMethods.EMAIL);
+  const [whitelistingSheetStatus, setWhitelistingSheetStatus] = useState<{
+    open: boolean;
+    message?: string;
+    address?: string;
+  }>({
+    open: false,
+  });
+  const { isConnected, address } = useAccount();
+
+  useEffect(() => {
+    (async () => {
+      if (address && isConnected && !disableMetamaskRedirect) {
+        setCurrentScreen(AuthenticationScreen.loginWithMetamask);
+      }
+    })();
+  }, [address, isConnected]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      if (client_id == `nayaab`) {
+        setShowClientName(true);
+      } else {
+        setShowClientName(false);
+      }
+    }
+  }, [router.isReady]);
 
   // Country code API call
   async function fetchCountryCode() {
@@ -108,6 +155,114 @@ const Authentication: FC<AuthenticationProps> = ({
   useEffect(() => {
     fetchCountryCode();
   }, []);
+
+  useEffect(() => {
+    if (typeof document !== `undefined`) {
+      const lastCookie = document.cookie;
+      const interval = setInterval(() => {
+        const cookie = document.cookie;
+        if (getCookie(`whitelist`) === `true` && whitelist) {
+          openWhitelistSuccess();
+        }
+      }, 1000);
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [whitelist]);
+
+  useEffect(() => {
+    if (typeof window !== `undefined`) {
+      if (isWhitelisted) {
+        if (isIOS || isSafari) {
+          window.open(`https://nayaab.world/success/`, `_self`);
+          return;
+        }
+        document.cookie = `whitelist=true; SameSite=None; Secure`;
+        window.open(`https://nayaab.world/nft?open=true`, `_self`);
+        window.close();
+      }
+    }
+  }, [isWhitelisted]);
+
+  const openWhitelistSuccess = async () => {
+    if (!whitelistingSheetStatus.open) {
+      sendMessageToParent(
+        JSON.stringify({ event: IframeMessageType.whitelistComplete }),
+      );
+      sendMessageToParent(IframeMessageType.close);
+      await setWhitelistingSheetStatus({
+        open: true,
+        message: `The connected wallet has already been whitelisted.`,
+      });
+      await setCurrentScreen(AuthenticationScreen.whitelistSuccess);
+    }
+  };
+  const callWhitelistApi = async (
+    payload: WhitelistRequest,
+    setPinData?: SetPinResponse | null,
+  ) => {
+    try {
+      const whiteListResponse = await whiteListUsers(payload);
+      sendMessageToParent(
+        JSON.stringify({ event: IframeMessageType.whitelistComplete }),
+      );
+      if (
+        whiteListResponse?.message === `You have been successfully whitelisted.`
+      ) {
+        setWhitelistingSheetStatus({
+          open: true,
+          message: `You’ve been successfully whitelisted and your wallet has been created.`,
+          address: setPinData
+            ? client_id === `nayaab` || client_id === `azadi`
+              ? setPinData.walletAddresses.nearAddress
+              : setPinData.walletAddresses.ethAddress
+            : undefined,
+        });
+        setCurrentScreen(AuthenticationScreen.whitelistSuccess);
+        deleteToken(LocalStorageVariables.METAWHITELIST);
+        createOrUpdateToken(
+          LocalStorageVariables.IS_NEAR_USER_WHITELISTED,
+          `true`,
+        );
+
+        sendMessageToParent(IframeMessageType.close);
+      } else {
+        setWhitelistingSheetStatus({
+          open: true,
+          message: `The connected wallet has already been whitelisted.`,
+        });
+        setCurrentScreen(AuthenticationScreen.whitelistSuccess);
+        deleteToken(LocalStorageVariables.METAWHITELIST);
+        createOrUpdateToken(
+          LocalStorageVariables.IS_NEAR_USER_WHITELISTED,
+          `true`,
+        );
+
+        sendMessageToParent(IframeMessageType.close);
+      }
+    } catch (error) {
+      handleErrorMessage(error);
+    }
+  };
+  useEffect(() => {
+    if (router.isReady && account_id && public_key && whitelist) {
+      const payload = {
+        chain: `NEAR`,
+        ref: account_id as string,
+        refType: WhitelistRefType.PUBLIC_ADDRESS,
+      };
+      (async () => {
+        try {
+          setCurrentScreen(AuthenticationScreen.nearLoading);
+          await callWhitelistApi(payload);
+          setIsWhitelisted(true);
+        } catch (e) {
+          console.log(e);
+        }
+      })();
+    }
+  }, [router.isReady]);
 
   const sendOtp = async (number: string): Promise<void> => {
     try {
@@ -143,9 +298,21 @@ const Authentication: FC<AuthenticationProps> = ({
         }
         sendMessageToParent(
           JSON.stringify({
+            wallet_address: response.data?.walletAddresses,
+          }),
+        );
+        sendMessageToParent(
+          JSON.stringify({
+            metaToken: response.data?.accessToken,
+            walletAddress: response.data?.walletAddresses.nearAddress,
+          }),
+        );
+        sendMessageToParent(
+          JSON.stringify({
             event: IframeMessageType.loginSuccess,
             payload: {
               bearerToken: response.data?.accessToken,
+              walletAddress: response.data?.walletAddresses,
             },
           }),
         );
@@ -154,22 +321,59 @@ const Authentication: FC<AuthenticationProps> = ({
           setUserLogin(true);
           setAccessTokenCookie(response.data.accessToken);
           logEvent(`loginSuccess`);
+          if (gated) {
+            try {
+              const checkWhitelistResponse = await checkWhitelist();
+              sendMessageToParent(
+                JSON.stringify({
+                  user_details: checkWhitelistResponse.data,
+                  wallet_address: response.data.walletAddresses,
+                }),
+              );
+              sendMessageToParent(
+                JSON.stringify({
+                  metaToken: response.data.accessToken,
+                }),
+              );
+            } catch (err) {
+              sendMessageToParent(
+                `{"user_details":{"isWhitelisted":false,"hasNft":false}}`,
+              );
+            }
+          }
         }
-        if (!disableSuccessLoginToast)
-          generateToast({
-            content: translate(`LOGGED_IN_SUCCESSFULLY`),
-            type: ToastType.SUCCESS,
-          });
-        if (isPopUp) {
-          onSuccess && onSuccess();
-          setLoginStatus && setLoginStatus(false);
+        if (whitelist) {
+          let whitelistPayload: WhitelistRequest;
+          whitelistPayload = {
+            ref: mobileNo,
+            refType: WhitelistRefType.MOBILE,
+          };
+          if (authType == WhitelistRefType.EMAIL) {
+            whitelistPayload = {
+              ref: emailID,
+              refType: WhitelistRefType.EMAIL,
+            };
+          }
+
+          await callWhitelistApi(whitelistPayload, response.data);
         } else {
-          if (
-            response.data?.additionalParamRequired === null ||
-            (response.data?.additionalParamRequired &&
-              Object.keys(response.data?.additionalParamRequired).length === 0)
-          ) {
-            router.push(Pages.HOME);
+          if (!disableSuccessLoginToast)
+            generateToast({
+              content: translate(`LOGGED_IN_SUCCESSFULLY`),
+              type: ToastType.SUCCESS,
+            });
+          if (isPopUp) {
+            onSuccess && onSuccess();
+            setLoginStatus && setLoginStatus(false);
+          } else {
+            if (
+              response.data?.additionalParamRequired === null ||
+              (response.data?.additionalParamRequired &&
+                Object.keys(response.data?.additionalParamRequired).length ===
+                  0)
+            ) {
+              router.push(Pages.HOME);
+            }
           }
         }
       } else {
@@ -358,6 +562,34 @@ const Authentication: FC<AuthenticationProps> = ({
             }
           />
         );
+      case AuthenticationScreen.loginWithMetamask:
+        return (
+          <LoginWithMetamask
+            handleScreen={(screenName: AuthenticationScreen) =>
+              setCurrentScreen(screenName)
+            }
+            setLoginStatus={(status: boolean) => {
+              if (setLoginStatus) {
+                setLoginStatus(status);
+              }
+            }}
+            isPopUp={isPopUp}
+            disableSuccessLoginToast={disableSuccessLoginToast}
+            onSuccess={onSuccess}
+          />
+        );
+      case AuthenticationScreen.whitelistSuccess:
+        return (
+          <BottomSheet isOpen={true} addStyles={styles.bottomSheetHeight}>
+            <WhitelistSuccess
+              walletType="Metasky"
+              message={whitelistingSheetStatus?.message}
+              address={whitelistingSheetStatus?.address}
+            />
+          </BottomSheet>
+        );
+      case AuthenticationScreen.nearLoading:
+        return <NearLoading />;
       default:
         return (
           <AuthMain

@@ -7,11 +7,13 @@ import {
 } from '@constants/authentication';
 
 import { FullScreenKiteLoader } from '@components/Shared';
+import { useDisconnect } from 'wagmi';
 import { ToastType } from '@components/Shared/Toast';
 import generateToast from '@components/Shared/GenerateToast';
 import { mixins, utils } from '@styles/shared';
 import { motion } from 'framer-motion';
 import { getToken } from '@utils/helper';
+import useNearWallet from '@utils/hooks/NearWallet';
 
 // import { UserWalletType } from "@pages/_app";
 import { useRouter } from 'next/router';
@@ -20,6 +22,7 @@ import { LoginMethods } from '@typings/api/wallet';
 import LoginWithMobileInput from '@components/Authentication/shared/LoginWithMobileInput';
 import TertiaryButton from '@components/Shared/Button/TertiaryButton';
 import { getCampaignConfiguration } from '@actions/wallet';
+import { useWeb3Modal } from '@web3modal/react';
 import { useTranslate } from '@utils/useTranslate';
 import { Client } from '@constants/clients';
 import { useAnalytics } from '@utils/useAnalytics';
@@ -56,6 +59,11 @@ const AuthMain: FC<AuthMainProps> = ({
   setMobileNumber,
   setSecondCustodialLoginOption,
 }) => {
+  const nearWallet = useNearWallet();
+  const isNearLoading = nearWallet.isLoading;
+  const dispatch = useDispatch();
+  const { open, isOpen } = useWeb3Modal();
+  const { disconnect } = useDisconnect();
   const router = useRouter();
   // TODO:- title states are not required for current release
   // const [title, setTitle] = useState<string | undefined>(`Connect Wallet`);
@@ -70,6 +78,7 @@ const AuthMain: FC<AuthMainProps> = ({
   const [loginTypes, setLoginTypes] = useState<LoginMethods[]>([
     LoginMethods.EMAIL,
     LoginMethods.PHONE,
+    LoginMethods.METAMASK,
   ]);
   const { translate } = useTranslate();
   const amplitude = useAnalytics();
@@ -102,6 +111,17 @@ const AuthMain: FC<AuthMainProps> = ({
     })();
   }, [loginTypes]);
 
+  useEffect(() => {
+    nearWallet
+      .getAccount()
+      .then((account) => {
+        if (account?.accountId) return nearWallet.signInAndGenerateToken();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [router.isReady]);
+
   // TODO:- Removed this for current release
   // useEffect(() => {
   //   if (router.isReady) {
@@ -119,6 +139,7 @@ const AuthMain: FC<AuthMainProps> = ({
             return (
               <LoginWIthEmailInput
                 handleLoginWithEmail={(emailId) => {
+                  disconnect();
                   handleLoginWithEmail(emailId);
                 }}
                 setEmailID={(value) => {
@@ -173,6 +194,54 @@ const AuthMain: FC<AuthMainProps> = ({
               </button>
             );
           }
+
+        case LoginMethods.METAMASK:
+          return (
+            <>
+              {
+                <button
+                  css={[styles.authButton, utils.mb(20), utils.mt(0)]}
+                  type="button"
+                  onClick={async () => {
+                    await open();
+                    amplitude.trackClick(CLICK.CONTINUE_WITH_METAMASK);
+                  }}
+                >
+                  <span css={styles.buttonIcon}>
+                    <img
+                      src={AssetsImg.ic_walletIcon.src}
+                      alt="metamask"
+                      width={25}
+                      height={25}
+                    />
+                  </span>
+                  {`Continue with Wallet`}
+                </button>
+              }
+            </>
+          );
+        // case LoginMethods.NEAR:
+        //   return (
+        //     <div
+        //       onClick={() => {
+        //         logEvent(`loginClick`, {
+        //           type: `near`,
+        //         });
+        //       }}
+        //     >
+        //       <a
+        //         css={[styles.authButton, utils.mt(20), styles.anchorWebkit]}
+        //         target="_blank"
+        //         rel="noreferrer"
+        //         href={nearUrl}
+        //       >
+        //         <span css={styles.buttonIcon}>
+        //           <img src={AssetsImg.ic_nearLogo.src} alt="near" />
+        //         </span>
+        //         Continue with NEAR
+        //       </a>
+        //     </div>
+        //   );
       }
     });
     setLoginMethodsArray(loginMethodsComponent);
@@ -185,6 +254,9 @@ const AuthMain: FC<AuthMainProps> = ({
         mixins.flexColumn,
       ]}
     >
+      <FullScreenKiteLoader isOpen={isNearLoading}>
+        <div css={styles.loaderContentInfo}>{translate(`PAGE_LOADING`)}...</div>
+      </FullScreenKiteLoader>
       <motion.div
         css={[styles.logoContainer, utils.mt(43), utils.mb(43)]}
         initial={{ opacity: 0, y: 50 }}
@@ -241,6 +313,21 @@ const AuthMain: FC<AuthMainProps> = ({
                             <Fragment key={`key_${index}`}>{elem}</Fragment>
                           );
                         })}
+                      {loginTypes.includes(LoginMethods.NEAR) && (
+                        <button
+                          css={[styles.authButton, utils.mb(20), utils.mt(0)]}
+                          type="button"
+                          onClick={() => {
+                            amplitude.trackClick(CLICK.CONTINUE_WITH_NEAR);
+                            nearWallet.signIn();
+                          }}
+                        >
+                          <span css={[styles.buttonIcon, utils.mr(24)]}>
+                            <img src={AssetsImg.ic_nearLogo.src} alt="near" />
+                          </span>
+                          {translate(`CONTINUE_WITH_NEAR`)}
+                        </button>
+                      )}
                     </Fragment>
                   ) : (
                     <TertiaryButton

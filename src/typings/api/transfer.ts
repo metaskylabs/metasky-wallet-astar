@@ -1,5 +1,5 @@
 import { Fees, OrderStatus } from '@typings/api/wallet';
-import { AirpayData } from '@typings/api/payment';
+import { AirpayData, BuyOnMetaResponse } from '@typings/api/payment';
 
 export interface ConfirmTransferPayload extends MakeTransferPayload {
   image?: string;
@@ -76,6 +76,7 @@ export interface PreviewTransferResponse {
     deposit_currency: string;
     rate: number;
   };
+  disableOnMetaBanner?: boolean;
 }
 
 export interface FeesBreakup {
@@ -97,6 +98,12 @@ export interface WalletBalanceResponse {
   network_name?: string;
 }
 
+export interface BuyNearPayload {
+  inr_amount: string;
+  upi_id?: string;
+  parent_order_id: string;
+}
+
 export interface BuyCoinPayload {
   fiat_amount: string;
   fiat_currency?: string;
@@ -104,7 +111,7 @@ export interface BuyCoinPayload {
   coin_name: string | undefined;
 }
 
-export interface BuyCoinResponse {
+export interface BuyNearResponse {
   qrCode?: string;
   userId: string;
   amount: number;
@@ -114,4 +121,47 @@ export interface BuyCoinResponse {
   order_uuid: string;
   orderId: string;
   metaData?: AirpayData;
+}
+
+/* typeguard to detect type of response */
+export const isBuyFromOnMeta = (
+  listingResponse: BuyNearResponse | BuyOnMetaResponse,
+): listingResponse is BuyOnMetaResponse => {
+  return listingResponse.paymentGateway === `ONMETA`;
+};
+
+export interface PreviewBuyCoinPayload {
+  fiat_amount: string;
+  fiat_currency?: string;
+  coin_name: string | undefined;
+}
+
+export interface PreviewBuyCoinPayloadResponse {
+  fees: {
+    currency: string;
+    value: number;
+    value_in_inr: number;
+    fiat_currency: string;
+    value_in_fiat: number;
+    fees_breakup: FeesBreakup[];
+  };
+  user_balance: {
+    [currency: string]: any;
+    Fiat: number;
+    fiat_currency: string;
+  };
+  recharge: {
+    destination_currency: string;
+    destination_value: number;
+    deposit_currency: string;
+    deposit_value: number;
+    min_recharge_fiat_amount: number;
+    destination_fiat_value: number;
+    deposit_coin_value: number;
+  };
+  conversion_config: {
+    destination_currency: string;
+    deposit_currency: string;
+    rate: string;
+  };
 }

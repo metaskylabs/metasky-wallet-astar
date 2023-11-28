@@ -176,6 +176,7 @@ const TransactionDetails: FC<TransactionDetailsProps> = ({
             )}
           </div>
         </section>
+        {/*<h2 css={styles.transactionsETH}>{transactionPrice}</h2>*/}
       </div>
     </div>
   );

@@ -30,6 +30,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import * as styles from './styles';
 import { useAnalytics } from '@utils/useAnalytics';
+import { isBuyFromOnMeta } from '@typings/api/transfer';
+import { useOnMetaWidget } from '@hooks/onMetaWidget/useOnMetaWidget';
 
 interface NFTListingFlowProps {
   nftUid: string;
@@ -68,6 +70,7 @@ export default function NFTListingFlow(props: NFTListingFlowProps) {
     onBack?: () => void;
     state?: ViewState;
   }>({});
+  const { openWidget } = useOnMetaWidget();
 
   const getTitle = () => {
     if (bottomSheetState.state === ViewState.CONFIRM_FORM)
@@ -246,43 +249,59 @@ export default function NFTListingFlow(props: NFTListingFlowProps) {
   };
 
   const rechargeWallet = async (_orderId: string) => {
-    const buyCoinPayload = {
+    const buyNearPayload = {
       fiat_amount: rechargeAmount,
       fiat_currency: salePreviewResponse?.recharge.deposit_currency,
       coin_name: salePreviewResponse?.recharge.destination_currency,
       parent_order_id: _orderId as string,
       upi_id: process.env.NEXT_PUBLIC_DECENTRO_UPI_KEY as string,
     };
-    const buyCoinResponse = await buyCoin(buyCoinPayload);
-    const data = buyCoinResponse.data;
-
-    if (
-      data.paymentGateway === `DECENTRO` &&
-      data.paymentUrl &&
-      data.qrCode &&
-      data.order_uuid
-    ) {
-      setPaymentLink(data.paymentUrl);
-      setPaymentQR(data.qrCode);
-      setOrderUUID(data.order_uuid);
-    } else if (data.paymentGateway == `AIRPAY` && data.metaData) {
-      const paymentUrl =
-        window.location.origin +
-        `/airpayForm?airpaydata=${JSON.stringify(data.metaData)}&orderId=${
-          data.orderId
-        }`;
-
-      setPaymentLink(paymentUrl);
-    } else if (data.paymentUrl) {
-      setPaymentLink(data.paymentUrl);
-    } else {
-      generateToast({
-        content: PaymentError.content,
-        type: ToastType.ERROR,
+    const buyNearResponse = await buyCoin(buyNearPayload);
+    const data = buyNearResponse.data;
+    if (isBuyFromOnMeta(data)) {
+      const paymentUrl = openWidget({
+        allowOpeningNewTab: false,
+        getOnlyURL: true,
+        walletAddress: data.walletAddress,
+        fiatAmount: +data.amount,
+        chainId: +data.chainId,
+        tokenAddress: data.tokenAddress,
+        successRedirectUrl: data.successRedirectUrl,
+        failureRedirectUrl: data.failureRedirectUrl,
+        metaData: {
+          order_uuid: data.order_uuid,
+          referenceId: data.id,
+        },
       });
-      return;
-    }
+      setPaymentLink(paymentUrl);
+    } else {
+      if (
+        data.paymentGateway === `DECENTRO` &&
+        data.paymentUrl &&
+        data.qrCode &&
+        data.order_uuid
+      ) {
+        setPaymentLink(data.paymentUrl);
+        setPaymentQR(data.qrCode);
+        setOrderUUID(data.order_uuid);
+      } else if (data.paymentGateway == `AIRPAY` && data.metaData) {
+        const paymentUrl =
+          window.location.origin +
+          `/airpayForm?airpaydata=${JSON.stringify(data.metaData)}&orderId=${
+            data.orderId
+          }`;
 
+        setPaymentLink(paymentUrl);
+      } else if (data.paymentUrl) {
+        setPaymentLink(data.paymentUrl);
+      } else {
+        generateToast({
+          content: PaymentError.content,
+          type: ToastType.ERROR,
+        });
+        return;
+      }
+    }
     setBottomSheetState({
       onBack: () => {
         amplitude.trackClick(CLICK.BACK);

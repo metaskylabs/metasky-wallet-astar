@@ -21,7 +21,7 @@ interface RechargeProps {
   minAmount?: number;
   isRechargeRequired: boolean;
   confirmationDetails: PreviewTransferResponse;
-  tokenValue: number;
+  nearValue: number;
   currency: string;
   maxFees: RechargeFees;
   depositedCurrency?: string;
@@ -35,7 +35,7 @@ const Recharge: FC<RechargeProps> = ({
   minAmount,
   isRechargeRequired,
   confirmationDetails,
-  tokenValue,
+  nearValue,
   currency,
   maxFees,
   depositedCurrency,
@@ -166,7 +166,24 @@ const Recharge: FC<RechargeProps> = ({
                     );
                   })}
                 </div>
+                {/*<h4 css={styles.formLabel}>Amount in Near</h4>*/}
+                {/*<div css={styles.nearBalance}>*/}
+                {/*  <span>*/}
+                {/*    <img src={AssetsImg.ic_nearLogo.src} css={styles.nearLogo} />*/}
+                {/*  </span>*/}
+                {/*  3.6575*/}
+                {/*</div>*/}
               </motion.div>
+              {/*<motion.div*/}
+              {/*  css={styles.buttonContainer}*/}
+              {/*  initial={{ opacity: 0, y: 70 }}*/}
+              {/*  animate={{ opacity: 1, y: 0 }}*/}
+              {/*  transition={{*/}
+              {/*    delay: 0.2,*/}
+              {/*    default: { duration: 0.3 },*/}
+              {/*    ease: `easeIn`,*/}
+              {/*  }}*/}
+              {/*></motion.div>*/}
             </div>
           </div>
           <motion.div
@@ -199,10 +216,10 @@ const Recharge: FC<RechargeProps> = ({
 
                     {parseFloat(amount) > 0 ? amount : 0}
                   </div>
-                  <div css={styles.transactionDetailsChain}>
+                  <div css={styles.transactionDetailsNear}>
                     ~{` `}
                     {parseFloat(amount) > 0
-                      ? limitDecimal(tokenValue.toString(), 5)
+                      ? limitDecimal(nearValue.toString(), 5)
                       : 0}
                     {` `}
                     {depositedCurrency}
@@ -222,7 +239,7 @@ const Recharge: FC<RechargeProps> = ({
 
                     {maxFees.value_in_fiat}
                   </div>
-                  <div css={styles.transactionDetailsChain}>
+                  <div css={styles.transactionDetailsNear}>
                     ~{` `}
                     {limitDecimal(maxFees.value.toString(), 5)}
                     {` `}
@@ -251,10 +268,10 @@ const Recharge: FC<RechargeProps> = ({
                           2,
                         )}
                       </div>
-                      <div css={styles.transactionDetailsChain}>
+                      <div css={styles.transactionDetailsNear}>
                         ~{` `}
                         {limitDecimal(
-                          (tokenValue - maxFees.value).toString(),
+                          (nearValue - maxFees.value).toString(),
                           5,
                         )}
                         {` `}

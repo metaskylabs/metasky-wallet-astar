@@ -11,9 +11,12 @@ import { IframeMessageType } from '@utils/constants';
 import { Pages } from '@utils/navigation';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useDisconnect } from 'wagmi';
 import { useTranslate } from '@utils/useTranslate';
 import { CLICK, EVENT_PAGE } from '@constants/analytics';
 import { useAnalytics } from '@utils/useAnalytics';
+import useNearWallet from '@utils/hooks/NearWallet';
+import { useWalletSelector } from '@components/Shared/NearWalletSelector/WalletSelectorContext';
 interface LogoutProps {
   onClose: () => void;
 }
@@ -21,8 +24,25 @@ const Logout: FC<LogoutProps> = ({ onClose }) => {
   const router = useRouter();
   const { translate } = useTranslate();
   const { trackClick, trackPage } = useAnalytics();
+  const { disconnect } = useDisconnect();
+  const nearWallet = useNearWallet();
   const dispatch = useDispatch();
+  const nearWalletSelector = useWalletSelector();
   const handleLogOut = async () => {
+    try {
+      disconnect();
+      await nearWallet.signOut().catch((e) => console.log(e));
+      try {
+        const wallet = await nearWalletSelector.selector.wallet();
+        await wallet.signOut();
+      } catch (e) {
+        console.log(e);
+      }
+      delete (window as any)[`msnear`];
+      delete (window as any)[`near`];
+    } catch (error) {
+      console.log(error);
+    }
     setLogout(dispatch);
     sendMessageToParent(
       JSON.stringify({ event: IframeMessageType.logoutSuccess }),

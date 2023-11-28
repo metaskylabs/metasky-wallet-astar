@@ -6,6 +6,8 @@ export const home = {
   connectWallet: `Connect Wallet`,
   transfer: `TRANSFER`,
   recharge: `RECHARGE_WALLET`,
+  transferFromOnMeta: `TRANSFER_FROM_ONMETA`,
+  purchaseFromOnMeta: `PURCHASE_FROM_ONMETA`,
   seeAll: `SEE_ALL`,
   joinCommunity: `Join our community`,
   otherLinks: `Other Links`,
@@ -14,6 +16,17 @@ export const home = {
   buyNfts: `Buy NFTs`,
   onSale: `ON SALE`,
   scan: `Scan`,
+  externalWalletConnect: `External Wallet Connect`,
+};
+
+export const makeAnOffer = {
+  title: `Make an Offer`,
+  offerAmount: `Enter Offer Amount`,
+  createOfferInfo: `If the owner chooses to accept your offer, the NFT will be listed for
+  sale at your proposed offer amount.`,
+  update: `Update Price`,
+  updateContent: `To allow the buyer to make the purchase, update the price of this NFT to meet the offer amount.`,
+  gasFee: `Max Gas Fees Payable`,
 };
 
 export const benefits = {
@@ -70,6 +83,7 @@ export const nftDetails = {
   tnc: `Terms & Conditions`,
   ticketDetails: `Event Details`,
   blockchain: `Blockchain`,
+  auctionBids: `Auction Bids`,
 };
 
 export const nftList = {
@@ -103,6 +117,13 @@ export const transaction = {
   title: `History`,
   received: `Received:`,
   filter: `Filter Transactions`,
+};
+
+export const viewOffer = {
+  offerRejected: `Offer was rejected on`,
+  offerAccepted: `Offer was accepted on`,
+  offerDeleted: `Offer was deleted on`,
+  actionInProgress: `Your action is in Progress`,
 };
 
 export const referAndEarn = {
@@ -150,9 +171,33 @@ export enum TransferType {
   RECEIVE = `receive`,
 }
 
+export enum OfferType {
+  OFFERRECEIVE = `OFFER RECEIVE`,
+  OFFERMADE = `OFFER MADE`,
+}
+
+export enum OfferFilter {
+  ACTIVE = `ACTIVE`,
+  ACCEPTED = `ACCEPTED`,
+  REJECTED = `REJECTED`,
+  PENDING = `PENDING`,
+  DELETED = `DELETED`,
+}
+
 export enum TransferRadioType {
   NFT = `nft`,
   TOKEN = `token`,
+}
+
+export enum TransactionOrderType {
+  AUCTION_BID = `AUCTION_BID`,
+}
+
+export enum TokenCurrency {
+  MATIC = `MATIC`,
+  NEAR = `NEAR`,
+  ETHEREUM = `ETHEREUM`,
+  ETH = `ETH`,
 }
 
 export enum IframeMessageType {
@@ -176,9 +221,143 @@ export enum AnnouncementCTA {
   RECHARGE_OPEN = `RECHARGE_OPEN`,
 }
 
+export enum IframeHost {
+  localhost = `http://localhost:3001`,
+  seedhemaut = `https://www.seedhemaut.com`,
+  nayaab = `https://nayaab.world/nft`,
+  earthbuddy = `https://metasky.me`,
+}
+
+export const MetaMaskChainID = [
+  {
+    id: `1`,
+    name: `Ethereum`,
+    image: AssetsImg.ic_ethereum,
+  },
+  {
+    id: `4`,
+    name: `Rinkeby`,
+    image: AssetsImg.ic_ethereum,
+  },
+  {
+    id: `5`,
+    name: `Goerli`,
+    image: AssetsImg.ic_ethereum,
+  },
+  {
+    id: `137`,
+    name: `Polygon`,
+    image: AssetsImg.ic_polygon,
+  },
+  {
+    id: `250`,
+    name: `Fantom`,
+    image: AssetsImg.ic_fantom,
+  },
+  {
+    id: `43114`,
+    name: `Avalanche`,
+    image: AssetsImg.ic_avalanche,
+  },
+  {
+    id: `80001`,
+    name: `Mumbai`,
+    image: AssetsImg.ic_polygon,
+  },
+  {
+    id: `100`,
+    name: `Tanuki Test`,
+    image: AssetsImg.ic_avalanche,
+  },
+  {
+    id: `101`,
+    name: `Tanuki Test`,
+    image: AssetsImg.ic_avalanche,
+  },
+];
+
+export const NFTBlockchainMap: {
+  [id: string]: {
+    id: string;
+    name: string;
+    image: string;
+    chainId: number;
+    explorer: string;
+    symbol: string;
+    rpc?: string;
+  };
+} = {
+  ETHEREUM_1: {
+    id: `ETHEREUM_1`,
+    name: `Ethereum`,
+    image: AssetsImg.ic_ethereum.src,
+    chainId: 1,
+    explorer: `https://etherscan.io`,
+    symbol: `ETH`,
+  },
+  ETHEREUM_11155111: {
+    id: `ETHEREUM_11155111`,
+    name: `Sepolia`,
+    image: AssetsImg.ic_ethereum.src,
+    chainId: 11155111,
+    explorer: `https://sepolia.etherscan.io`,
+    symbol: `SepoliaETH`,
+    rpc: `https://rpc.sepolia.org`,
+  },
+  ETHEREUM_137: {
+    id: `ETHEREUM_137`,
+    name: `Polygon`,
+    image: AssetsImg.ic_polygon.src,
+    chainId: 137,
+    explorer: `https://polygonscan.com`,
+    symbol: `MATIC`,
+  },
+  ETHEREUM_80001: {
+    id: `ETHEREUM_80001`,
+    name: `Polygon Mumbai`,
+    image: AssetsImg.ic_polygon.src,
+    chainId: 80001,
+    explorer: `https://mumbai.polygonscan.com`,
+    symbol: `MATIC`,
+  },
+  NEAR_testnet: {
+    id: `NEAR_testnet`,
+    name: `NEAR`,
+    image: AssetsImg.ic_nearLogo.src,
+    chainId: 0,
+    explorer: ``,
+    symbol: `NEAR`,
+  },
+  NEAR_mainnet: {
+    id: `NEAR_mainnet`,
+    name: `NEAR`,
+    image: AssetsImg.ic_nearLogo.src,
+    chainId: 0,
+    explorer: ``,
+    symbol: `NEAR`,
+  },
+  METASKY_PVT_111111111: {
+    id: `METASKY_PVT_111111111`,
+    name: `Metasky`,
+    image: AssetsImg.ic_avalanche.src,
+    chainId: 111111111,
+    explorer: ``,
+    symbol: `MTASKY`,
+    rpc: `https://polygonedge.metasky.me/`,
+  },
+};
+
+export const curenciesForOffer = [
+  {
+    image: AssetsImg.rupee_svg.src,
+    currency: `Rupee`,
+  },
+];
+
 export enum maxLength {
   panCard = 10,
   minTokenTransfer = 0.1,
+  ethMinTokenTransfer = 0.01,
 }
 
 export enum walletDimension {

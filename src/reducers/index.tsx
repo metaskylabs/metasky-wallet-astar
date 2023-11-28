@@ -2,8 +2,10 @@ import ownedNft, { State as OwnedState } from './ownedNft';
 import user, { State as UserState } from './user';
 import userUpdates, { State as UserUpdateState } from './updates';
 import announcement, { State as AnnouncementState } from './announcement';
+import makeOffer, { State as MakeOfferState } from './makeOffer';
 import countryCode, { State as CountryCodeState } from './countryCode';
 import intercom, { State as IntercomState } from './intercom';
+import referral, { State as ReferAndEarnState } from './referral';
 import transfer, { State as TransferState } from './transfer';
 import routerHistory, { State as RouterHistoryState } from './router-history';
 import transactionHistoryList, {
@@ -48,11 +50,13 @@ export interface StoreState {
   ownedNft: OwnedState;
   marketPlaceNft: MarketPlaceState;
   announcement: AnnouncementState;
+  makeOffer: MakeOfferState;
   user: UserState;
   transfer: TransferState;
   status: StatusState;
   countryCode: CountryCodeState;
   collections: CollectionState;
+  referral: ReferAndEarnState;
   routerHistory: RouterHistoryState;
   utils: UtilsState;
   intercom: IntercomState;
@@ -66,10 +70,12 @@ export default combineReducers<CombinedState<StoreState>>({
   ownedNft,
   marketPlaceNft,
   announcement,
+  makeOffer,
   user,
   transfer,
   countryCode,
   collections,
+  referral,
   collectionNftList,
   status: statusReducer,
   utils,

@@ -73,6 +73,22 @@ const InputGroupSuffex: FC<InputGroupSuffexProps> = ({
         onKeyDown={noSpecialCharacterCheck ? (e) => blockInvalidChar(e) : NOOB}
         inputMode={type === Constants.InputType.number ? `numeric` : `text`}
       />
+      {/* TODO:- Please don't remove this will be needing in next release */}
+      {/* <div
+        css={[styles.inputGroupSuffex, mixins.flexAlignCenter, utils.mr(50)]}
+      >
+        <span css={[utils.mr(8)]}>~</span>
+        {` `}
+        <img
+          src={AssetsImg.ic_nearLogo.src}
+          alt=""
+          width="12"
+          height="12"
+          css={[utils.mr(4)]}
+        />
+        {` `}
+        <span>{conversion_rate}</span>
+      </div> */}
     </div>
   );
 };

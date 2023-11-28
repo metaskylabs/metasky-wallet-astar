@@ -15,6 +15,7 @@ import DisclaimerText from '@components/Shared/DisclaimerText';
 import * as disclaimerTextStyles from '@components/Shared/DisclaimerText/styles';
 import { useTranslate } from '@utils/useTranslate';
 import WalletSelect from '@components/WalletSelect';
+import { getExternalWalletConfig } from '@utils/wallet';
 import { walletConfigs } from '@constants/walletConfig';
 import { WalletCustodyType } from '@typings/api/auth';
 import { useUserSession } from '@utils/hooks/useUserSession';
@@ -22,15 +23,22 @@ import { useUserSession } from '@utils/hooks/useUserSession';
 interface WalletAddressProps {
   walletTitle?: string;
 }
+export enum networkList {
+  POLYGON = `POLYGON`,
+  NEAR = `NEAR`,
+  ETHEREUM = `ETHEREUM`,
+}
 
 type ConnectedAccount = {
-  address?: string;
+  ethAddress?: string;
+  nearAddress?: string;
   name?: string;
   icon?: string;
 };
 
 const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
-  const [selectedAccount, setSelectedAccount] = useState(-1);
+  const [network, setNetwork] = useState<networkList>(networkList.POLYGON);
+  const [selectedAccount, setSelectedAccount] = useState(0);
   const [connectedAccounts, setConnectedAccounts] = useState<
     ConnectedAccount[]
   >([]);
@@ -40,6 +48,7 @@ const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
     (state) => state.user,
   );
   const { translate } = useTranslate();
+  const { connectedWallets } = useUserSession();
 
   useEffect(() => {
     const accounts: ConnectedAccount[] = [];
@@ -47,22 +56,49 @@ const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
       ?.filter((wallet) => wallet.type === WalletCustodyType.CUSTODIAL)
       ?.forEach((wallet) => {
         accounts.push({
-          address: wallet.address,
+          ethAddress: wallet.ethAddress,
+          nearAddress: wallet.nearAddress,
           name: walletConfigs[WalletType.SKYWALLET]?.name,
           icon: walletConfigs[WalletType.SKYWALLET]?.icon,
         });
       });
+    connectedWallets?.forEach((wallet) => {
+      accounts.push({
+        ethAddress: wallet.address,
+        icon: getExternalWalletConfig(wallet.wallet).icon,
+        name: getExternalWalletConfig(wallet.wallet).displayName,
+      });
+    });
     setSelectedAccount(0);
     setConnectedAccounts(accounts);
-    setCurrentAddress(accounts?.[0]?.address || ``);
+    setCurrentAddress(
+      accounts?.[0]?.ethAddress || accounts?.[0]?.nearAddress || ``,
+    );
   }, []);
 
   useEffect(() => {
-    if (connectedAccounts?.[selectedAccount]?.address) {
-      setCurrentAddress(connectedAccounts?.[selectedAccount]?.address || ``);
+    if (
+      network === networkList.ETHEREUM ||
+      (network === networkList.POLYGON &&
+        connectedAccounts?.[selectedAccount]?.ethAddress)
+    ) {
+      setCurrentAddress(connectedAccounts?.[selectedAccount]?.ethAddress || ``);
       (async () => {
         const qrCode = await generateQR(
-          connectedAccounts?.[selectedAccount]?.address || ``,
+          connectedAccounts?.[selectedAccount]?.ethAddress || ``,
+        ).catch(console.log);
+        setQR(qrCode || ``);
+      })();
+    } else if (
+      network === networkList.NEAR &&
+      connectedAccounts?.[selectedAccount]?.nearAddress
+    ) {
+      setCurrentAddress(
+        connectedAccounts?.[selectedAccount]?.nearAddress || ``,
+      );
+      (async () => {
+        const qrCode = await generateQR(
+          connectedAccounts?.[selectedAccount]?.nearAddress || ``,
         ).catch(console.log);
         setQR(qrCode || ``);
       })();
@@ -70,7 +106,7 @@ const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
       setCurrentAddress(``);
       setQR(``);
     }
-  }, [selectedAccount]);
+  }, [network, selectedAccount, connectedWallets]);
 
   const onCopy = (copyText: any) => {
     navigator.clipboard.writeText(copyText);
@@ -79,6 +115,11 @@ const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
       type: ToastType.SUCCESS,
     });
   };
+
+  const handleChangeNetwork =
+    (type: networkList) => (event: ChangeEvent<HTMLInputElement>) => {
+      event.target.checked && setNetwork(type);
+    };
 
   return (
     <Fragment>
@@ -103,24 +144,50 @@ const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
           icon={AssetsImg.ic_formAsset.src}
           itemList={connectedAccounts.map((account, index) => ({
             id: index,
-            address: account.address || ``,
+            address: account.ethAddress || ``,
             icon: account.icon || ``,
             name: account.name || ``,
           }))}
           onChange={(val) => {
             setSelectedAccount(val.id as number);
+            setNetwork(networkList.POLYGON);
           }}
           value={{
             id: selectedAccount,
             name: connectedAccounts?.[selectedAccount]?.name || ``,
             icon: connectedAccounts?.[selectedAccount]?.icon || ``,
-            address: connectedAccounts?.[selectedAccount]?.address || ``,
+            address: connectedAccounts?.[selectedAccount]?.ethAddress || ``,
           }}
           iconName={`Wallet`}
           label={translate(`WALLET`)}
           error={``}
         />
-
+        <div css={styles.receiveNetworkTitle}>
+          {translate(`CURRENT_NETWORK`)}
+        </div>
+        <div css={styles.receiveNetworks}>
+          <LabelledRadioButton
+            disabled={!connectedAccounts?.[selectedAccount]?.ethAddress}
+            checked={network === networkList.POLYGON}
+            onChange={handleChangeNetwork(networkList.POLYGON)}
+          >
+            Polygon
+          </LabelledRadioButton>
+          <LabelledRadioButton
+            disabled={!connectedAccounts?.[selectedAccount]?.nearAddress}
+            checked={network === networkList.NEAR}
+            onChange={handleChangeNetwork(networkList.NEAR)}
+          >
+            NEAR
+          </LabelledRadioButton>
+          <LabelledRadioButton
+            disabled={!connectedAccounts?.[selectedAccount]?.ethAddress}
+            checked={network === networkList.ETHEREUM}
+            onChange={handleChangeNetwork(networkList.ETHEREUM)}
+          >
+            ETHEREUM
+          </LabelledRadioButton>
+        </div>
         {QR && (
           <div css={styles.walletAddressBarcode}>
             <img height="100%" width="100%" src={QR} alt="barcode" />

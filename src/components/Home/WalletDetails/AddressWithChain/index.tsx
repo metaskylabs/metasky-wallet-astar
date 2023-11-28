@@ -1,6 +1,8 @@
 import WalletState from '@components/Home/WalletDetails/WalletState';
 import { DividerLine, SecondaryButton } from '@components/Shared';
 import HeaderWithButtonLayout from '@components/Shared/HeaderWithButtonLayout';
+import ConnectSitesWalletAddress from '@components/WalletConnect/ConnectSitesWalletAddress';
+import { legacySignClient } from '@components/WalletConnect/utils/LegacyWalletConnectUtil';
 import { CLICK } from '@constants/analytics';
 import { ConnectionState } from '@constants/wallet';
 import AssetsImg from '@public/images';
@@ -36,8 +38,15 @@ const AddressWithChain: FC<AddressWithChainProps> = ({
   onClose,
   openQrCode,
 }) => {
+  const [legacySession, setLegacySession] = useState<any>(
+    legacySignClient?.session,
+  );
   const amplitude = useAnalytics();
 
+  const disconnectWcSession = async () => {
+    await legacySignClient.killSession();
+    setLegacySession(null);
+  };
   return (
     <Fragment>
       <HeaderWithButtonLayout
@@ -70,8 +79,13 @@ const AddressWithChain: FC<AddressWithChainProps> = ({
                   </span>
                   <span>{chain.name}</span>
                 </div>
-
-                <DividerLine addStyles={utils.margin(0)} />
+                {legacySession &&
+                legacySession.connected &&
+                chain.chain === legacySession.chainId ? (
+                  <span css={typography.T_14_Bold}>Wallet Address</span>
+                ) : (
+                  <DividerLine addStyles={utils.margin(0)} />
+                )}
 
                 <div css={mixins.flexJustifiedBetween}>
                   <span css={typography.T_14_Regular}>
@@ -95,6 +109,21 @@ const AddressWithChain: FC<AddressWithChainProps> = ({
                     View QR Code
                   </span>
                 </div>
+
+                {legacySession &&
+                  legacySession.connected &&
+                  chain.chain === legacySession.chainId && (
+                    <Fragment>
+                      <DividerLine addStyles={utils.margin(0)} />
+                      <ConnectSitesWalletAddress
+                        name={legacySession.peerMeta?.name + ` (v1/legacy)`}
+                        url={legacySession.peerMeta?.url}
+                        logo={legacySession.peerMeta?.icons[0]}
+                        onDisconnect={disconnectWcSession}
+                        addStyles={styles.connectedSites}
+                      />
+                    </Fragment>
+                  )}
               </div>
             );
           })}

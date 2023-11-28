@@ -74,6 +74,7 @@ function TransactionsDetail() {
       } else {
         const transaction_id = query.id as string;
         if (!session.isLoggedIn) {
+          setIsLoading(false);
           setIsLoggedIn(true);
         } else {
           getTransactionDetails(transaction_id);
@@ -161,7 +162,19 @@ function TransactionsDetail() {
                 hideStatus
                 enableRedirect={
                   transactionDetails?.token?.type ===
-                  Constants.TransferRadioType.NFT
+                    Constants.TransferRadioType.NFT ||
+                  transactionDetails?.order_type ===
+                    Constants.TransactionOrderType.AUCTION_BID
+                }
+                onClick={
+                  transactionDetails?.order_type ===
+                    Constants.TransactionOrderType.AUCTION_BID &&
+                  transactionDetails?.auction_uuid
+                    ? () =>
+                        router.push(
+                          `${Pages.AUCTION}/${transactionDetails?.auction_uuid}`,
+                        )
+                    : undefined
                 }
                 mediaType={transactionDetails?.token?.media_type}
                 nftRedirect={transactionDetails?.token?.id}

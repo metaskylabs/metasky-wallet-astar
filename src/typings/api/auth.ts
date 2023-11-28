@@ -8,6 +8,7 @@ export interface LoginUserByEmailSendOtpPayload {
 export interface LoginUserByPhoneVerifyOtpPayload {
   ph_no: string;
   otp: string;
+  referral_code: string;
 }
 
 export interface LoginUserByEmailVerifyOtpPayload {
@@ -38,6 +39,10 @@ export interface SetPinResponse {
     name?: string;
   } | null;
   userUUID: string;
+  walletAddresses: {
+    ethAddress: string;
+    nearAddress: string;
+  };
 }
 
 export interface validatePinPayload {
@@ -46,15 +51,46 @@ export interface validatePinPayload {
 export interface ValidatePinResponse {
   accessToken: string;
   additionalParamRequired: AdditionalDetailsResponse | null;
+  walletAddresses: {
+    ethAddress: string;
+    nearAddress: string;
+  };
   userUUID: string;
 }
 
+export interface WhitelistRequest {
+  ref: string;
+  refType: WhitelistRefType;
+  chain?: string;
+}
 export enum WhitelistRefType {
   MOBILE = `mobile`,
   EMAIL = `email`,
   PUBLIC_ADDRESS = `public_address`,
 }
 
+export interface GenerateNoncePayload {
+  walletAddress: string;
+}
+
+export interface GenerateNonceResponse {
+  walletAddress: string;
+  nonce: string;
+}
+
+export interface VerifyNoncePayload {
+  signature: string;
+  message: string;
+  chain?: string;
+  walletAddress?: string;
+}
+
+export interface VerifyNonceResponse {
+  bearerToken: string; //"Token successfully created."
+  walletAddresses: {
+    ethAddress: string;
+  };
+}
 export interface ForgotPinVerifyOtpPayload {
   otp: string;
 }
@@ -84,6 +120,13 @@ export interface AdditionalDetailsResponse {
   name?: string | undefined;
 }
 
+export interface ImplicitWhitelistResponse {
+  isWhitelisted: boolean;
+  canClaimMore: boolean;
+  listingId?: string;
+}
+
 export enum WalletCustodyType {
   CUSTODIAL = `CUSTODIAL`,
+  NONCUSTODIAL = `NONCUSTODIAL`,
 }

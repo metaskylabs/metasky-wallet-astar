@@ -116,6 +116,7 @@ const Otp: FC<OtpProps> = ({ nextStep, contactNumber, contactEmail }) => {
         ? await loginUserByPhoneVerifyOtp({
             ph_no: contactNumber,
             otp: pin,
+            referral_code: (router.query.referral_code as string) || ``,
           })
         : contactEmail &&
           (await loginUserByEmailVerifyOtp({

@@ -1,5 +1,6 @@
 import { LocalStorageVariables } from '@constants/authentication';
 import { WalletType } from '@constants/wallet';
+import { Blockchain, ExternalWallet } from '@utils/wallet';
 import { useCallback, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import { WalletCustodyType } from '@typings/api/auth';
@@ -12,6 +13,16 @@ type UserSession = {
   phone_number?: string;
   user_uuid?: string;
   token?: string;
+  connectedNearWallets?: {
+    wallet?: ExternalWallet | undefined;
+    address: string;
+    chain: Blockchain;
+  }[];
+  connectedWallets?: {
+    wallet?: ExternalWallet | undefined;
+    address: string;
+    chain: Blockchain;
+  }[];
   wallets?: WalletType[];
 };
 
@@ -53,6 +64,13 @@ export const useUserSession = (): UserSession => {
     }
     const loginTypes =
       tokenData?.wallet_uuids?.map((wallet) => wallet?.type) || [];
+    const connectedWallets: {
+      wallet?: ExternalWallet;
+      address: string;
+      chain: Blockchain;
+    }[] = JSON.parse(
+      localStorage.getItem(LocalStorageVariables.WALLETS) || `[]`,
+    );
     const _data = {
       isLoggedIn,
       ...(isLoggedIn
@@ -62,9 +80,18 @@ export const useUserSession = (): UserSession => {
             phone_number: tokenData?.phone_number,
             user_uuid: tokenData?.user_uuid,
             token: token as string,
+            connectedNearWallets: Array.isArray(connectedWallets)
+              ? connectedWallets.filter((w) => w.chain === Blockchain.NEAR)
+              : [],
+            connectedWallets: Array.isArray(connectedWallets)
+              ? connectedWallets.filter((w) => w.chain === Blockchain.ETHEREUM)
+              : [],
             wallets: [
               loginTypes.includes(WalletCustodyType.CUSTODIAL)
                 ? [WalletType.SKYWALLET]
+                : [],
+              loginTypes.includes(WalletCustodyType.NONCUSTODIAL)
+                ? [WalletType.METAMASK]
                 : [],
             ].flat(),
           }

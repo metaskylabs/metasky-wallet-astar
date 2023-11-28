@@ -43,6 +43,7 @@ export { default as Checkbox } from './Checkbox';
 export { default as TableHeader } from './Table/TableHeader';
 export { default as TableItem } from './Table/TableItem';
 export { default as TagButton } from './Button/TagButton';
+export { default as AccountStatus } from './Status';
 export { default as Dropdown } from './DropDown';
 export { default as StackedCard } from './Card/StackedCard';
 export { default as BannerLeftImageWithCta } from './Bannner/LeftImageWithCta';

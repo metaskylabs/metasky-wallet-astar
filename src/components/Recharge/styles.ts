@@ -129,6 +129,19 @@ export const amountButton = css({
   borderRadius: utils.remConverter(4),
 });
 
+export const nearBalance = css({
+  ...Typography.T_14_Semibold,
+  border: `1px solid #CCD5EC`,
+  borderRadius: utils.remConverter(4),
+  padding: `${utils.remConverter(11.23)} ${utils.remConverter(12)}`,
+  marginTop: utils.remConverter(12),
+});
+
+export const nearLogo = css({
+  marginRight: utils.remConverter(9),
+  maxWidth: utils.remConverter(16),
+});
+
 export const transactionDetailsContainer = css({
   padding: `${utils.remConverter(20)} ${utils.remConverter(
     16,
@@ -164,7 +177,7 @@ export const transactionDetailsInr = css({
   ...typography.T_14_Bold,
 });
 
-export const transactionDetailsChain = css({
+export const transactionDetailsNear = css({
   ...typography.T_12_Regular,
 });
 

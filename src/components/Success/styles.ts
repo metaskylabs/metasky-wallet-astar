@@ -16,8 +16,8 @@ export const ellipse = css({
 });
 export const successIcon = css({
   textAlign: `center`,
-  width: utils.remConverter(200),
-  height: utils.remConverter(200),
+  width: utils.remConverter(150),
+  height: `auto`,
 });
 
 export const successContentWrapper = css({

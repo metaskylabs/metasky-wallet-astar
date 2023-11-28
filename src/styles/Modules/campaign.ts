@@ -118,3 +118,44 @@ export const button = css({
   color: colors.Secondary_Black_Text,
   ...typography.T_20_Bold,
 });
+
+export const auctionCard = css({
+  boxShadow: colors.Shadow_Card_Outer_Smooth,
+  display: `flex`,
+  flexDirection: `column`,
+  padding: `${utils.remConverter(16)} ${utils.remConverter(8)}`,
+  borderRadius: 4,
+});
+
+export const auctionTitleContainer = css({
+  marginBottom: utils.remConverter(20),
+});
+
+export const auctionTitle = css({
+  ...typography.T_20_Bold,
+  marginLeft: utils.remConverter(10),
+});
+
+export const auctionEndDate = css({
+  ...typography.T_16_Regular,
+  marginTop: utils.remConverter(12),
+  marginBottom: utils.remConverter(20),
+});
+
+export const auctionTopBidContainer = css({
+  borderRadius: utils.remConverter(4),
+  padding: utils.remConverter(16),
+  background: colors.Gradient_Purple,
+});
+
+export const topBidChip = css({
+  ...typography.T_12_Semibold,
+  borderRadius: utils.remConverter(4),
+  backgroundColor: colors.Secondary_White,
+  padding: `${utils.remConverter(2)} ${utils.remConverter(10)}`,
+});
+
+export const topBidValue = css({
+  ...typography.T_16_Semibold,
+  color: colors.Secondary_White,
+});

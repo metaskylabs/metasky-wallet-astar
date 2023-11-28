@@ -2,6 +2,7 @@ export enum UpdatesCategories {
   NOTIFICATION = `NOTIFICATION`,
   LISTING = `LISTING`,
   BENEFIT = `BENEFIT`,
+  OFFER = `OFFER`,
 }
 
 export enum UpdatesStatus {

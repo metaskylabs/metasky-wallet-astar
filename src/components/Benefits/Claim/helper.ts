@@ -7,6 +7,8 @@ export enum VIEW_STATE {
   SECRET_ASSET = `SECRET_ASSET`,
   DISCORD_ASSET = `DISCORD_ASSET`,
   BENEFIT_GRID = `BENEFIT_GRID`,
+  FILE_ASSET = `FILE_ASSET`,
+  CUSTOM_ASSET = `CUSTOM_ASSET`,
 }
 export enum BenefitMediaType {
   IMAGE,
@@ -14,6 +16,7 @@ export enum BenefitMediaType {
   AUDIO,
   ZIP,
   PDF,
+  CSV,
 }
 
 export const getMediaTypeFromMime = (
@@ -40,6 +43,8 @@ export const getMediaTypeFromMime = (
       return BenefitMediaType.ZIP;
     case BenefitClaimMimeType.PDF:
       return BenefitMediaType.PDF;
+    case BenefitClaimMimeType.CSV:
+      return BenefitMediaType.CSV;
   }
 };
 
@@ -53,6 +58,8 @@ export const getViewStateFromMedia = (
       return VIEW_STATE.AUDIO_ASSET;
     case BenefitMediaType.VIDEO:
       return VIEW_STATE.VIDEO_ASSET;
+    case BenefitMediaType.CSV:
+      return VIEW_STATE.FILE_ASSET;
   }
 };
 

@@ -44,6 +44,8 @@ export interface CollectionNftList {
     skywallet_accepted_currency: string;
     price: string;
     currency: string;
+    metamask_accepted_price: string;
+    metamask_accepted_currency: string;
     seller: string;
     total_quantity: string;
     available_quantity: string;

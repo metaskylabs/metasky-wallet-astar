@@ -7,6 +7,7 @@ import {
   State as userProfileState,
   State as profileState,
 } from '@reducers/user';
+import { State as ReferralState } from '@reducers/referral';
 import { getToken } from '@utils/helper';
 import { PROFILE_SETTINGS } from '@constants/profile';
 import { CLICK, screen } from '@constants/analytics';
@@ -42,6 +43,9 @@ const ProfileSidePanel: FC<ProfileSidePanelProps> = ({
   const router = useRouter();
   const { profile } = useSelector<StoreState, profileState>(
     (state) => state.user,
+  );
+  const referral = useSelector<StoreState, ReferralState>(
+    (state) => state.referral,
   );
   const user = useSelector<StoreState, userProfileState>((state) => state.user);
   const session = useUserSession();
@@ -98,6 +102,9 @@ const ProfileSidePanel: FC<ProfileSidePanelProps> = ({
           BottomSheetComponent.CHANGE_PIN,
           BottomPopupSize.MEDIUM,
         );
+        break;
+      case `My Offers`:
+        router.push(Pages.OFFER);
         break;
       case `Customer Support`:
         handleBottomSheetCom(
@@ -170,6 +177,11 @@ const ProfileSidePanel: FC<ProfileSidePanelProps> = ({
 
         {[
           ...updatedProfileSetting,
+          ...(referral?.config.isActive
+            ? [`Refer & Earn`]
+            : referral?.config.hasRewards
+            ? [`Rewards`]
+            : []),
           ...(clientID === `tanuki` &&
           session.wallets?.includes(WalletType.SKYWALLET)
             ? [`Language & Currency`]

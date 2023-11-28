@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { FC, Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import * as styles from './styles';
 import Splashscreen from '@components/SplashScreen';
+import useSignInWithEthereum from '@utils/hooks/Siwe';
 import { detectIncognito } from '@utils/detectIncognito';
 import IncognitoScreen from '@components/Shared/IncognitoShield/IncognitoScreen';
 import { Pages } from '@utils/navigation';
@@ -9,6 +10,7 @@ import { setUserLogin } from '@actions/auth';
 import { useSelector } from 'react-redux';
 import { StoreState } from '@reducers';
 import { State as userProfileState } from '@reducers/user';
+import { getReferralLink } from '@actions/referral';
 import { getUserProfile } from '@actions/user';
 import { handleErrorMessage } from '@utils/handleResponseToast';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -36,6 +38,7 @@ import { IframeMessageType } from '@utils/constants';
 import AccountSelector, { ConnectedAccount } from '@components/AccountSelector';
 import { BottomPopup } from '@components/Shared';
 import NOOB from '@constants/noob';
+import { initContract } from '@utils/near/utils';
 import { getBalanceSummary } from '@actions/profile';
 
 function inIframe() {
@@ -74,6 +77,10 @@ const HocWrapper: FC<HocWrapperProps> = ({ children }) => {
   useEffect(() => {
     if (ref && ref.current) handleResize(ref);
   }, []);
+
+  useEffect(() => {
+    initContract();
+  }, [router.isReady]);
 
   useEffect(() => {
     sendingMessageToParent(user);
@@ -124,6 +131,7 @@ const HocWrapper: FC<HocWrapperProps> = ({ children }) => {
   useEffect(() => {
     if (user.isLogin) {
       fetchProfile();
+      getReferralLink();
     }
   }, [user.isLogin, token]);
 
@@ -146,6 +154,8 @@ const HocWrapper: FC<HocWrapperProps> = ({ children }) => {
     // Add event listener
     window.addEventListener(`resize`, () => handleResize(ref));
   }
+
+  useSignInWithEthereum();
 
   const getIntermediateSheet = () => {
     if (accountSelectorConfig.isOpen) {

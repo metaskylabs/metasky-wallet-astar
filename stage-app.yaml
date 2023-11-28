@@ -1,6 +1,8 @@
 runtime: custom
-service: skywallet-xrp-frontend-service
+service: skywallet-frontend-service
 env: flex
+
+dockerfile: DockerfileStage
 
 handlers:
 - url: /static
@@ -10,13 +12,22 @@ handlers:
 
 default_expiration: "4d 5h"
 
+# env_variables:
+#   NODE_ENV: development
+#   STAGE_SECRETS_ARN: arn:aws:secretsmanager:ap-southeast-1:596582533248:secret:dev/skywallet-service-DUkMl9
+#   REDIS_HOST: redis-13870.c1.ap-southeast-1-1.ec2.cloud.redislabs.com
+#   REDIS_PORT: 13870;
+#   REDIS_USERNAME: default
+#   REDIS_PASSWORD: LYBXO3h5GVeWOnCf1NnjkvcSmT9qJ4Xb
+
+
 network:
   name: projects/metasky-stage/global/networks/metasky-stage
   subnetwork_name: asia-southeast1
 
 resources:
-  cpu: 1
-  memory_gb: 2
+  cpu: 4 #no of vcpu
+  memory_gb: 4
 
 liveness_check:
   check_interval_sec: 30
@@ -32,8 +43,18 @@ readiness_check:
   success_threshold: 2
   app_start_timeout_sec: 300
 
+
+# automatic_scaling:
+#   min_num_instances: 1
+#   max_num_instances: 15
+#   cool_down_period_sec: 180
+#   cpu_utilization:
+#     target_utilization: 0.6
+#   target_concurrent_requests: 100
+
+
 automatic_scaling:
   min_num_instances: 1
-  max_num_instances: 1
+  max_num_instances: 2
 
 service_account: metasky-stage-service-account@metasky-stage.iam.gserviceaccount.com

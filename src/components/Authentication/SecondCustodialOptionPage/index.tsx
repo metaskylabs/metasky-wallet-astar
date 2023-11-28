@@ -32,6 +32,9 @@ const SecondCustodialOptionPage: FC<SecondCustodialOptionPageProps> = ({
       <HeaderWithCloseAndBack
         isBackEnabled={true}
         secondaryBack={true}
+        onBack={() => {
+          handleScreen(AuthenticationScreen.authMain);
+        }}
         addedContainerStyles={styles.headerWrapper}
       />
       <motion.div

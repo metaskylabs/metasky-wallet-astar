@@ -150,11 +150,15 @@ export const tagContainer = css([
 ]);
 
 export const sortAndFilterContainer = css({
-  display: `grid`,
-  gridTemplateColumns: `repeat(3, 1fr)`,
-  gridTemplateRows: `45px`,
+  display: `flex`,
   margin: `10px 20px`,
-  columnGap: `10px`,
+  gap: `10px`,
+  '.dropdown': {
+    width: `100%`,
+  },
+  button: {
+    height: 38,
+  },
 });
 
 export const styledFilterButton = css({

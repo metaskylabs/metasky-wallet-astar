@@ -58,8 +58,8 @@ export const addressLogo = css({
 });
 
 export const image = css({
-  height: `auto`,
-  width: `20px`,
+  maxHeight: `100%`,
+  maxWidth: `100%`,
 });
 
 export const ctaContainer = css({

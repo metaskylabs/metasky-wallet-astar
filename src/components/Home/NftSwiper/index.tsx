@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { getTokensList } from '@actions/ownedNft';
 import { CardNfts, DefaultCard, HeaderOne } from '@components/Shared';
 import { TokensType } from '@typings/api/wallet';

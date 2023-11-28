@@ -1,10 +1,13 @@
+/** @jsxImportSource @emotion/react */
 import * as styles from '@styles/Modules/BenefitsDetails';
 import {
   BottomFadeInAnimation,
   BottomPopup,
   FullScreenKiteLoader,
   FullScreenPopUp,
+  Header,
   MLottie,
+  MediaCard,
   PrimaryButton,
 } from '@components/Shared';
 import 'swiper/css';
@@ -12,6 +15,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { getBenefitAccessInfo, getWalletBenefitsById } from '@actions/wallet';
 import {
   AccessBenefit,
+  BenefitNftItem,
   BenefitTypes,
   WalletBenefitsResponse,
 } from '@typings/api/wallet';
@@ -20,10 +24,13 @@ import Authentication from '@components/Authentication';
 import ShimmerCard from '@components/Shimmer/ShimmerCard';
 import ShimmerLargeImage from '@components/Shimmer/ShimmerLargeImage';
 import { click, screen } from '@constants/analytics';
-import { mixins } from '@styles/shared';
+import { nayaabBenefit } from '@utils/amplitude';
+import { mixins, typography } from '@styles/shared';
 import { StatusType } from '@typings/api/shared';
 import { handleErrorMessage } from '@utils/handleResponseToast';
 import { LocalStorageVariables } from '@constants/authentication';
+import Referrer from '@components/ReferAndEarn/Referrer';
+import { State as ReferralState } from '@reducers/referral';
 import { StoreState } from '@reducers';
 import { useSelector } from 'react-redux';
 import NOOB from '@constants/noob';
@@ -44,15 +51,28 @@ import ClaimBenefit from '@components/Benefits/Claim';
 import { useAnalytics } from '@utils/useAnalytics';
 import RichText from '@components/Shared/RichText';
 import AssetsImg from '@public/images';
+import { isNull } from 'lodash';
+import * as qrStyles from '@styles/Modules/qr';
+import { generateQR } from '@utils/qrCode';
+import { State as userProfileState } from '@reducers/user';
+import { MediaType } from '@components/Shared/Card/FeedMedia';
+import * as Constants from '@utils/constants';
+import * as transactionStyles from '@components/Transaction/TransactionsList/styles';
+import { css } from '@emotion/react';
+import utils from '@reducers/utils';
 
 enum BottomSheetComponent {
   BENEFIT_ERROR,
+  REFERRAL,
 }
 function BenefitsDetails() {
   const router = useRouter();
   const { trackClick, trackPage } = useAnalytics();
   const { translate } = useTranslate();
   const { query } = router;
+  const { profile } = useSelector<StoreState, userProfileState>(
+    (state) => state.user,
+  );
   const [benefitDetails, setBenefitDetails] = useState<{
     status?: StatusType;
     data?: WalletBenefitsResponse;
@@ -60,6 +80,9 @@ function BenefitsDetails() {
   const [apiLoadingState, setApiLoadingState] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isKiteLoaderOpen, setIsKiteLoaderOpen] = useState<boolean>(false);
+  const referralState = useSelector<StoreState, ReferralState>(
+    (state) => state.referral,
+  );
   const session = useUserSession();
   const [benefitError, setBenefitError] = useState<{
     title: string;
@@ -81,6 +104,8 @@ function BenefitsDetails() {
     useState<AccessBenefit>();
   const { linkHandler } = useLinkHandler();
   const allowAccess = !Boolean(benefitDetails.data?.unClickable);
+  const [selectedNft, setSelectedNft] = useState<BenefitNftItem | null>(null);
+  const [QR, setQR] = useState(``);
 
   useEffect(() => {
     if (router.isReady) {
@@ -111,6 +136,32 @@ function BenefitsDetails() {
     }
   }
 
+  const openReferralSheet = () => {
+    if (typeof window !== `undefined`) {
+      const token = localStorage.getItem(LocalStorageVariables.REFER_INVITE);
+      if (!token) {
+        setCurrentBottomSheet({
+          isOpen: true,
+          component: BottomSheetComponent.REFERRAL,
+          onClose: onRefererClose,
+        });
+      }
+    }
+  };
+
+  const onRefererClose = () => {
+    if (typeof window !== `undefined`) {
+      try {
+        localStorage.setItem(LocalStorageVariables.REFER_INVITE, `true`);
+      } catch (e) {
+        return false;
+      }
+    }
+    setCurrentBottomSheet({
+      isOpen: false,
+    });
+  };
+
   const onAccessBenefit = async (benefitId: string) => {
     setIsKiteLoaderOpen(true);
     return getBenefitAccessInfo(benefitId, router.query.nftId as string)
@@ -123,7 +174,7 @@ function BenefitsDetails() {
             response?.data?.ctaLinkAs,
           );
         } else if (response?.data?.type === BenefitTypes.BENEFIT_STREAM) {
-          console.log(`benefitAccessNowClick`, {
+          nayaabBenefit(`benefitAccessNowClick`, {
             uuid: `${benefitDetails?.data?.id}`,
           });
         } else {
@@ -172,6 +223,9 @@ function BenefitsDetails() {
     onAccessBenefit(benefitDetails?.data?.id || ``)
       .then(() => {
         setApiLoadingState(false);
+        if (referralState?.config?.isActive) {
+          openReferralSheet();
+        }
       })
       .catch(() => {
         setApiLoadingState(false);
@@ -179,7 +233,11 @@ function BenefitsDetails() {
   };
 
   const renderSheet = () => {
-    if (currentBottomSheet.component === BottomSheetComponent.BENEFIT_ERROR) {
+    if (currentBottomSheet.component === BottomSheetComponent.REFERRAL) {
+      return <Referrer closeSheet={NOOB} />;
+    } else if (
+      currentBottomSheet.component === BottomSheetComponent.BENEFIT_ERROR
+    ) {
       return (
         <ErrorBottomSheet
           img={benefitError.img}
@@ -195,6 +253,42 @@ function BenefitsDetails() {
         />
       );
     }
+  };
+
+  const handleNftClick = async (nft: BenefitNftItem) => {
+    trackClick(click.benefitNft, {
+      benefit_id: benefitDetails?.data?.id,
+      benefit_name: benefitDetails?.data?.name,
+      ...nft,
+    });
+    if (benefitDetails?.data?.expired) {
+      setBenefitError({
+        title: `You cannot access this ticket`,
+        description: `You cannot access this ticket QR as this utility has expired`,
+      });
+      setCurrentBottomSheet({
+        isOpen: true,
+        component: BottomSheetComponent.BENEFIT_ERROR,
+        onClose: () => {
+          setCurrentBottomSheet({ isOpen: false });
+          setBenefitError({
+            title: ``,
+            description: ``,
+          });
+        },
+      });
+      return;
+    }
+    const qr = await generateQR(
+      JSON.stringify({
+        wallet_uuid: profile?.walletUUID,
+        benefit_uuid: benefitDetails.data?.id,
+        nft_uuid: nft.nft_uuid,
+      }),
+      9,
+    );
+    setQR(qr);
+    setSelectedNft(nft);
   };
 
   const getPage = () => {
@@ -292,7 +386,97 @@ function BenefitsDetails() {
                     <RichText content={benefitDetails.data?.description} />
                   </div>
                 )}
+                <div
+                  css={[
+                    styles.bodyContainerNfts,
+                    css({
+                      marginLeft: `-1rem`,
+                      marginRight: `-1rem`,
+                    }),
+                  ]}
+                >
+                  {benefitDetails.data.type === `Ticket` &&
+                    benefitDetails.data.related_nfts &&
+                    benefitDetails.data.related_nfts.length > 0 && (
+                      <p
+                        css={[
+                          typography.T_16_Bold,
+                          css({
+                            marginLeft: `1rem`,
+                            marginRight: `1rem`,
+                          }),
+                        ]}
+                      >
+                        NFTs
+                      </p>
+                    )}
+
+                  {benefitDetails.data.type === `Ticket` &&
+                    benefitDetails.data.related_nfts?.map((nft) => {
+                      return (
+                        <div
+                          key={nft.nft_uuid}
+                          onClick={() => handleNftClick(nft)}
+                          css={transactionStyles.transactionsList}
+                        >
+                          <MediaCard
+                            mediaType={
+                              nft.media_type === `image`
+                                ? MediaType.IMAGE
+                                : MediaType.VIDEO
+                            }
+                            mediaUrl={nft.image}
+                            addedStyles={
+                              transactionStyles.transactionsImageContainer
+                            }
+                            mediaShimmerSize={Constants.ShimmerCardSize.MEDIUM}
+                          />
+                          <div
+                            css={[
+                              transactionStyles.transactionsListHeader,
+                              mixins.flexAlignCenter,
+                            ]}
+                          >
+                            <div>
+                              <h4 css={transactionStyles.transactionsListTitle}>
+                                {nft.name}
+                              </h4>
+                              <span css={transactionStyles.statusText}>
+                                Token ID: {nft.onchain_token_id}
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            css={[
+                              mixins.flexAlignCenter,
+                              css({ padding: `10px`, paddingRight: `1rem` }),
+                            ]}
+                          >
+                            <img
+                              src={AssetsImg.ic_arrow_forward_black.src}
+                              alt="View QR"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
               </BottomFadeInAnimation>
+              <FullScreenPopUp isOpen={!isNull(selectedNft)}>
+                {selectedNft && (
+                  <Header
+                    title={`Ticket QR Code`}
+                    isBackEnabled
+                    customBack={() => {
+                      setSelectedNft(null);
+                      setQR(``);
+                    }}
+                  />
+                )}
+                <div css={qrStyles.walletAddressBarcode}>
+                  <img height="100%" width="100%" src={QR} alt="QR Code" />
+                </div>
+              </FullScreenPopUp>
             </div>
           </HeaderWithButtonLayout>
           <FullScreenKiteLoader isOpen={isKiteLoaderOpen}>

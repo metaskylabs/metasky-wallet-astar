@@ -9,3 +9,7 @@ export const numberRegex = /^[1-9]{1,6}$/;
 export const onlyNumber = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
 export const onlyNumberMaxFiveDecimals =
   /^([0-9]+(?:[\.][0-9]{1,5})?|\.[0-9]{1,5})$/;
+export const mainnetNearAddress =
+  /^[a-z0-9]+[a-z0-9-_]*[a-z0-9]+|[a-z0-9]+.near$/;
+export const testnetNearAddress =
+  /^[a-z0-9]+[a-z0-9-_]*[a-z0-9]+|[a-z0-9]+.testnet$/;

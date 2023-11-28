@@ -48,7 +48,7 @@ const CardToken: FC<CardTokenProps> = ({
       </div>
       <div css={[styles.tokenCardBottom, mixins.flexColumn]}>
         <span css={styles.headerContainerTitle}>
-          {limitDecimal(quantity, 2)}
+          {limitDecimal(quantity, 5)}
         </span>
         {conversionFactor && (
           <div css={[styles.inrValue]}>

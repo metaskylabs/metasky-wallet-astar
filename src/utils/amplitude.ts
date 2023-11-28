@@ -57,3 +57,17 @@ export const setUserId = (userId: string) => {
     }
   }
 };
+
+export const nayaabBenefit = (eventName: string, props: object = {}) => {
+  if (
+    typeof window !== `undefined` &&
+    typeof window.navigator !== `undefined` &&
+    process.env.NEXT_PUBLIC_AMPLITUDE_ENABLED === `true`
+  ) {
+    try {
+      amplitude.getInstance().logEvent(eventName, props);
+    } catch (error) {
+      Logger.debug(error);
+    }
+  }
+};

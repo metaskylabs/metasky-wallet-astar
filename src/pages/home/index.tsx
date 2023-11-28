@@ -12,6 +12,8 @@ import * as styles from '@styles/Modules/home';
 import { useRouter } from 'next/router';
 import { NavTabs } from '@components/Shared/BottomNav/constants';
 import Logout from '@components/Logout';
+import ReferAndEarn from '@components/ReferAndEarn';
+import MyReward from '@components/NewHome/MyRewards';
 import ChangePin from '@components/Authentication/ChangePin';
 import CreatePin from '@components/Authentication/CreatePin';
 import { setPin } from '@actions/auth';
@@ -27,11 +29,11 @@ import NFTTransferFlow from '@components/NFTTransferFlow';
 import { APIStatusType } from '@typings/api/wrapper';
 import CustomerSupport from '@components/CustomerSupportBottomSheet';
 
-
-
-
 export enum BottomSheetComponent {
+  MY_OFFERS = `My Offers`,
   CHANGE_PIN = `Change Pin`,
+  REWARDS = `My Rewards`,
+  REFER_EARN = `Refer & Earn`,
   LOGOUT = `Logout`,
   FEED = `Trending Now`,
   CREATE_PIN = `Create Pin`,
@@ -40,8 +42,6 @@ export enum BottomSheetComponent {
   FORGOT_PIN = `Forgot Pin`,
   LANGUAGE_AND_CURRENCY = `Language & Currency`,
   CUSTOMER_SUPPORT = `Customer Support`,
-  REWARDS = "REWARDS",
-  REFER_EARN = "REFER_EARN"
 }
 const Home: FC = () => {
   const router = useRouter();
@@ -109,6 +109,12 @@ const Home: FC = () => {
       return (
         <Logout onClose={() => setCurrentBottomSheet({ isOpen: false })} />
       );
+    } else if (
+      currentBottomSheet.component === BottomSheetComponent.REFER_EARN
+    ) {
+      return <ReferAndEarn />;
+    } else if (currentBottomSheet.component === BottomSheetComponent.REWARDS) {
+      return <MyReward />;
     } else if (
       currentBottomSheet.component === BottomSheetComponent.CHANGE_PIN
     ) {

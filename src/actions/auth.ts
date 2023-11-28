@@ -3,6 +3,9 @@ import { MetaskyAPIWrap, MetaskyErrorAPIResponse } from '@typings/api/wrapper';
 import {
   ForgotPinVerifyOtpPayload,
   ForgotPinVerifyOtpResponse,
+  GenerateNoncePayload,
+  GenerateNonceResponse,
+  ImplicitWhitelistResponse,
   LoginUserByEmailSendOtpPayload,
   LoginUserByEmailVerifyOtpPayload,
   LoginUserByEmailVerifyOtpResponse,
@@ -13,6 +16,9 @@ import {
   SetPinResponse,
   validatePinPayload,
   ValidatePinResponse,
+  VerifyNoncePayload,
+  VerifyNonceResponse,
+  WhitelistRequest,
 } from '@typings/api/auth';
 import { Dispatch } from '@utils/redux/dispatch';
 import { ActionType as OwnedActionType } from '@reducers/ownedNft';
@@ -23,6 +29,7 @@ import { ActionType as UtilsActionType } from '@reducers/utils';
 import { deleteToken } from '@utils/helper';
 import { LocalStorageVariables } from '@constants/authentication';
 import createActions from '@utils/redux/createActions';
+import { legacySignClient } from '@components/WalletConnect/utils/LegacyWalletConnectUtil';
 import { removeAccessToken, removeRefreshToken } from '@utils/cookie';
 
 export const loginUserByPhoneSendOtp = async (
@@ -95,10 +102,59 @@ export const forgotPinVerifyOtp = async (
   return response.data;
 };
 
+export const whiteListUsers = async (
+  payload: WhitelistRequest,
+): Promise<MetaskyAPIWrap<null>> => {
+  const response = await ApiV1.post(`/whitelist`, {
+    ref: payload.ref,
+    ref_type: payload.refType,
+    chain: payload.chain,
+  });
+
+  return response.data;
+};
+
+export const implicitWhiteListUsers = async (payload: {
+  chain: string;
+}): Promise<MetaskyAPIWrap<ImplicitWhitelistResponse>> => {
+  const response = await ApiV1.post(`/whitelist/implicit`, {
+    chain: payload.chain,
+  });
+
+  return response.data;
+};
+
+export const getNonce = async (
+  payload: GenerateNoncePayload,
+): Promise<MetaskyAPIWrap<GenerateNonceResponse>> => {
+  const response = await ApiV1.get(
+    `/connection/nonce/${payload.walletAddress}`,
+  );
+  return response.data;
+};
+
+export const verifyNonce = async (
+  payload: VerifyNoncePayload,
+): Promise<MetaskyAPIWrap<VerifyNonceResponse>> => {
+  const response = await ApiV1.post(`/connection/nonce/verify`, payload);
+  return response.data;
+};
+
+export const checkWhitelist = async (): Promise<MetaskyAPIWrap<any>> => {
+  const response = await ApiV1.get(`/whitelist/check`);
+
+  return response.data;
+};
+
 export const setLogout = async (dispatch: Dispatch) => {
   removeAccessToken();
   removeRefreshToken();
   deleteToken(LocalStorageVariables.WALLETS);
+  try {
+    await legacySignClient.killSession();
+  } catch (err) {
+    console.log(err);
+  }
 
   dispatch({
     type: OwnedActionType.RESET_NFT_LIST,

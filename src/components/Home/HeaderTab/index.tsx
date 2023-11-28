@@ -3,6 +3,7 @@ import { FC, Fragment } from 'react';
 import { FullScreenBottomSheet } from '@components/Shared';
 import { mixins, typography } from '@styles/shared';
 import * as styles from './styles';
+import LoginWithMetamask from '@components/Authentication/LoginWithMetamask';
 import { motion } from 'framer-motion';
 import { ConnectionState, WalletType } from '@constants/wallet';
 import { useTranslate } from '@utils/useTranslate';
@@ -11,18 +12,23 @@ import {
   getConfigDetails,
   walletConfigEntities,
 } from '@constants/walletConfig';
+import { getConnectWalletConfig } from '@utils/wallet';
 import { useUserSession } from '@utils/hooks/useUserSession';
 
 interface BenefitsSwiperProps {
+  walletConnectOpen: boolean;
   isOpen: boolean;
   refreshAssets?: () => void;
+  setWalletConnectOpen: (status: boolean) => void;
   setIsopen: (status: boolean) => void;
 }
 
 const HeaderTab: FC<BenefitsSwiperProps> = ({
   refreshAssets,
+  setWalletConnectOpen,
   setIsopen,
   isOpen,
+  walletConnectOpen,
 }) => {
   const session = useUserSession();
 
@@ -30,14 +36,33 @@ const HeaderTab: FC<BenefitsSwiperProps> = ({
     if (refreshAssets) {
       refreshAssets();
     }
+    setWalletConnectOpen(status);
   };
 
   const { translate } = useTranslate();
 
   const getConfig = () => {
-    return getConfigDetails(
-      WalletType.SKYWALLET as any as walletConfigEntities,
-    );
+    if (session.wallets?.includes(WalletType.SKYWALLET)) {
+      return getConfigDetails(
+        WalletType.SKYWALLET as any as walletConfigEntities,
+      );
+    }
+    if (
+      (session.connectedNearWallets?.length || 0) > 0 &&
+      (session.connectedWallets?.length || 0) > 0
+    ) {
+      return getConfigDetails(
+        WalletType.SKYWALLET as any as walletConfigEntities,
+      );
+    }
+    if ((session.connectedNearWallets?.length || 0) > 0) {
+      return getConfigDetails(WalletType.NEAR as any as walletConfigEntities);
+    }
+    const connectWalletConfig = getConnectWalletConfig();
+    return {
+      name: connectWalletConfig.displayName,
+      icon: connectWalletConfig.icon,
+    };
   };
 
   return (
@@ -78,6 +103,19 @@ const HeaderTab: FC<BenefitsSwiperProps> = ({
           </section>
         )}
       </motion.div>
+      {walletConnectOpen && (
+        <FullScreenBottomSheet
+          isOpen={walletConnectOpen}
+          onClose={() => setWalletConnectOpen(false)}
+        >
+          <LoginWithMetamask
+            setWalletSheetClose={(status: boolean) =>
+              handleSheetCloseAndRefresh(status)
+            }
+            isPopUp={false}
+          />
+        </FullScreenBottomSheet>
+      )}
     </Fragment>
   );
 };

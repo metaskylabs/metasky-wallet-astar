@@ -207,6 +207,12 @@ export const filterApply = css({
   margin: `${utils.remConverter(16)}`,
 });
 
+export const viewOfferButton = css({
+  ...typography.T_16_Bold,
+  width: `100%`,
+  margin: `${utils.remConverter(16)}`,
+});
+
 export const listIcon = css({
   width: utils.remConverter(42),
   height: utils.remConverter(42),
@@ -241,6 +247,12 @@ export const collectionDescription = css({
   display: `-webkit-box`,
   WebkitLineClamp: `3`,
   WebkitBoxOrient: `vertical`,
+});
+
+export const makeOfferButton = css({
+  ...typography.T_16_Bold,
+  width: `100%`,
+  margin: `${utils.remConverter(16)}`,
 });
 
 export const toastLink = css({

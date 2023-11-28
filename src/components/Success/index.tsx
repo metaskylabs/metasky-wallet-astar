@@ -1,11 +1,9 @@
-import { FC, Fragment, useEffect } from 'react';
+import { FC, Fragment } from 'react';
 import * as styles from './styles';
 import AssetsImg from '@public/images';
 import { PrimaryButton } from '../Shared';
 import { utils } from '@styles/shared';
 import HeaderWithButtonLayout from '@components/Shared/HeaderWithButtonLayout';
-import { useAnalytics } from '@utils/useAnalytics';
-import { EVENT_PAGE } from '@constants/analytics';
 
 interface Props {
   title: string;
@@ -37,16 +35,6 @@ const Success: FC<Props> = ({
   order_uuid,
   nft_name,
 }) => {
-  const { trackPage, trackClick } = useAnalytics();
-  useEffect(() => {
-    trackPage(EVENT_PAGE.PROCEED_TO_PAYMENT, {
-      nft_uuid,
-      listing_price,
-      currency,
-      order_uuid,
-      nft_name,
-    });
-  }, []);
   return (
     <Fragment>
       <HeaderWithButtonLayout
@@ -56,16 +44,7 @@ const Success: FC<Props> = ({
             <div css={styles.ctaContainer}>
               <PrimaryButton
                 addStyles={styles.primaryButton}
-                onClick={() => {
-                  ctaClick();
-                  trackClick(`${ctaText}`, {
-                    nft_uuid,
-                    listing_price,
-                    currency,
-                    order_uuid,
-                    nft_name,
-                  });
-                }}
+                onClick={ctaClick}
               >
                 {ctaText}
               </PrimaryButton>

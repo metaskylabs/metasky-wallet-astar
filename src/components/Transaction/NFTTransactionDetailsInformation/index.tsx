@@ -41,7 +41,7 @@ const TransactionInformation: FC<TransactionInformationProps> = ({
   showFeeSection,
   exploreLink,
   native_currency = {
-    symbol: ``,
+    symbol: `NEAR`,
     conversion_factor: 250,
   },
 }) => {

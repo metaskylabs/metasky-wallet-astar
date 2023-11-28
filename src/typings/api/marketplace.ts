@@ -37,6 +37,10 @@ export interface GetMarketplacePreviewResponse {
     value_in_inr: number;
     fees_breakup: Fee[];
   };
+  user_balance: {
+    INR: number;
+    NEAR: number;
+  };
   commission_from_sale: {
     type: string;
     value: number;

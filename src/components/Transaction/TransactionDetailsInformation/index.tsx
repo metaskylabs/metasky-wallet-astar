@@ -30,6 +30,7 @@ interface TransactionInformationProps {
   nativeFeeBreakup?: Fees[];
   totalAmount?: string;
   totalNativeAmount?: number;
+  disableOnMetaBanner?: boolean;
 }
 
 const TransactionInformation: FC<TransactionInformationProps> = ({
@@ -52,6 +53,7 @@ const TransactionInformation: FC<TransactionInformationProps> = ({
   totalNativeAmount,
   feeBreakup,
   nativeFeeBreakup,
+  disableOnMetaBanner,
 }) => {
   const [qty, setQty] = useState(1);
   const [showFeeDetails, setShowFeeDetails] = useState(false);
@@ -64,6 +66,12 @@ const TransactionInformation: FC<TransactionInformationProps> = ({
 
   return (
     <div>
+      {!disableOnMetaBanner && (
+        <BlueBanner
+          title={translate(Constants.home.purchaseFromOnMeta)}
+          ctaLink={`/on-ramp`}
+        />
+      )}
       <div css={[styles.transactionsDetailsInfoTab, { ...addStyles }]}>
         <div
           css={[styles.transactionsDetailsInfoTabTitle, mixins.flexAlignCenter]}

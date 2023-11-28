@@ -73,9 +73,12 @@ const ConfirmTransfer: FC<ConfirmTransferProps> = ({
   const eventLogger = useAnalytics();
   const isFirstRender = useIsMount();
 
-  const [tokenValue, setTokenValue] = useState<number>(0);
+  const [nearValue, setNearValue] = useState<number>(0);
   const [maxFees, setMaxFees] = useState<RechargeFees>(
     confirmationDetails.fees,
+  );
+  const [disableOnMetaBanner, setDisableOnMetaBanner] = useState<boolean>(
+    !!confirmationDetails.disableOnMetaBanner,
   );
   const { translate } = useTranslate();
 
@@ -93,9 +96,9 @@ const ConfirmTransfer: FC<ConfirmTransferProps> = ({
     }
   }, []);
   useEffect(() => {
-    const conversionRate = confirmationDetails.conversion_config.rate;
-    const token = parseFloat(amount) / conversionRate;
-    setTokenValue(token);
+    const nearRate = confirmationDetails.conversion_config.rate;
+    const near = parseFloat(amount) / nearRate;
+    setNearValue(near);
     if (!isFirstRender) {
       if (confirmationDetails.recharge.is_required) {
         setMaxFees(confirmationDetails.fees);
@@ -211,7 +214,7 @@ const ConfirmTransfer: FC<ConfirmTransferProps> = ({
             {getCurrencySymbol(maxFees.fiat_currency)}
             {maxFees.value_in_fiat}
           </div>
-          <div css={styles.chainText}>
+          <div css={styles.nearText}>
             ~ {limitDecimal(maxFees.value.toString(), 5)}
             {` `}
             {maxFees.currency || `-`}
@@ -289,13 +292,55 @@ const ConfirmTransfer: FC<ConfirmTransferProps> = ({
           transfer.
         </div>
       )}
-      {/* <div css={[utils.ml(16), utils.mr(16)]}>
-        <hr css={styles.divider} />
-      </div>
       <div css={[utils.ml(16), utils.mr(16)]}>
         <hr css={styles.divider} />
-      </div> */}
-      {/* <Recharge
+      </div>
+      {/*<div css={styles.transferDetailsContainer}>*/}
+      {/*  <div css={styles.paymentHeader}>Select a Payment Method</div>*/}
+      {/*</div>*/}
+      {/*<div css={[styles.paymentMethodContainer, utils.mb(12)]}>*/}
+      {/*  <div css={[styles.linkBlue, styles.infoIcon, mixins.flexAlignCenter]}>*/}
+      {/*    <span css={[styles.linkBlue, styles.infoIcon]}>*/}
+      {/*      <img*/}
+      {/*        src={AssetsImg.ic_payment_wallet.src}*/}
+      {/*        css={styles.walletIcon}*/}
+      {/*      />*/}
+      {/*    </span>*/}
+      {/*    <div css={[styles.transferFeesText]}>Wallet</div>*/}
+      {/*  </div>*/}
+      {/*  <hr css={styles.divider} />*/}
+      {/*  <label*/}
+      {/*    css={*/}
+      {/*      paymentMethod === PaymentMethod.SKYWALLET*/}
+      {/*        ? styles.inputRadioContainerActive*/}
+      {/*        : styles.inputRadioContainer*/}
+      {/*    }*/}
+      {/*    htmlFor={PaymentMethod.SKYWALLET}*/}
+      {/*  >*/}
+      {/*    <h4 css={styles.paymentMethodTitle}>SkyWallet</h4>*/}
+      {/*    <div css={styles.balanceContainer}>Balance: 0.002 ETH</div>*/}
+      {/*    <input*/}
+      {/*      css={styles.inputRadioBase}*/}
+      {/*      className="radioInput"*/}
+      {/*      type="radio"*/}
+      {/*      id={PaymentMethod.SKYWALLET}*/}
+      {/*      name={PaymentMethod.SKYWALLET}*/}
+      {/*      checked={paymentMethod === PaymentMethod.SKYWALLET}*/}
+      {/*      onChange={noob}*/}
+      {/*    />*/}
+      {/*    <span css={styles.inputRadioLabel} className="checkmark"></span>*/}
+      {/*  </label>*/}
+      {/*</div>*/}
+      {!disableOnMetaBanner && (
+        <BlueBanner
+          title={translate(Constants.home.transferFromOnMeta)}
+          ctaLink={`/on-ramp`}
+        />
+      )}
+      <div css={[utils.ml(16), utils.mr(16)]}>
+        <hr css={styles.divider} />
+      </div>
+      <Recharge
         amount={amount}
         setAmount={setAmount}
         minAmount={Math.ceil(
@@ -306,16 +351,16 @@ const ConfirmTransfer: FC<ConfirmTransferProps> = ({
         )}
         isRechargeRequired={confirmationDetails.recharge.is_required}
         confirmationDetails={confirmationDetails}
-        tokenValue={tokenValue}
+        nearValue={nearValue}
         depositedCurrency={
           confirmationDetails?.recharge.destination_currency || `-`
         }
         maxFees={maxFees}
         currency={confirmationDetails?.conversion_config.deposit_currency}
-      /> */}
-      {/* <div css={[utils.ml(16), utils.mr(16)]}>
+      />
+      <div css={[utils.ml(16), utils.mr(16)]}>
         <hr css={styles.divider} />
-      </div> */}
+      </div>
     </HeaderWithButtonLayout>
   );
 };

@@ -13,6 +13,7 @@ import {
   AccessBenefit,
   BenefitClaimMedia,
   BenefitTypes,
+  DiscordBenefitType,
 } from '@typings/api/wallet';
 import {
   getMediaTypeFromMime,
@@ -20,6 +21,9 @@ import {
   getViewStateFromMedia,
   VIEW_STATE,
 } from '@components/Benefits/Claim/helper';
+import FileAsset from './FileAsset';
+import toast from 'react-hot-toast';
+import { getDiscordBenefitDiscordServerLink } from '@actions/benefits';
 
 interface ClaimBenefitProps {
   benefitDetails: AccessBenefit;
@@ -41,37 +45,94 @@ const ClaimBenefit: FC<ClaimBenefitProps> = ({
   const [benefitMedias, setBenefitMedias] = useState<BenefitClaimMedia[]>([]);
   const [benefitAsset, setBenefitAsset] = useState<BenefitClaimMedia>();
   const [secretText, setSecretText] = useState<string>(``);
+  const [discordBenefitData, setDiscordBenefitData] =
+    useState<DiscordBenefitType | null>(null);
 
   useEffect(() => {
-    switch (benefitDetails.type) {
-      case BenefitTypes.SECRET_TEXT_BENEFIT:
-        if (benefitDetails.seceretText)
-          setSecretText(benefitDetails.seceretText);
-        setViewState({
-          view: VIEW_STATE.SECRET_ASSET,
-          size: BottomPopupSize.MEDIUM,
-        });
-        break;
-      case BenefitTypes.MEDIA_BENEFIT:
-        if (benefitDetails.media && benefitDetails.media.length > 1) {
-          setBenefitMedias(benefitDetails.media);
+    (async () => {
+      switch (benefitDetails.type) {
+        case BenefitTypes.SECRET_TEXT_BENEFIT:
+          if (benefitDetails.seceretText)
+            setSecretText(benefitDetails.seceretText);
           setViewState({
-            view: VIEW_STATE.BENEFIT_GRID,
+            view: VIEW_STATE.SECRET_ASSET,
+            size: BottomPopupSize.MEDIUM,
+          });
+          break;
+        case BenefitTypes.MEDIA_BENEFIT:
+          if (benefitDetails.media && benefitDetails.media.length > 1) {
+            setBenefitMedias(benefitDetails.media);
+            setViewState({
+              view: VIEW_STATE.BENEFIT_GRID,
+              size: BottomPopupSize.BIG,
+            });
+          } else if (
+            benefitDetails.media &&
+            benefitDetails.media.length === 1
+          ) {
+            const mediaType = getMediaTypeFromMime(
+              benefitDetails.media[0].mimeType,
+            );
+            const viewState = getViewStateFromMedia(mediaType);
+            if (viewState) {
+              setBenefitAsset(benefitDetails.media[0]);
+              setViewState({ view: viewState, size: BottomPopupSize.MEDIUM });
+            }
+          }
+          break;
+        case BenefitTypes.DISCORD_ROLE_BENEFIT:
+          const data: {
+            clubID: string;
+            discordRoleName: string | null;
+            text: string;
+            skyclubLink: string;
+            linkToDiscordServer: string | null;
+          } = {
+            clubID: benefitDetails.club_uuid || ``,
+            discordRoleName: null,
+            text: ``,
+            skyclubLink: ``,
+            linkToDiscordServer: null,
+          };
+          if (window.location.host === `wallet.metasky.me`) {
+            data.skyclubLink = `https://skyclub.metasky.me/clubs/${data.clubID}?showConnections=true`;
+            /* window.open(data.skyclubLink, `_blank`); */
+          } else {
+            data.skyclubLink = `https://skyclub-stage.metasky.me/clubs/${data.clubID}?showConnections=true`;
+            /* window.open(data.skyclubLink, `_blank`); */
+          }
+          if (benefitDetails.discord_text === `CONNECT_DISCORD`) {
+            data.text = `Please connect discord to your Skyclub account`;
+          } else if (benefitDetails.role?.roleName) {
+            data.text = `Discord Role Claimed`;
+            data.discordRoleName = benefitDetails.role?.roleName ?? null;
+            try {
+              const link = await getDiscordBenefitDiscordServerLink(
+                data.clubID,
+              );
+              data.linkToDiscordServer = link;
+            } catch (err) {
+              toast.error(`Couldn't fetch server link`);
+            }
+          } else if (benefitDetails.discord_text) {
+            data.text = benefitDetails.discord_text;
+          }
+          setDiscordBenefitData(data);
+          setViewState({
+            view: VIEW_STATE.DISCORD_ASSET,
             size: BottomPopupSize.BIG,
           });
-        } else if (benefitDetails.media && benefitDetails.media.length === 1) {
-          const mediaType = getMediaTypeFromMime(
-            benefitDetails.media[0].mimeType,
-          );
-          const viewState = getViewStateFromMedia(mediaType);
-          if (viewState) {
-            setBenefitAsset(benefitDetails.media[0]);
-            setViewState({ view: viewState, size: BottomPopupSize.BIG });
-          }
-        }
-        break;
-    }
-  }, []);
+          break;
+      }
+    })();
+  }, [
+    benefitDetails.club_uuid,
+    benefitDetails.discord_text,
+    benefitDetails.media,
+    benefitDetails.role?.roleName,
+    benefitDetails.seceretText,
+    benefitDetails.type,
+  ]);
 
   const handleGridSetView = (media: BenefitClaimMedia) => {
     const viewState = getViewStateFromMedia(
@@ -124,11 +185,26 @@ const ClaimBenefit: FC<ClaimBenefitProps> = ({
       case VIEW_STATE.SECRET_ASSET:
         return <SecretAsset secret={secretText} />;
       case VIEW_STATE.DISCORD_ASSET:
-        return <DiscordAsset />;
+        if (discordBenefitData === null) {
+          return <></>;
+        } else {
+          return <DiscordAsset data={discordBenefitData} />;
+        }
       case VIEW_STATE.AUDIO_ASSET:
         if (benefitAsset?.url) {
           return <AudioAsset image={image} url={benefitAsset.url} />;
         } else break;
+      case VIEW_STATE.FILE_ASSET:
+        if (benefitAsset?.url) {
+          return (
+            <FileAsset
+              name={getNameFromUrl(benefitAsset.url)}
+              fileLink={benefitAsset.url}
+            />
+          );
+        } else break;
+      case VIEW_STATE.CUSTOM_ASSET:
+        return <></>;
     }
   };
   return (

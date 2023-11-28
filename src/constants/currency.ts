@@ -1,5 +1,6 @@
 export const CURRENCY_SYMBOL_UNICODE = {
   INR: `&#8377;`,
+  ETHEREUM: `Eth`,
   USD: `&#36;`,
   JPY: `&#165;`,
 };

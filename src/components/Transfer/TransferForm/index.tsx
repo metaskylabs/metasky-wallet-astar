@@ -123,6 +123,34 @@ const TransferForm: FC<TransferFormProps> = ({
                   media_type: selectedCoin?.asset_media_type,
                   name: selectedCoin?.asset_name,
                 };
+                if (selectedCoin?.chain !== Constants.TokenCurrency.ETHEREUM) {
+                  if (
+                    selectedCoin &&
+                    Number(selectedCoin?.no_of_asset) < 0.25
+                  ) {
+                    generateToast({
+                      content: `You don’t seem to have sufficient ${selectedCoin.asset_symbol} for transfer`,
+                      type: ToastType.INFO,
+                    });
+                    setSubmitting(false);
+                    setTransferLoading(false);
+                    return;
+                  } else if (
+                    Number(selectedCoin?.no_of_asset) - values.quantity <
+                    0.25
+                  ) {
+                    generateToast({
+                      content: `Sorry! You can transfer only upto ${limitDecimal(
+                        (Number(selectedCoin?.no_of_asset) - 0.25).toString(),
+                        5,
+                      )}`,
+                      type: ToastType.INFO,
+                    });
+                    setSubmitting(false);
+                    setTransferLoading(false);
+                    return;
+                  }
+                }
                 setTransferPayload(payload);
                 getConfirmationDetails(payload);
               }

@@ -6,12 +6,20 @@ import {
   GetLoginMethodsPayload,
   GetCampignConfigurationResponse,
   oneListingRequest,
+  TokenMainInfo,
   TokensListResponse,
   TransactionDetails,
   WalletBenefitsResponse,
   BalanceTokensResponse,
+  RaindropNftDetails,
+  claimRaindropProps,
+  DiscordGatingPayload,
   GetListingsRespone,
   AccessBenefit,
+  GetCampaignLanderResponse,
+  BurnConfigRequestResponse,
+  MintSignatureResponse,
+  MintEligibilityResponse,
   WalletAnnouncements,
 } from '@typings/api/wallet';
 import { MetaskyAPIWrap } from '@typings/api/wrapper';
@@ -88,11 +96,29 @@ export const getCollection = async (
   return response.data;
 };
 
+export const getTokenByCollectionId = async (
+  id: string,
+): Promise<MetaskyAPIWrap<TokenMainInfo[]>> => {
+  const response = await ApiV1.get(`wallet/collection/${id}/tokens`);
+
+  return response.data;
+};
+
 export const getOneListing = async (
   payload: oneListingRequest,
 ): Promise<MetaskyAPIWrap<GetListingsRespone>> => {
   const response = await ApiV1.get(
     `/marketplace/listing/${payload.listing_uuid}`,
+  );
+
+  return response.data;
+};
+
+export const getCampaignConfig = async (
+  payload: GetLoginMethodsPayload,
+): Promise<MetaskyAPIWrap<GetCampaignLanderResponse>> => {
+  const response = await ApiV1.get(
+    `/configurations/campaign-lander/${payload.clientId}`,
   );
 
   return response.data;
@@ -105,6 +131,52 @@ export const getCampaignConfiguration = async (
     `/configurations/campaign/${payload.clientId}`,
   );
 
+  return response.data;
+};
+
+export const getBurnConfig = async (
+  tokenId: string,
+): Promise<MetaskyAPIWrap<BurnConfigRequestResponse>> => {
+  const response = await ApiV1.get(`wallet/burn/token/${tokenId}/detail`);
+  return response.data;
+};
+
+export const burnToken = async (tokenId: string, amount: number) => {
+  const response = await ApiV1.post(`wallet/burn/tokens/burn_assets`, {
+    quantity: amount,
+    token_uuid: tokenId,
+  });
+  return response.data;
+};
+
+export const getMintSignature = async (
+  quantity: number,
+  address: string,
+  listing_uuid: string,
+  extra_params?: any,
+): Promise<MetaskyAPIWrap<MintSignatureResponse>> => {
+  const response = await ApiV1.post(`/marketplace/signature-drop/generate`, {
+    quantity,
+    address,
+    listing_uuid,
+    ...(extra_params || {}),
+  });
+  return response.data;
+};
+
+export const getMintEligibility = async (
+  listing_uuid: string,
+): Promise<MetaskyAPIWrap<MintEligibilityResponse>> => {
+  const response = await ApiV1.get(
+    `/marketplace/fetch-mint-eligibility/${listing_uuid}`,
+  );
+  return response.data;
+};
+
+export const clearChainBalanceCache = async (chainId: string) => {
+  const response = await ApiV1.post(`/wallet/clear_balance_cache`, {
+    id: chainId,
+  });
   return response.data;
 };
 
@@ -128,10 +200,36 @@ export const downloadBenefit = async (payload: fetchAssetFile) => {
   fileDownload(response.data, payload.assetName.replace(/ /g, `_`) + extension);
 };
 
+export const discordGating = async (payload: DiscordGatingPayload) => {
+  const response = await ApiV1.put(`discordgating/updateRole`, payload);
+  return response.data;
+};
+
+export const discordUserInfo = async (payload: DiscordGatingPayload) => {
+  const response = await ApiV1.post(`discordgating/serverInformation`, payload);
+  return response;
+};
+
 export const walletBalanceTokens = async (): Promise<
   MetaskyAPIWrap<BalanceTokensResponse[]>
 > => {
   const response = await ApiV1.get(`wallet/balance/tokens`);
+
+  return response.data;
+};
+
+export const getRainDropDetails = async (
+  id: string,
+): Promise<MetaskyAPIWrap<RaindropNftDetails>> => {
+  const response = await ApiV1.get(`/nayaab/get-banta/${id}`);
+
+  return response.data;
+};
+
+export const claimRaindrop = async (
+  payload: claimRaindropProps,
+): Promise<MetaskyAPIWrap<RaindropNftDetails>> => {
+  const response = await ApiV1.post(`/nayaab/transfer-banta`, payload);
 
   return response.data;
 };

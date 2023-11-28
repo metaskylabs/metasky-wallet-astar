@@ -29,11 +29,26 @@ export const iconContainer = css({});
 export const titleContainer = css({
   ...typography.T_20_Bold,
   marginTop: utils.remConverter(12),
+  textAlign: `center`,
 });
 
 export const descContainer = css({
   ...typography.T_16_Regular,
-  textAlign: `center`,
+  '.mainText': {
+    color: colors.Grey_Text,
+    textAlign: `center`,
+    marginBottom: utils.remConverter(16),
+  },
+  '.secondaryTextHeader': {
+    textAlign: `center`,
+    marginBottom: utils.remConverter(8),
+  },
+  '.helperLink': {
+    textAlign: `center`,
+    textDecoration: `underline`,
+    color: colors.Primary_Blue,
+    cursor: `pointer`,
+  },
 });
 
 export const bold = css({

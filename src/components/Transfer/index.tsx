@@ -17,6 +17,7 @@ import {
   MakeTransferPayload,
   PreviewTransferResponse,
   WalletBalanceResponse,
+  isBuyFromOnMeta,
 } from '@typings/api/transfer';
 import {
   buyCoin,
@@ -51,6 +52,7 @@ import Scan from '@components/Scan';
 import { useAnalytics } from '@utils/useAnalytics';
 import { ActionType } from '@reducers/transactionHistoryList';
 import { isNumber } from 'lodash';
+import { useOnMetaWidget } from '@hooks/onMetaWidget/useOnMetaWidget';
 
 interface TransferProps {
   defaultNftUid?: string;
@@ -104,6 +106,7 @@ const Transfer: FC<TransferProps> = ({
   const router = useRouter();
   const [paymentQR, setPaymentQR] = useState<string | null>(null);
   const [orderUUID, setOrderUUID] = useState<string | null>(null);
+  const { openWidget } = useOnMetaWidget();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -175,7 +178,13 @@ const Transfer: FC<TransferProps> = ({
         ? `1`
         : ``,
       coinQuantity: selectedCoin
-        ? Math.max(Number(selectedCoin?.no_of_asset) || 0, 0).toFixed(
+        ? Math.max(
+            (Number(selectedCoin?.no_of_asset) || 0) -
+              (selectedCoin?.asset_name === Constants.TokenCurrency.NEAR
+                ? 0.3
+                : 0.001),
+            0,
+          ).toFixed(
             isNumber(selectedCoin.precision) ? selectedCoin.precision : 5,
           )
         : ``,
@@ -246,10 +255,20 @@ const Transfer: FC<TransferProps> = ({
         errors.coinQuantity = translate(`INSUFFICIENT_ASSETS`);
       } else if (
         //should rename the maxlength enum
-        Number(values.coinQuantity) < Constants.maxLength.minTokenTransfer
+        Number(values.coinQuantity) < Constants.maxLength.minTokenTransfer &&
+        selectedCoin?.asset_name !== Constants.TokenCurrency.MATIC &&
+        selectedCoin?.asset_name !== Constants.TokenCurrency.ETH
       ) {
         errors.coinQuantity = `${translate(`MINIMUM_VALUE_ALLOWED`)} ${
           Constants.maxLength.minTokenTransfer
+        }`;
+      } else if (
+        Number(values.coinQuantity) < Constants.maxLength.ethMinTokenTransfer &&
+        (selectedCoin?.asset_name === Constants.TokenCurrency.ETH ||
+          selectedCoin?.asset_name === Constants.TokenCurrency.MATIC)
+      ) {
+        errors.coinQuantity = `${translate(`MINIMUM_VALUE_ALLOWED`)} ${
+          Constants.maxLength.ethMinTokenTransfer
         }`;
       } else {
         // setTransferQty(values.coinQuantity);
@@ -262,12 +281,14 @@ const Transfer: FC<TransferProps> = ({
       errors.address = translate(`PLEASE_ENTER_RECEIVERS_WALLET_ADDRESS`);
     } else if (
       profile?.allWalletAddresses?.some(
-        (wallet) => wallet.address === values.address,
+        (wallet) =>
+          wallet.ethAddress === values.address ||
+          wallet.nearAddress === values.address,
       )
     ) {
       errors.address = translate(`INVALID_WALLET_ADDRESS`);
     } else if (assetType === AssetType.NFT) {
-      const regex = new RegExp('.*'|| balanceDataValue?.address_validator as string);
+      const regex = new RegExp(balanceDataValue?.address_validator as string);
       if (!regex.test(values.address)) {
         errors.address = translate(`INVALID_WALLET_ADDRESS`);
       } else {
@@ -275,7 +296,7 @@ const Transfer: FC<TransferProps> = ({
         setTransferAddressValue(values.address);
       }
     } else if (assetType === AssetType.TOKEN) {
-      const regex = new RegExp('.*'|| selectedCoin?.address_validator as string);
+      const regex = new RegExp(selectedCoin?.address_validator as string);
       if (!regex.test(values.address)) {
         errors.address = translate(`INVALID_WALLET_ADDRESS`);
       } else {
@@ -430,34 +451,52 @@ const Transfer: FC<TransferProps> = ({
     };
     const buyCoinResponse = await buyCoin(buyCoinPayload);
     const data = buyCoinResponse.data;
-    eventLogger.trackEvent(`Payment Mode`, {
-      gateway: data.paymentGateway,
-    });
-    if (
-      data.paymentGateway === `DECENTRO` &&
-      data.paymentUrl &&
-      data.qrCode &&
-      data.order_uuid
-    ) {
-      setPaymentLink(data.paymentUrl);
-      setPaymentQR(data.qrCode);
-      setOrderUUID(data.order_uuid);
-    } else if (data.paymentGateway == `AIRPAY` && data.metaData) {
-      const paymentUrl =
-        window.location.origin +
-        `/airpayForm?airpaydata=${JSON.stringify(data.metaData)}&orderId=${
-          data.orderId
-        }`;
-
-      setPaymentLink(paymentUrl);
-    } else if (data.paymentUrl) {
-      setPaymentLink(data.paymentUrl);
-    } else {
-      generateToast({
-        content: Constants.PaymentError.content,
-        type: ToastType.ERROR,
+    if (isBuyFromOnMeta(data)) {
+      const paymentUrl = openWidget({
+        allowOpeningNewTab: false,
+        getOnlyURL: true,
+        walletAddress: data.walletAddress,
+        fiatAmount: +data.amount,
+        chainId: +data.chainId,
+        tokenAddress: data.tokenAddress,
+        successRedirectUrl: data.successRedirectUrl,
+        failureRedirectUrl: data.failureRedirectUrl,
+        metaData: {
+          order_uuid: data.order_uuid,
+          referenceId: data.id,
+        },
       });
-      return;
+      setPaymentLink(paymentUrl);
+    } else {
+      eventLogger.trackEvent(`Payment Mode`, {
+        gateway: data.paymentGateway,
+      });
+      if (
+        data.paymentGateway === `DECENTRO` &&
+        data.paymentUrl &&
+        data.qrCode &&
+        data.order_uuid
+      ) {
+        setPaymentLink(data.paymentUrl);
+        setPaymentQR(data.qrCode);
+        setOrderUUID(data.order_uuid);
+      } else if (data.paymentGateway == `AIRPAY` && data.metaData) {
+        const paymentUrl =
+          window.location.origin +
+          `/airpayForm?airpaydata=${JSON.stringify(data.metaData)}&orderId=${
+            data.orderId
+          }`;
+
+        setPaymentLink(paymentUrl);
+      } else if (data.paymentUrl) {
+        setPaymentLink(data.paymentUrl);
+      } else {
+        generateToast({
+          content: Constants.PaymentError.content,
+          type: ToastType.ERROR,
+        });
+        return;
+      }
     }
     setViewState(ViewState.PROCEED_TO_PAYMENT);
   };

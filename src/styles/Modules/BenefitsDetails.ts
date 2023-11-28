@@ -35,7 +35,13 @@ export const toastLink = css({
 });
 
 export const bodyContainerDescription = css({
+  marginBottom: utils.remConverter(20),
+  ...typography.T_16_Regular,
+});
+
+export const bodyContainerNfts = css({
   marginBottom: utils.remConverter(50),
+  ...typography.T_16_Regular,
 });
 
 export const bodyContainerTokenTitle = css({

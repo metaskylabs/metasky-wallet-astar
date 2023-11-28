@@ -129,6 +129,7 @@ const OtpVerification: FC<OtpVerificationProps> = ({
       const payload = {
         ph_no: mobileNo.trim(),
         otp: pin,
+        referral_code: (router.query.referral_code as string) || ``,
       };
       const response = await loginUserByPhoneVerifyOtp(payload);
       // console.log(`token`, response);
@@ -185,6 +186,7 @@ const OtpVerification: FC<OtpVerificationProps> = ({
         const payload = {
           email: emailID && emailID.trim(),
           otp: pin,
+          referral_code: (router.query.referral_code as string) || ``,
         };
         const response = await loginUserByEmailVerifyOtp(payload);
 
