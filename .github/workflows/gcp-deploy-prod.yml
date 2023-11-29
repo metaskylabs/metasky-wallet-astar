@@ -3,8 +3,8 @@
 name: gcp-skywallet-astar-prod-deployment
 on:
   push:
-    branches:
-      - production
+    tags:
+      - '*'
 jobs:
   build:
     name: GAE Deploy
