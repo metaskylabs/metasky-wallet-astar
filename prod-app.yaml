@@ -1,5 +1,5 @@
 runtime: custom
-service: skywallet-frontend-service
+service: skywallet-astar-frontend-service
 env: flex
 
 handlers:
