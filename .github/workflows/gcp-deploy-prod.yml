@@ -1,0 +1,40 @@
+# .github/workflows/deploy.yaml
+
+name: gcp-skywallet-astar-prod-deployment
+on:
+  push:
+    branches:
+      - production
+jobs:
+  build:
+    name: GAE Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+         project_id: ${{ 'metasky-prod' }}
+      - name: Authentication
+        uses: 'google-github-actions/auth@v1'
+        with:
+         project_id: ${{ 'metasky-prod' }}
+         credentials_json: ${{ secrets.GCP_APP_ENGINE_CREDS_PROD }}
+      - name: Deploy to App Engine
+        id: deploy
+        uses: google-github-actions/deploy-appengine@v1
+        with:
+         deliverables: prod-app.yaml
+         project_id: ${{ 'metasky-prod' }}
+         promote: true
+        env:
+         CLOUDSDK_APP_CLOUD_BUILD_TIMEOUT: 1800 # 30 minutes
+      - name: Remove extra app version
+        id: remove
+        uses: Reviewable/appengine-remove-action@v2.1.2
+        with:
+          limit: 2
+          service_name: ${{ 'studio-frontend-service' }}
+          project_id: ${{ 'metasky-prod' }}
+          credentials: ${{ secrets.GCP_APP_ENGINE_CREDS }}
