@@ -37,4 +37,4 @@ jobs:
           limit: 2
           service_name: ${{ 'studio-frontend-service' }}
           project_id: ${{ 'metasky-prod' }}
-          credentials: ${{ secrets.GCP_APP_ENGINE_CREDS }}
+          credentials: ${{ secrets.GCP_APP_ENGINE_CREDS_PROD }}
