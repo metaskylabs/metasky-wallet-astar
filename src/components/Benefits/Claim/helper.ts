@@ -59,6 +59,7 @@ export const getViewStateFromMedia = (
     case BenefitMediaType.VIDEO:
       return VIEW_STATE.VIDEO_ASSET;
     case BenefitMediaType.CSV:
+    case BenefitMediaType.PDF:
       return VIEW_STATE.FILE_ASSET;
   }
 };

@@ -111,14 +111,12 @@ export default function App({ Component, pageProps }: any) {
           ethereumClient={ethereumClient}
           enableNetworkView={false}
           themeMode={`light`}
-          desktopWallets={[]}
           explorerRecommendedWalletIds={[
             `c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96`,
             `1aedbcfc1f31aade56ca34c38b0a1607b41cccfa3de93c946ef3b4ba2dfab11c`,
             `7674bb4e353bf52886768a3ddc2a4562ce2f4191c80831291218ebd90f5f5e26`,
             `9ce87712b99b3eb57396cc8621db8900ac983c712236f48fb70ad28760be3f6a`,
           ]}
-          enableExplorer={false}
         />
       </WagmiConfig>
     </StoreProvider>
