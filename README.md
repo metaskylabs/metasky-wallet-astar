@@ -1,22 +1,24 @@
+# metasky-wallet-astar
 
-## Features
+Metasky has developed a comprehensive set of features aimed at enhancing Astar functionality. Leveraging the Astar documentation (https://docs.astar.network/docs), 
+the project encompasses custodial authentication via both phone and email, Astar wallet creation, real-time Astar token balance tracking, seamless Astar token transfers, effortless, and an intuitive transaction history viewer.
 
-- ⚡️ Next.js 12
-- ⚛️ React 17
-- ⛑ TypeScript
-- 📏 ESLint — Find and fix problems in your code
-- 💖 Prettier — Code Formatter for consistent style
-- 🐶 Husky — For running scripts before committing
-- 📄 Commitizen — To define a standard way of committing rules
-- 🚓 Commitlint — Make sure your commit messages follow the convention
-- 🖌 Renovate — Keep your dependencies up to date
-- 🚫 lint-staged — To run ESLint and Prettier against staged Git files
-- 👷 PR Workflow — Run Type Check & Linters on all Pull Requests
-- ⚙️ EditorConfig - Maintain consistent coding styles across editors and IDEs
-- 🗂 Path Mapping — Import components or images using the `@` prefix
-- 👨‍💻 Logging - Use `Logger.debug()` / `Logger.error()` instead of `console.log()`
+:rocket: Features 
 
+- [X] Custodial Authentication using Phone and Email
+- [X] Astar Wallet creation
+- [X] Astar Coin/NFT Balance
+- [X] Astar Coin Transfer
+- [X] Astar Transaction History
+- [X] Link Astar NFTs with Benefits
+- [ ] Astar NFT Transfer
+- [ ] Astar NFT claim
 
+:dizzy: Try it out here - [Metasky Wallet](https://astar.metasky.me)
+
+### Depedency 
+
+:eye_speech_bubble: [Backend Github Repository](https://github.com/metaskylabs/metasky-wallet-astar-be)
 
 ### Development
 
@@ -36,11 +38,19 @@ Open `http://localhost:3005` with your browser to see the result.
 - Yarn 1 (Classic)
 
 ### Directory Structure
+All sub-directories in the `src` directory use a Page based organization structure for vertical seperation of concern.
 
 - [`.github`](.github) — GitHub configuration including the CI workflow.<br>
 - [`.husky`](.husky) — Husky configuration and hooks.<br>
 - [`public`](src/public) — Static assets such as robots.txt, images, and favicon.<br>
 - [`src`](./src) — Application source code, including pages, components, styles.
+  - [`src/actions`](./src/actions) — API setup & Collection of all api routes used by pages.
+  - [`src/components`](./src/components) — Collection of all stateless UI component required by pages.
+  - [`src/hooks`](./src/hooks) — Set of all custom hooks that handle independent pieces of business logic.
+  - [`src/pages`](./src/pages) — All application pages/routes.
+  - [`src/reducers`](./src/reducers) — Set of all redux reducer slices that modify the central redux store.
+  - [`src/styles`](./src/styles) — Collection of all custom styles used by pages.
+  - [`src/typings`](./src/typings) — All TypeScript interfaces and type definition.
 
 ### Scripts
 
