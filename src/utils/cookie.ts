@@ -1,13 +1,10 @@
 import Cookies from 'universal-cookie';
 
 const COOKIE_PATH = `/`;
-const hostValues =
-  typeof window === `undefined` ? null : window.location.hostname.split(`.`);
-const COOKIE_DOMAIN =
-  hostValues === null ? null : hostValues.slice(-5).join(`.`);
-const ACCESS_COOKIE_NAME = `accessToken`;
-const REFRESH_COOKIE_NAME = `refreshToken`;
-const COOKIE_OWNER = `cookieOwner`;
+const COOKIE_DOMAIN = 'metasky.me'
+const ACCESS_COOKIE_NAME = `accessTokenAstar`;
+const REFRESH_COOKIE_NAME = `refreshTokenAstar`;
+const COOKIE_OWNER = `cookieOwnerAstar`;
 
 const cookies = new Cookies();
 
