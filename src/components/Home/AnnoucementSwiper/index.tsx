@@ -216,7 +216,7 @@ const AnnoucementSwiper: FC<AnnoucementSwiperProps> = ({ setTransferOpen }) => {
           ctaType={``}
           ctaLink={``}
           title={`Metasky`}
-          description={`Welcome to World’s Simplest Crypto Wallet`}
+          description={`Welcome to World’s Astar Crypto Wallet`}
           image={`https://skywallet-public-resources.s3.ap-southeast-1.amazonaws.com/announcements/metasky_white+logo.png`}
           backgroundColor={`linear-gradient(6.22deg, #9058DD 19.4%, #6F6DE2 94.82%);`}
         />

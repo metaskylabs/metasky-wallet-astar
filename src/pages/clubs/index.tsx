@@ -23,8 +23,8 @@ const ClubsList = () => {
   }>({ status: ApiStatus.LOADING });
   const fetchClubsList = async () => {
     try {
-      const response = await getClubsList();
-      setData({ status: ApiStatus.SUCCESS, data: response.data.clubs });
+      /* const response = await getClubsList(); */
+      setData({ status: ApiStatus.SUCCESS, data: [] });
     } catch (e) {
       setData({ status: ApiStatus.ERROR });
       handleErrorMessage(e);

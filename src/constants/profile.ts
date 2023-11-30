@@ -3,7 +3,10 @@ export const USER_INFO = {
   mobile: 9876543210,
 };
 
-export const PROFILE_SETTINGS = [`My Offers`, `Change PIN`, `Customer Support`];
+export const PROFILE_SETTINGS = [
+  /* `My Offers`,  */ `Change PIN`,
+  `Customer Support`,
+];
 export const REFER_EARN_LINK = `bit.ly/dhvadjhdjkhdkhkks`;
 export const FAQS = [
   {

@@ -26,6 +26,7 @@ interface WalletAddressProps {
 export enum networkList {
   POLYGON = `POLYGON`,
   NEAR = `NEAR`,
+  ASTAR = `ASTAR`,
   ETHEREUM = `ETHEREUM`,
 }
 
@@ -79,6 +80,8 @@ const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
   useEffect(() => {
     if (
       network === networkList.ETHEREUM ||
+      (network === networkList.ASTAR &&
+        connectedAccounts?.[selectedAccount]?.ethAddress) ||
       (network === networkList.POLYGON &&
         connectedAccounts?.[selectedAccount]?.ethAddress)
     ) {
@@ -106,7 +109,7 @@ const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
       setCurrentAddress(``);
       setQR(``);
     }
-  }, [network, selectedAccount, connectedWallets]);
+  }, [network, selectedAccount, connectedWallets, connectedAccounts]);
 
   const onCopy = (copyText: any) => {
     navigator.clipboard.writeText(copyText);
@@ -174,11 +177,11 @@ const WalletAddress: FC<WalletAddressProps> = ({ walletTitle }) => {
             Polygon
           </LabelledRadioButton>
           <LabelledRadioButton
-            disabled={!connectedAccounts?.[selectedAccount]?.nearAddress}
-            checked={network === networkList.NEAR}
-            onChange={handleChangeNetwork(networkList.NEAR)}
+            disabled={!connectedAccounts?.[selectedAccount]?.ethAddress}
+            checked={network === networkList.ASTAR}
+            onChange={handleChangeNetwork(networkList.ASTAR)}
           >
-            NEAR
+            ASTAR
           </LabelledRadioButton>
           <LabelledRadioButton
             disabled={!connectedAccounts?.[selectedAccount]?.ethAddress}
